@@ -16,11 +16,14 @@ public class TestGenerator {
                             new FileOutputStream("TEST1.OUT"), "utf-8"));
             testIn.append(String.valueOf(tests.size()));
             testIn.newLine();
-            for (Test test : tests) {
+            for (int i = 0; i < tests.size(); i++) {
+                Test test = tests.get(i);
                 testIn.append(String.valueOf(test.number));
-                testIn.newLine();
                 testOut.append(test.expectedString);
-                testOut.newLine();
+                if (i != tests.size() - 1) {
+                    testIn.newLine();
+                    testOut.newLine();
+                }
             }
         } finally {
             try {
