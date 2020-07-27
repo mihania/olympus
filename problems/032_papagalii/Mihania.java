@@ -29,10 +29,10 @@ public class Mihania {
 
     private static BigInteger solve(int S, int N) {
         BigInteger[][] dp = new BigInteger[N + 1][N * S + 1];
-        return gen(0, 0, N, S, dp);
+        return solve(0, 0, N, S, dp);
     }
 
-    private static BigInteger gen(int id, int start, int N, int S, BigInteger[][] dp) {
+    private static BigInteger solve(int id, int start, int N, int S, BigInteger[][] dp) {
         BigInteger res;
         if (dp[id][start] != null) {
             res = dp[id][start];
@@ -40,7 +40,7 @@ public class Mihania {
             if (id < N) {
                 res = BigInteger.ZERO;
                 for (int i = start; i < (id + 1) * S; i++) {
-                    res = res.add(gen(id + 1, i + 1, N, S, dp));
+                    res = res.add(solve(id + 1, i + 1, N, S, dp));
                 }
             } else {
                 res = BigInteger.ONE;
