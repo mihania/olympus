@@ -37,13 +37,13 @@ public class Mihania {
         if (dp[id][start] != null) {
             res = dp[id][start];
         } else {
-            if (id < N) {
+            if (id == N) {
+                res = BigInteger.ONE;
+            } else {
                 res = BigInteger.ZERO;
                 for (int i = start; i < (id + 1) * S; i++) {
                     res = res.add(solve(id + 1, i + 1, N, S, dp));
                 }
-            } else {
-                res = BigInteger.ONE;
             }
 
             dp[id][start] = res;
