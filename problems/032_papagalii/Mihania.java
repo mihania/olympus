@@ -34,9 +34,7 @@ public class Mihania {
 
     private static BigInteger solve(int id, int start, int N, int S, BigInteger[][] dp) {
         BigInteger res;
-        if (dp[id][start] != null) {
-            res = dp[id][start];
-        } else {
+        if (dp[id][start] == null) {
             if (id == N) {
                 res = BigInteger.ONE;
             } else {
@@ -47,6 +45,8 @@ public class Mihania {
             }
 
             dp[id][start] = res;
+        } else {
+            res = dp[id][start];
         }
 
         return res;
