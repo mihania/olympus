@@ -15,7 +15,17 @@ public class TestGenerator {
             testIn.newLine();
             for (int i = 0; i < tests.size(); i++) {
                 Test test = tests.get(i);
-                testIn.append(test.S);
+                testIn.append(String.format("%d %d", test.W, test.H));
+                testIn.newLine();
+                testIn.append(String.format("%d", test.n));
+                testIn.newLine();
+                for (int j = 0; j < test.rects.length; j++) {
+                    testIn.append(String.format("%d %d %d %d", test.rects[j][0], test.rects[j][1], test.rects[j][2], test.rects[j][3]));
+                    if (j != test.rects.length - 1) {
+                        testIn.newLine();
+                    }
+                }
+
                 testOut.append(String.valueOf(test.expectedResult));
                 if (i != tests.size() - 1) {
                     testIn.newLine();
@@ -34,7 +44,7 @@ public class TestGenerator {
     }
 
     private static List<Test> loadTests() throws Exception {
-        final String testCasesFolderName = "tests_pagini";
+        final String testCasesFolderName = "tests_arta";
         final File testcasesFolder = new File(testCasesFolderName);
         final List<Test> result = new ArrayList<>();
         for (final File file : testcasesFolder.listFiles()) {
@@ -57,7 +67,19 @@ public class TestGenerator {
         Test result = new Test();
         try {
             scanner = new Scanner(file);
-            result.S = scanner.nextLine();
+            result.W = scanner.nextInt();
+            scanner.skip(" ");
+            result.H = scanner.nextInt();
+            result.n = scanner.nextInt();
+            result.rects = new int[result.n][4];
+            for (int i = 0; i < result.n; i++) {
+                for (int j = 0; j < 4; j++) {
+                    result.rects[i][j] = scanner.nextInt();
+                    if (j != 3) {
+                        scanner.skip(" ");
+                    }
+                }
+            }
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -81,12 +103,22 @@ public class TestGenerator {
 
     private static class Test {
         String testId;
-        String S;
+        int W;
+        int H;
+        int n;
+        int[][] rects;
         int expectedResult;
 
         @Override
         public String toString() {
-            return String.format("%s (S=%s)", testId, S);
+            StringBuilder rectBuilder = new StringBuilder();
+            if (rects != null) {
+                for (int i = 0; i < rects.length; i++) {
+                    rectBuilder.append(Arrays.toString(rects[i]));
+                }
+            }
+
+            return String.format("%s (W=%d H=%d n=%d rect=%s)", testId, W, H, n, rectBuilder.toString());
         }
     }
 }
