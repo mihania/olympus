@@ -45,5 +45,3 @@ begin
   close(fin);
   close(fout);
 end.
-
-
