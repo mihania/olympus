@@ -40,52 +40,35 @@ public class Mihania {
 
     public static void main(String[] args) throws Exception {
         List<Test> tests = loadTests();
-        boolean success = true;
-        for (Test test : tests) {
-            int realResult = solve(test.S);
-            if (!Objects.equals(realResult, test.expectedResult)) {
-                System.out.printf(
-                        "Test %s failed. Expected %d, but real was %d\n",
-                        test,
-                        test.expectedResult,
-                        realResult);
-                success = false;
-                break;
-            } else {
-                System.out.printf("Test %s passed.\n", test);
+        BufferedWriter testOut = null;
+        try {
+            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.MIHANIA.OUT"), "utf-8"));
+            for (int i = 0; i < tests.size(); i++) {
+                Test test = tests.get(i);
+                testOut.append(String.valueOf(solve(test.S)));
+                if (i != tests.size() - 1) {
+                    testOut.newLine();
+                }
             }
-        }
-
-        if (success) {
-            System.out.println("Success");
+        } finally {
+            if (testOut != null) {
+                testOut.close();
+            }
         }
     }
 
     private static List<Test> loadTests() throws Exception {
-        final String testCasesFolderName = "tests_pagini";
-        final File testcasesFolder = new File(testCasesFolderName);
+        final File file = new File("TESTS.IN");
         final List<Test> result = new ArrayList<>();
-        for (final File file : testcasesFolder.listFiles()) {
-            final String fileName = file.getName();
-            if (fileName.startsWith("input")) {
-                String testId = fileName.substring(fileName.indexOf('.') + 1);
-                Test test = readInput(file);
-                test.expectedResult = readOutput(new File(testCasesFolderName, "output." + testId));
-                test.testId = testId;
-                result.add(test);
-            }
-        }
-
-        // sort by testId in ascending order.
-        return result.stream().sorted((a, b) -> a.testId.compareTo(b.testId)).collect(Collectors.toList());
-    }
-
-    private static Test readInput(File file) throws Exception {
         Scanner scanner = null;
-        Test result = new Test();
         try {
             scanner = new Scanner(file);
-            result.S = scanner.nextLine();
+            int n = Integer.valueOf(scanner.nextLine());
+            for (int i = 0; i < n; i++) {
+                Test test = new Test();
+                test.S = scanner.nextLine();
+                result.add(test);
+            }
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -95,26 +78,13 @@ public class Mihania {
         return result;
     }
 
-    private static int readOutput(File file) throws Exception {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            return scanner.nextInt();
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-    }
-
     private static class Test {
-        String testId;
         String S;
         int expectedResult;
 
         @Override
         public String toString() {
-            return String.format("%s (S=%s)", testId, S);
+            return String.format("(S=%s)", S);
         }
     }
 }
