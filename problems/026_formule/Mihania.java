@@ -35,7 +35,7 @@ public class Mihania {
             }
         }
 
-        return state == 1 ? "1" : "0";
+        return state == 1 ? "DA" : "NU";
     }
 
     private static boolean isSign(char ch) {
@@ -44,50 +44,25 @@ public class Mihania {
 
     public static void main(String[] args) throws Exception {
         List<Test> tests = loadTests();
-        boolean success = true;
-        for (Test test : tests) {
-            String realResult = solve(test.S);
-            if (!realResult.equals(test.expectedResult)) {
-                System.out.printf(
-                        "Test %s failed. Expected %s, but real was %s\n",
-                        test,
-                        test.expectedResult,
-                        realResult);
-                success = false;
-                break;
-            } else {
-                System.out.printf("Test %s passed.\n", test);
+        BufferedWriter testOut = null;
+        try {
+            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.MIHANIA.OUT"), "utf-8"));
+            for (int i = 0; i < tests.size(); i++) {
+                Test test = tests.get(i);
+                testOut.append(solve(test.S));
+                if (i != tests.size() - 1) {
+                    testOut.newLine();
+                }
             }
-        }
-
-        if (success) {
-            System.out.println("Success");
+        } finally {
+            if (testOut != null) {
+                testOut.close();
+            }
         }
     }
 
     private static List<Test> loadTests() throws Exception {
-        final String testCasesFolderName = "tests_formule";
-        final File testcasesFolder = new File(testCasesFolderName);
-        final List<Test> result = new ArrayList<>();
-        for (final File file : testcasesFolder.listFiles()) {
-            final String fileName = file.getName();
-            if (fileName.startsWith("input")) {
-                String testId = fileName.substring(fileName.indexOf('.') + 1);
-                List<Test> tests = readInput(file);
-                readOutput(new File(testCasesFolderName, "output." + testId), tests);
-                for (Test test : tests) {
-                    test.testId = testId;
-                }
-
-                result.addAll(tests);
-            }
-        }
-
-        // sort by testId in ascending order.
-        return result.stream().sorted((a, b) -> a.testId.compareTo(b.testId)).collect(Collectors.toList());
-    }
-
-    private static List<Test> readInput(File file) throws Exception {
+        final File file = new File("TESTS.IN");
         Scanner scanner = null;
         List<Test> result = new ArrayList<>();
         try {
@@ -107,28 +82,12 @@ public class Mihania {
         return result;
     }
 
-    private static void readOutput(File file, List<Test> tests) throws Exception {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            for (Test test : tests) {
-                test.expectedResult = scanner.nextLine();
-            }
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-    }
-
     private static class Test {
-        String testId;
         String S;
-        String expectedResult;
 
         @Override
         public String toString() {
-            return String.format("%s (S=%s)", testId, S);
+            return String.format("(S=%s)", S);
         }
     }
 }
