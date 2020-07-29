@@ -3,22 +3,19 @@ import java.util.*;
 import java.math.*;
 
 public class Mihania {
-    private static int solve(int N, int K, int D, int[] A) {
-        int cur = D;
+    private static int solve(int N, int K, int P, int[] A) {
         for (int i = A.length - 1; i >= 0; i--) {
-            int a = A[i];
-            if (cur == N) {
-                cur = a;
-            } else {
-                if (cur >= a) {
-                    cur++;
-                }
-            }
+            if (P == N) {
+                // Dan lost
+                P = A[i];
+            } else if (A[i] <= P) {
 
-            // System.out.printf("a=%d cur=%d\n", a, cur);
+                // smbd before Dan in rating lost
+                P++;
+            }
         }
 
-        return cur;
+        return P;
     }
 
     public static void main(String[] args) throws Exception {
@@ -28,7 +25,7 @@ public class Mihania {
             testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.MIHANIA.OUT"), "utf-8"));
             for (int i = 0; i < tests.size(); i++) {
                 Test test = tests.get(i);
-                testOut.append(String.valueOf(solve(test.N, test.K, test.D, test.A)));
+                testOut.append(String.valueOf(solve(test.N, test.K, test.P, test.A)));
                 if (i != tests.size() - 1) {
                     testOut.newLine();
                 }
@@ -62,7 +59,7 @@ public class Mihania {
                 }
 
                 scanner.nextLine();
-                test.D = scanner.nextInt();
+                test.P = scanner.nextInt();
 
                 if (i != n - 1) {
                     scanner.nextLine();
@@ -82,8 +79,8 @@ public class Mihania {
     private static class Test {
         int N;
         int K;
-        int D;
-        int[] A;
+        int P; // last rating
+        int[] A; // protocol of competion
 
         @Override
         public String toString() {
