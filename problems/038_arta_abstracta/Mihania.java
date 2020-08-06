@@ -50,31 +50,32 @@ public class Mihania {
         for (int i = 0; i < P.length; i++) {
             for (int j = i + 1; j < P.length; j++) {
 
-                // P[i] and P[j] - are points of square diagonal, finding the antidiagonal points.
+                // P[i] and P[j] - are points of square main diagonal (the diagonal that goes from SW to NE)
+                if (P[i][0] <= P[j][0] && P[i][1] < P[j][1]) {
 
-                // checking that points color matching.
-                if (P[i][2] == P[j][2]) {
+                    // checking that points color matching.
+                    if (P[i][2] == P[j][2]) {
 
-                    // calculations are done based on https://www.quora.com/Given-two-diagonally-opposite-points-of-a-square-how-can-I-find-out-the-other-two-points-in-terms-of-the-coordinates-of-the-known-points
-                    int m1 = P[i][0] + P[j][0] + P[j][1] - P[i][1];
-                    int m2 = P[i][1] + P[j][1] + P[i][0] - P[j][0];
-                    int m3 = P[i][0] + P[j][0] + P[i][1] - P[j][1];
-                    int m4 = P[i][1] + P[j][1] + P[j][0] - P[i][0];
-                    if (m1 % 2 == 0 && m2 % 2 == 0 && m3 % 2 == 0 && m4 % 2 == 0) {
-                        int[] b = new int[]{m1 / 2, m2 / 2, P[i][2]};
-                        int[] d = new int[]{m3 / 2, m4 / 2, P[i][2]};
-                        if (set.contains(Arrays.toString(b)) && set.contains(Arrays.toString(d))) {
-                            res++;
+                        // calculations are done based on https://www.quora.com/Given-two-diagonally-opposite-points-of-a-square-how-can-I-find-out-the-other-two-points-in-terms-of-the-coordinates-of-the-known-points
+                        int m1 = P[i][0] + P[j][0] + P[j][1] - P[i][1];
+                        int m2 = P[i][1] + P[j][1] + P[i][0] - P[j][0];
+                        int m3 = P[i][0] + P[j][0] + P[i][1] - P[j][1];
+                        int m4 = P[i][1] + P[j][1] + P[j][0] - P[i][0];
+                        if (m1 % 2 == 0 && m2 % 2 == 0 && m3 % 2 == 0 && m4 % 2 == 0) {
+                            int[] b = new int[]{m1 / 2, m2 / 2, P[i][2]};
+                            int[] d = new int[]{m3 / 2, m4 / 2, P[i][2]};
+                            if (set.contains(Arrays.toString(b)) && set.contains(Arrays.toString(d))) {
+                                res++;
+                            }
+
+                            // System.out.printf("A=%s C=%s B=%s D=%s res=%d\n", Arrays.toString(P[i]), Arrays.toString(P[j]), Arrays.toString(b), Arrays.toString(d), res);
                         }
-
-                        // System.out.printf("A=%s C=%s B=%s D=%s res=%d\n", Arrays.toString(P[i]), Arrays.toString(P[j]), Arrays.toString(b), Arrays.toString(d), res);
                     }
                 }
             }
         }
 
-        // every square was detected twice, as every square has two diagonals
-        return res / 2;
+        return res;
     }
 
     private static double dist(int[] a, int[] b) {
