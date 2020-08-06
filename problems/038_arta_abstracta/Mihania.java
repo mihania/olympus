@@ -67,8 +67,7 @@ public class Mihania {
                             res++;
                         }
 
-                        System.out.printf("A=%s C=%s B=%s D=%s res=%d\n",
-                                Arrays.toString(P[i]), Arrays.toString(P[j]), Arrays.toString(b), Arrays.toString(d), res);
+                        // System.out.printf("A=%s C=%s B=%s D=%s res=%d\n", Arrays.toString(P[i]), Arrays.toString(P[j]), Arrays.toString(b), Arrays.toString(d), res);
                     }
                 }
             }
