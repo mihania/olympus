@@ -1,7 +1,7 @@
 ﻿var
   fin : text;
   fout : text;
-  N,i : integer;
+  N,i,j : integer;
   len, maxl : real;
   x: array of integer;
   y: array of integer;
@@ -18,14 +18,15 @@ begin
     read(fin, x[i]);
     read(fin, y[i]);
   end;
-  for i := 1 to N-1 do
+  for i := 0 to length(x)-1 do
   begin
-    len := sqrt(sqr(x[i] - x[i - 1]) + sqr(y[i] - y[i - 1]));
-    if len > maxl then maxl := len;  
+    for j := i+1 to length(y)-1 do
+    begin
+      len := sqrt(sqr(x[i] - x[j]) + sqr(y[i] - y[j])); 
+      if len > maxl then maxl := len;   
+    end; 
   end;
-  writeln(x);
-  writeln(y);
-  writeln(maxl:0:4); 
+  writeln(fout, maxl:0:4); 
   close(fin);
   close(fout);
 end.
