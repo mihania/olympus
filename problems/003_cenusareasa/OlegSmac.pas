@@ -23,8 +23,6 @@ begin
     len := sqrt(sqr(x[i] - x[i - 1]) + sqr(y[i] - y[i - 1]));
     if len > maxl then maxl := len;  
   end;
-  writeln(x);
-  writeln(y);
   writeln(maxl:0:4); 
   close(fin);
   close(fout);
