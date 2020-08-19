@@ -7,9 +7,9 @@
   b: array of integer;
   l: array of integer;
 begin
-  assign(fin,'C:\src\olympus\problems\005_focuri_de_artificii\TEST1.IN');
+  assign(fin,'TEST1.IN');
   reset(fin);
-  assign(fout,'C:\src\olympus\problems\005_focuri_de_artificii\TEST1.OUT');
+  assign(fout,'TEST1.OUT');
   rewrite(fout);
   read(fin, N);
   setLength(h, N);
