@@ -1,4 +1,4 @@
-﻿var
+var
   fin : text;
   fout : text;
   N,i,j : integer;
@@ -31,3 +31,4 @@ begin
   close(fin);
   close(fout);
 end.
+
