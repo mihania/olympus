@@ -27,6 +27,7 @@ begin
     end; 
   end;
   writeln(fout, maxl:0:4); 
+  writeln(maxl:0:4); 
   close(fin);
   close(fout);
 end.
