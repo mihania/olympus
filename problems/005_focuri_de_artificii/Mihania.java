@@ -47,7 +47,7 @@ public class Mihania {
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
-            int tests = Integer.valueOf(scanner.nextLine());
+            int tests = scanner.nextInt();
             for (int i = 0; i < tests; i++) {
                 Test test = new Test();
                 int n = scanner.nextInt();
