@@ -40,6 +40,3 @@ BACTERII.OUT
 ```
 19
 ```
-
-# Похожие задачи
-1. [509. Fibonacci Number](https://leetcode.com/problems/fibonacci-number/)
