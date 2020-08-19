@@ -15,7 +15,7 @@ begin
   setLength(h, N);
   setLength(a, N);
   setLength(b, N);
-  setLength(l, N * 3);
+  setLength(l, N);
   for i := 0 to N - 1 do
   begin
     read(fin, h[i]);
@@ -26,25 +26,18 @@ begin
   begin
     l[i] := l[i] + 1;
   end;
-  for i := N-1 downto 0 do //каждый новый i - это новый блок
+  for j := N-1 downto 0 do //каждый новый i - это новый блок
   begin
-    for j := N-1 downto i+1 do  
+    for i := N-1 downto j+1 do  
     begin
-      if (a[i] <= h[j]) and (h[j] <= b[i]) and (l[j] + 1 > l[i]) then
+      if (a[j] <= h[i]) and (h[i] <= b[j]) then
       begin
-        l[i] := l[j] + 1;
-        res := Max(res, l[i]);    
-      end;
-      if i+1 = j then
-      begin
-      write('l[i] = ', l[i]);
-      write(' i = ', i);
-      writeln(' j = ', j);
+        l[j] := Max(l[j], l[i] + 1);
+        res := Max(res, l[j]); 
       end;
     end;
   end;
-  writeln(fout, res); 
-  writeln(res); 
+  writeln(fout, res);  
   close(fin);
   close(fout);
 end.
