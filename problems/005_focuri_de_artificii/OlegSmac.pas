@@ -22,22 +22,19 @@ begin
     read(fin, a[i]);
     read(fin, b[i]);
   end;
-  for i := 0 to length(l)-1 do 
+  for i := 0 to N-1 do //каждый новый i - это новый блок
   begin
-    l[i] := l[i] + 1;
-  end;
-  for j := N-1 downto 0 do //каждый новый i - это новый блок
-  begin
-    for i := N-1 downto j+1 do  
+    l[i] := 1;
+    for j := 0 to i-1 do  
     begin
       if (a[j] <= h[i]) and (h[i] <= b[j]) then
       begin
-        l[j] := Max(l[j], l[i] + 1);
-        res := Max(res, l[j]); 
+        l[i] := Max(l[i], l[j] + 1); 
       end;
     end;
+    res := Max(res, l[i]);
   end;
-  writeln(fout, res);  
+  writeln(fout, res);
   close(fin);
   close(fout);
 end.
