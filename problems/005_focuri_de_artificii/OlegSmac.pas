@@ -5,7 +5,7 @@
   h: array of integer;
   a: array of integer;
   b: array of integer;
-  l: array of integer;
+  dp: array of integer;
 begin
   assign(fin,'TEST1.IN');
   reset(fin);
@@ -15,7 +15,7 @@ begin
   setLength(h, N);
   setLength(a, N);
   setLength(b, N);
-  setLength(l, N);
+  setLength(dp, N);
   for i := 0 to N - 1 do
   begin
     read(fin, h[i]);
@@ -24,15 +24,15 @@ begin
   end;
   for i := 0 to N-1 do //каждый новый i - это новый блок
   begin
-    l[i] := 1;
+    dp[i] := 1;
     for j := 0 to i-1 do  
     begin
       if (a[j] <= h[i]) and (h[i] <= b[j]) then
       begin
-        l[i] := Max(l[i], l[j] + 1); 
+        dp[i] := Max(dp[i], dp[j] + 1); 
       end;
     end;
-    res := Max(res, l[i]);
+    res := Max(res, dp[i]);
   end;
   writeln(fout, res);
   close(fin);
