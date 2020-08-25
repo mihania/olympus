@@ -20,7 +20,8 @@ public class Mihania {
                             for (int l = 0; l < P.length; l++) {
                                 if (i != l && j != l && k != l && P[i][2] == P[l][2]
                                         && dist(P[l], P[k]) == dist
-                                        && dist(P[l], P[i]) == dist) {
+                                        && dist(P[l], P[i]) == dist
+                                        && dist(P[i], P[k]) == dist(P[j], P[l])) {
                                     // System.out.printf("i=%d j=%d k=%d l=%d res=%d\n", i, j, k, l, res);
                                     res++;
                                 }
