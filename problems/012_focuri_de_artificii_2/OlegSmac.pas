@@ -25,9 +25,9 @@ begin
     read(fin, b[i]);
     read(fin, f[i]);
   end;
-  dp[0] := f[0];
   for i := 0 to N-1 do
   begin
+    dp[i] := f[i];
     for j := 0 to i-1 do 
     begin
       if (a[j] <= h[i]) and (h[i] <= b[j]) then
