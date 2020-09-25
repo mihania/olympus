@@ -1,12 +1,12 @@
-program NumerSum;
+﻿program NumerSum;
 var
   fin, fout : text;
   N, i, j, num, first, sum2, d : integer;
   nums : array of integer;
 begin
-  assign(fin, 'C:\PABCWork.NET\olimp\joc.in');
+  assign(fin, 'joc.in');
   reset(fin);
-  assign(fout, 'C:\PABCWork.NET\olimp\joc.out');
+  assign(fout, 'joc.out');
   rewrite(fout);
   read(fin, N);
   setLength(nums, N);
@@ -20,14 +20,10 @@ begin
       sum2 := sum2 + num mod 10;
       num := num div 10;
       if (num <= 9) and (num <> 0) then first := num;
-      //writeln('sum2 = ', sum2);
-      //writeln('num = ', num);
       writeln();
     end;
-    //writeln('first = ', first);
     sum2 := sum2 - first;
     if (first <> sum2) then nums[i] := 0;
-    //writeln('nums[i] = ', nums[i]);
   end;
 
   for i := 1 to N - 1 do //сортировака массива по убыванию
