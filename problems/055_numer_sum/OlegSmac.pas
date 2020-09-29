@@ -1,7 +1,7 @@
 ﻿program NumerSum;
 var
   fin, fout : text;
-  N, i, j, num, first, sum2, d : integer;
+  N, i, j, num, sum, tmp : integer;
   nums : array of integer;
 begin
   assign(fin, 'joc.in');
@@ -10,20 +10,17 @@ begin
   rewrite(fout);
   read(fin, N);
   setLength(nums, N);
-  for i := 0 to N-1 do //проверка условия: первое число равно сумме отсальных чисел
+  for i := 0 to N - 1 do //проверка условия: первое число равно сумме отсальных чисел
   begin
-    sum2 := 0;
+    sum := 0;
     read(fin, num);
     nums[i] := num;
-    while (num > 0) do
+    while (num > 9) do
     begin
-      sum2 := sum2 + num mod 10;
+      sum := sum + num mod 10;
       num := num div 10;
-      if (num <= 9) and (num <> 0) then first := num;
-      writeln();
     end;
-    sum2 := sum2 - first;
-    if (first <> sum2) then nums[i] := 0;
+    if (num <> sum) then nums[i] := 0;
   end;
 
   for i := 1 to N - 1 do //сортировака массива по убыванию
@@ -32,9 +29,9 @@ begin
     begin
       if nums[i] > nums[j] then
       begin
-        d := nums[i];
+        tmp := nums[i];
         nums[i] := nums[j];
-        nums[j] := d;
+        nums[j] := tmp;
       end;
     end;
   end;
