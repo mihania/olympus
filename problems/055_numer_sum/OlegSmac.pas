@@ -40,7 +40,7 @@ begin
     if (nums[i] <> 0) then
     begin
     writeln(nums[i]);
-    write(fout, nums[i]);
+    writeln(fout, nums[i]);
     end;
   end;
   close(fin);
