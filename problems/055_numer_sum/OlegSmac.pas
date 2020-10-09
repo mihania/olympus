@@ -10,7 +10,7 @@ begin
   rewrite(fout);
   read(fin, N);
   setLength(nums, N);
-  for i := 0 to N - 1 do //проверка условия: первое число равно сумме отсальных чисел
+  for i := 0 to N - 1 do //проверка условия: первая цифра равна сумме остальных цифр
   begin
     sum := 0;
     read(fin, num);
@@ -39,7 +39,6 @@ begin
   begin
     if (nums[i] <> 0) then
     begin
-    writeln(nums[i]);
     writeln(fout, nums[i]);
     end;
   end;
