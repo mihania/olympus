@@ -1,43 +1,24 @@
 ﻿Program Micul_prinz;
 var
   fin, fout : text;
-  N, i, num, q, len, j : integer;
-  v : boolean;
-  palin : array of integer;
-  function f(n2 : integer) : boolean;
-  var i : integer;
+  N, i, num : integer;
+  
+  function isPalindrome(num : integer) : boolean;
+  var 
+    s : string;
+    i, j : integer;
   begin
-    n2 := num;
-    while (n2 > 0) do
+    Str(num, s);
+    i := 1;
+    j := Length(s);
+    while (i < j) and (s[i] = s[j]) do
     begin
-      q := n2 mod 10;
-      n2 := n2 div 10;
-      len := len + 1;
+        j := j - 1;
+        i := i + 1;
     end;
-    setLength(palin, len);
-    n2 := num;
-    while (n2 > 0) do
-    begin
-      len := len - 1;
-      q := n2 mod 10;
-      palin[len] := q;
-      n2 := n2 div 10;
-    end;
-    j := length(palin) - 1;
-    for i := 0 to j do
-    begin
-      if palin[i] = palin[j] then 
-      begin
-      j := j - 1; 
-      v := true;
-      end
-      else 
-      begin
-      v := false; 
-      break;
-      end;
-    end;
+    isPalindrome := i >= j;
   end;
+  
 begin
   assign(fin, 'pal.in');
   reset(fin);
@@ -47,13 +28,13 @@ begin
   for i := 0 to N - 1 do 
   begin
     read(fin, num);
-    while (v <> true) do
+    while (isPalindrome(num) <> true) do
     begin
-      (f(num));
       num := num + 1;
     end;
-    v := false;
-    writeln(fout, num - 1);
-    writeln('num = ', num - 1);
+    writeln(fout, num);
+    
   end;
+  close(fin);
+  close(fout);
 end.
