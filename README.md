@@ -3,4 +3,7 @@
 2. Открыть СMD
 2. `mkdir src`
 3. `cd src`
-4. `git clone https://github.com/mihania/olympus.git` 
+4. `git clone https://github.com/mihania/olympus.git`
+
+#  Как создать Pull Request?
+1. `git check -b <имя бранча>` 
