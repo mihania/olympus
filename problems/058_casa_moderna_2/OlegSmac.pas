@@ -39,11 +39,7 @@ begin
     i := i + 1;
     j := j + 1;
   end;
-  for i := 0 to length(time) - 1 do
-  begin
-    writeln('time[',i,'] = ', time[i], ' i = ', i+1);
-  end;
-  write('res = ', res);
+  write(fout, res);
   close(fin);
   close(fout);
 end.
