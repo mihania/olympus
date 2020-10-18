@@ -1,7 +1,7 @@
 ﻿program casa_moderna_2;
 var
   fin, fout : text;
-  o, N, i, j, p, res : integer;
+  N, i, j, p, res : integer;
   time : array of integer;
 begin
   assign(fin, 'cas.in');
@@ -12,8 +12,7 @@ begin
   setLength(time, N);
   for i := 0 to N - 1 do
   begin
-    read(fin, o);
-    time[i] := o;
+    read(fin, time[i]);
   end;
   
   for i := 1 to length(time) - 1 do // сортировка массива
@@ -28,22 +27,21 @@ begin
     end;
   end;
   
-  while (i < length(time)) do //расчеты
+  i := 0;
+  while (i < length(time) - 1) and (i + 1 <= time[i]) do //расчеты
   begin
-    if (time[i] >= i + 1) then res := 1
-    else 
-    begin
-    res := 0; 
-    break;
-    end;
     i := i + 1;
-    j := j + 1;
   end;
-  for i := 0 to length(time) - 1 do
+  if (i = length(time) - 1) then
   begin
-    writeln('time[',i,'] = ', time[i], ' i = ', i+1);
+    res := 1;
+  end
+  else
+  begin
+    res := 0;
   end;
-  write('res = ', res);
+  write(fout, res);
+  write(res);
   close(fin);
   close(fout);
 end.
