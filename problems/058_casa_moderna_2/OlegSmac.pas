@@ -32,7 +32,6 @@ begin
   begin
     i := i + 1;
   end;
-<<<<<<< HEAD
   if (i = length(time) - 1) then
   begin
     res := 1;
@@ -42,10 +41,6 @@ begin
     res := 0;
   end;
   write(fout, res);
-  write(res);
-=======
-  write(fout, res);
->>>>>>> df372877d8b1b65b411deaa28b29a90c4ad2e569
   close(fin);
   close(fout);
 end.
