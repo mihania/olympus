@@ -1,7 +1,7 @@
 ﻿program casa_moderna_2;
 var
   fin, fout : text;
-  N, i, j, p, res : integer;
+  N, i, j, p, res, zero : integer;
   time : array of integer;
 begin
   assign(fin, 'cas.in');
@@ -22,18 +22,28 @@ begin
       begin
         p := time[i];
         time[i] := time[j];
-        time[j] := p
+        time[j] := p;
       end;
     end;
   end;
   
   i := 0;
-  while (i < length(time) - 1) and (i + 1 <= time[i]) do //расчеты
+  for j := 0 to length(time) - 1 do
   begin
-    i := i + 1;
+    if (time[j] = 0) then
+    begin
+      zero := zero + 1;
+    end;
+    if (time[j] <> 0) and (i + 1 <= time[j]) then
+    begin
+      i := i + 1;
+    end;
   end;
-<<<<<<< HEAD
-  if (i = length(time) - 1) then
+  writeln('i = ', i);
+  writeln('zero = ', zero);
+  i := i + zero;
+  
+  if (i = length(time)) then
   begin
     res := 1;
   end
@@ -43,9 +53,6 @@ begin
   end;
   write(fout, res);
   write(res);
-=======
-  write(fout, res);
->>>>>>> df372877d8b1b65b411deaa28b29a90c4ad2e569
   close(fin);
   close(fout);
 end.
