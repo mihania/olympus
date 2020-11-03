@@ -4,6 +4,70 @@ import java.math.*;
 
 public class Mihania {
 
+    private static void solveN2(Test test) {
+        int sum = 0;
+        int[][] m = new int[test.P.length][3];
+        for (int i = 0; i < test.P.length; i++) {
+            m[i][0] = test.P[i][0];
+            m[i][1] = test.P[i][1];
+            m[i][2] = i + 1;
+            sum += test.P[i][1];
+        }
+
+        Arrays.sort(m, (a, b) -> a[0] - b[0]);
+
+        int MAX = 25;
+        // dp[i][j] - max hour required to complete tasks to achieve j profit or MAX if not possible.
+        int[][] dp = new int[test.P.length][sum + 1];
+        List<Integer>[][] plan = new List[test.P.length][sum + 1];
+
+        for (int i  = 0; i < dp.length; i++) {
+            Arrays.fill(dp[i], MAX);
+        }
+
+        for (int i = 0; i < dp.length; i++) {
+            int time = m[i][0];
+            int profit = m[i][1];
+
+            for (int j = dp[0].length - 1; j >= 1; j--) {
+                if (i > 0 && dp[i - 1][j] != MAX) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i - 1][j]);
+                    plan[i][j] = new ArrayList<>(plan[i - 1][j]);
+                }
+
+                if (dp[i][j] != MAX && dp[i][j] + 1 <= time && dp[i][j] + 1 < dp[i][j + profit] ) {
+                    dp[i][j + profit] = Math.min(dp[i][j + profit], dp[i][j] + 1);
+                    plan[i][j + profit] = new ArrayList<>(plan[i][j]);
+                    plan[i][j + profit].add(m[i][2]);
+                }
+            }
+
+            dp[i][profit] = 1;
+            plan[i][profit] = new ArrayList<>();
+            plan[i][profit].add(m[i][2]);
+        }
+
+        int maxSum = 0;
+        int maxI = 0;
+        int maxJ = 0;
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                if (dp[i][j] != MAX) {
+                    if (j > maxSum) {
+                        maxSum = j;
+                        maxI = i;
+                        maxJ = j;
+                    }
+                }
+            }
+        }
+
+
+        test.s = maxSum;
+        test.pMin = sum - test.s;
+        test.plan = plan[maxI][maxJ];
+    }
+
     private static void solve(Test test) {
         int[][] m = new int[test.P.length][3];
         int sum = 0;
@@ -45,7 +109,7 @@ public class Mihania {
             testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.MIHANIA.OUT"), "utf-8"));
             for (int i = 0; i < tests.size(); i++) {
                 Test test = tests.get(i);
-                solve(test);
+                solveN2(test);
                 testOut.append(String.valueOf(test.s));
                 testOut.append(" ");
                 testOut.append(String.valueOf(test.pMin));
