@@ -39,15 +39,11 @@ begin
       i := i + 1;
     end;
   end;
-<<<<<<< HEAD
   writeln('i = ', i);
   writeln('zero = ', zero);
   i := i + zero;
   
   if (i = length(time)) then
-=======
-  if (i = length(time) - 1) then
->>>>>>> 9886d6a0350416c2ac644ff875682f70a774e620
   begin
     res := 1;
   end
@@ -56,10 +52,7 @@ begin
     res := 0;
   end;
   write(fout, res);
-<<<<<<< HEAD
   write(res);
-=======
->>>>>>> 9886d6a0350416c2ac644ff875682f70a774e620
   close(fin);
   close(fout);
 end.
