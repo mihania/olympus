@@ -138,13 +138,13 @@ begin
       subset[i] := 0;
     end;
   end;
-  write('sum = ', res_sum);
-  writeln(' pmin = ', pmin);
+  write(fout, res_sum);
+  writeln(fout, ' ', pmin);
   for i := 0 to length(res_plan) - 1 do
   begin
     if (res_plan[i] <> 0) then
     begin
-      writeln(res_plan[i]);  
+      writeln(fout, res_plan[i]);  
     end;
   end;
   
