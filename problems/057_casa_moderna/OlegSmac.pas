@@ -1,29 +1,17 @@
 ﻿program casa_moderna;
 var
   fin, fout : text;
-  N, i, j, k, x, tmp, sum_all, pmin, res_sum : integer;
+  N, i, j, k, x, tmp, sum_all, pmin, res_sum, p, prof : integer;
   time : array of integer;
   price : array of integer;
   subset : array of integer;
-  subset_copy : array of integer;
+  index : array of integer;
   res_plan : array of integer;
   
   function order_plan(sub : array of integer) : boolean;
   var
-    N, i, j, p, zero : integer;
+    N, i, j, zero : integer;
   begin
-    for i := 1 to length(sub) - 1 do //сортировка массива
-    begin
-      for j := 0 to i do begin
-        if (sub[i] < sub[j]) then
-        begin
-          p := sub[i];
-          sub[i] := sub[j];
-          sub[j] := p;
-        end;
-      end;
-    end;
-  
     i := 0;
     for j := 0 to length(sub) - 1 do
     begin
@@ -72,12 +60,35 @@ begin
   setLength(time, N);
   setLength(price, N);
   setLength(subset, N);
-  setLength(subset_copy, N);
+  setLength(index, N);
   setLength(res_plan, N);
   for i := 0 to N - 1 do //считывание данных в массив
   begin
     read(fin, time[i]);
     read(fin, price[i]);
+  end;
+  
+  for i := 0 to length(time) - 1 do
+  begin
+    index[i] := i;
+  end;
+  
+  for i := 0 to length(time) - 1 do //сортировка time и price
+  begin
+    for j := 0 to i do begin
+      if (time[i] < time[j]) then
+      begin
+        p := time[i];
+        time[i] := time[j];
+        time[j] := p;
+        p := price[i];
+        price[i] := price[j];
+        price[j] := p;
+        p := index[i];
+        index[i] := index[j];
+        index[j] := p;
+      end;
+    end;
   end;
   
   for i := 0 to length(price) - 1 do //общая сумма
@@ -108,29 +119,22 @@ begin
       i := i + 1;
     end;
     
-    for i := 0 to length(subset) - 1 do
+    if (order_plan(subset) = true) then //проверка выполнения всех задач
     begin
-      subset_copy[i] := subset[i];
-    end;
-    
-    if (order_plan(subset_copy) = true) then //подсчёт прибыли и потерь
-    begin
-      if (profit(subset) > res_sum) then
+      prof := profit(subset);
+      if (prof > res_sum) then //подсчёт прибыли и потерь
       begin
+        res_sum := prof;
+        pmin := sum_all - prof;
+        
         for i := 0 to length(subset) - 1 do
         begin
-          for j := 0 to length(subset_copy) - 1 do
+          res_plan[i] := 0;
+          if (subset[i] <> 0) then
           begin
-            if (subset[i] = subset_copy[j]) and (subset_copy[j] <> 0) then
-            begin
-              res_plan[j] := i + 1;
-              subset_copy[j] := 0;
-              break;
-            end;  
+            res_plan[i] := index[i] + 1;
           end;
         end;
-        res_sum := profit(subset);
-        pmin := sum_all - profit(subset);
       end;
     end;
     for i := 0 to length(subset) - 1 do
@@ -138,12 +142,15 @@ begin
       subset[i] := 0;
     end;
   end;
+  write(res_sum);
+  writeln(' ',pmin);
   write(fout, res_sum);
   writeln(fout, ' ', pmin);
   for i := 0 to length(res_plan) - 1 do
   begin
     if (res_plan[i] <> 0) then
     begin
+      writeln(res_plan[i]);
       writeln(fout, res_plan[i]);  
     end;
   end;
