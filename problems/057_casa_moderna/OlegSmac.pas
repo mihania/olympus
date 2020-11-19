@@ -1,16 +1,16 @@
 ﻿program casa_moderna;
 type
-  rec = record
-  time : array of integer;
-  price : array of integer;
-  index : array of integer;
+  order = record
+     time : integer;
+     price : integer;
+     index : integer;
   end;
 var
+  orders : array of order;
   fin, fout : text;
   N, i, j, k, x, tmp, sum_all, pmin, res_sum, p, prof : integer;
   subset : array of integer;
   res_plan : array of integer;
-  orders : rec;
   
   function order_plan(sub : array of integer) : boolean;
   var
@@ -48,7 +48,7 @@ var
     begin
       if (subset[i] <> 0) then
       begin
-        p := orders.price[i];
+        p := orders[i].price;
         sum := sum + p;
       end;
     end;
@@ -61,43 +61,41 @@ begin
   assign(fout, 'cas.out');
   rewrite(fout);
   read(fin, N);
-  setLength(orders.time, N);
-  setLength(orders.price, N);
+  setLength(orders, N);
   setLength(subset, N);
-  setLength(orders.index, N);
   setLength(res_plan, N);
   for i := 0 to N - 1 do //считывание данных в массив
   begin
-    read(fin, orders.time[i]);
-    read(fin, orders.price[i]);
+    read(fin, orders[i].time);
+    read(fin, orders[i].price);
   end;
   
-  for i := 0 to length(orders.time) - 1 do
+  for i := 0 to length(orders) - 1 do
   begin
-    orders.index[i] := i;
+    orders[i].index := i;
   end;
-  
-  for i := 0 to length(orders.time) - 1 do //сортировка time и price
+ 
+  for i := 0 to length(orders) - 1 do //сортировка time и price
   begin
     for j := 0 to i do begin
-      if (orders.time[i] < orders.time[j]) then
+      if (orders[i].time < orders[j].time) then
       begin
-        p := orders.time[i];
-        orders.time[i] := orders.time[j];
-        orders.time[j] := p;
-        p := orders.price[i];
-        orders.price[i] := orders.price[j];
-        orders.price[j] := p;
-        p := orders.index[i];
-        orders.index[i] := orders.index[j];
-        orders.index[j] := p;
+        p := orders[i].time;
+        orders[i].time := orders[j].time;
+        orders[j].time := p;
+        p := orders[i].price;
+        orders[i].price := orders[j].price;
+        orders[j].price := p;
+        p := orders[i].index;
+        orders[i].index := orders[j].index;
+        orders[j].index := p;
       end;
     end;
   end;
   
-  for i := 0 to length(orders.price) - 1 do //общая сумма
+  for i := 0 to length(orders) - 1 do //общая сумма
   begin
-    sum_all := sum_all + orders.price[i];
+    sum_all := sum_all + orders[i].price;
   end;
   
   i := 0;
@@ -116,7 +114,7 @@ begin
     begin
       if (k mod 2 = 1) then
       begin
-        subset[i] := orders.time[i];
+        subset[i] := orders[i].time;
         //writeln('sub[i] = ', subset[i], ' i = ', i, ' time[i] = ', time[i]);
       end;
       k := k div 2;
@@ -136,7 +134,7 @@ begin
           res_plan[i] := 0;
           if (subset[i] <> 0) then
           begin
-            res_plan[i] := orders.index[i] + 1;
+            res_plan[i] := orders[i].index + 1;
           end;
         end;
       end;
