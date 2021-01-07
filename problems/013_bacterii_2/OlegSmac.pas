@@ -23,49 +23,45 @@ begin
 end;
 
 function Add(a, b: BigInteger): BigInteger;
-var sum, sum_i, len1, len2, i : integer;
+var sum, i : integer;
     res : BigInteger;
 begin
-  len1 := a.size;
-  len2 := b.size;
-  while (len1 > 0) or (len2 > 0) or (sum > 0) do
+  while (i < a.size) or (i < b.size) or (sum > 0) do
   begin
     sum := sum + a.bac[i] + b.bac[i];
-    sum_i := sum mod 10;
+    res.bac[i] := sum mod 10;
     sum := sum div 10;
-    res.bac[i] := sum_i;
     res.size := res.size + 1;
-    
     i := i + 1;
-    len1 := len1 - 1;
-    len2 := len2 - 1;
   end;
   Add := res;
 end;
 
-function Subtrac(a, b : BigInteger) : BigInteger;
-var len1, len2, sub, i : integer;
-    res : BigInteger;
+function Subtract(a, b : BigInteger) : BigInteger;
+var len1, len2, sub, digit, i : integer;
+    resul : BigInteger;
 begin
   len1 := a.size - 1;
-  len2 := b.size - 1;
-  if (len1 > len2) then i := len1
-  else i := len2;
-  res.size := i + 1;
-  while (i >= 0) do
+  resul.size := a.size;
+  while (i <= len1) do
   begin
     sub := a.bac[i] - b.bac[i];
     if (sub < 0) then
     begin
-      res.bac[i] := 10 - abs(sub);
-      res.bac[i + 1] := res.bac[i + 1] - 1;
+      digit := 10 - abs(sub);
+      a.bac[i + 1] := a.bac[i + 1] - 1;
     end
     else begin
-      res.bac[i] := sub;
+      digit := sub;
     end;
-    i := i - 1;
+    resul.bac[i] := digit;
+    i := i + 1;
+    if (i = len1) and (resul.bac[i] = 0) then
+    begin
+      resul.size := resul.size - 1;
+    end;
   end;
-  Subtrac := res;
+  Subtract := resul;
 end;
 
 procedure Print(var f: Text; a: BigInteger);
@@ -73,7 +69,7 @@ var i : integer;
 begin
   for i := a.size - 1 downto 0 do
   begin
-    write(f, a.bac[i]);  
+    write(fout, a.bac[i]);  
   end;
 end;  
   
@@ -87,16 +83,16 @@ begin
   read(fin, N);
   p := Init(p_int);
   setLength(z, q - 1);
-  tail := 0;
+  tail := 0;  
   for i := 0 to N - 1 do
   begin    
     p_copy := p;
     p := sum_z;
-    sum_z := Subtrac(sum_z, z[tail]);  
+    sum_z := Subtract(sum_z, z[tail]);  
     z[tail] := p_copy;
     sum_z := Add(sum_z, z[tail]);
     tail := tail + 1;
-    if (tail > q - 2) then
+    if (tail = q - 1) then
     begin
       tail := 0;
     end;
@@ -105,4 +101,4 @@ begin
   Print(fout, Add(sum_z, p));
   close(fin);
   close(fout);
-end. 
+end.
