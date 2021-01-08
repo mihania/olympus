@@ -1,5 +1,5 @@
 ﻿type BigInteger = record
-     bac: array [0..2100] of integer;
+     digits: array [0..2100] of integer;
      size: integer;  // длина числа
 end;
 
@@ -15,7 +15,7 @@ var res : BigInteger;
 begin
   while (num > 0) do
   begin
-    res.bac[res.size] := num mod 10;
+    res.digits[res.size] := num mod 10;
     num := num div 10;
     res.size := res.size + 1;
   end;
@@ -28,8 +28,8 @@ var sum, i : integer;
 begin
   while (i < a.size) or (i < b.size) or (sum > 0) do
   begin
-    sum := sum + a.bac[i] + b.bac[i];
-    res.bac[i] := sum mod 10;
+    sum := sum + a.digits[i] + b.digits[i];
+    res.digits[i] := sum mod 10;
     sum := sum div 10;
     res.size := res.size + 1;
     i := i + 1;
@@ -38,30 +38,26 @@ begin
 end;
 
 function Subtract(a, b : BigInteger) : BigInteger;
-var len1, len2, sub, digit, i : integer;
-    resul : BigInteger;
+var sub, i : integer;
+    res : BigInteger;
 begin
-  len1 := a.size - 1;
-  resul.size := a.size;
-  while (i <= len1) do
+  for i := 0 to a.size - 1 do
   begin
-    sub := a.bac[i] - b.bac[i];
+    sub := a.digits[i] - b.digits[i];
     if (sub < 0) then
     begin
-      digit := 10 - abs(sub);
-      a.bac[i + 1] := a.bac[i + 1] - 1;
+      res.digits[i] := 10 - abs(sub);
+      a.digits[i + 1] := a.digits[i + 1] - 1;
     end
     else begin
-      digit := sub;
+      res.digits[i] := sub;
     end;
-    resul.bac[i] := digit;
-    i := i + 1;
-    if (i = len1) and (resul.bac[i] = 0) then
-    begin
-      resul.size := resul.size - 1;
+    if (res.digits[i] <> 0) then 
+    begin 
+      res.size := i + 1;
     end;
   end;
-  Subtract := resul;
+  Subtract := res;
 end;
 
 procedure Print(var f: Text; a: BigInteger);
@@ -69,7 +65,7 @@ var i : integer;
 begin
   for i := a.size - 1 downto 0 do
   begin
-    write(fout, a.bac[i]);  
+    write(fout, a.digits[i]);  
   end;
 end;  
   
