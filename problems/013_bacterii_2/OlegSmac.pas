@@ -41,6 +41,7 @@ function Subtract(a, b : BigInteger) : BigInteger;
 var sub, i : integer;
     res : BigInteger;
 begin
+  res.size := 1;
   for i := 0 to a.size - 1 do
   begin
     sub := a.digits[i] - b.digits[i];
