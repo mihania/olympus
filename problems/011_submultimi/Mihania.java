@@ -27,7 +27,7 @@ public class Main {
         for (int i = 1; i < dp.length; i++) {
             res += dp[i][K][0];
             
-            // prenting N and 1 to be adjacent.
+            // preventing N and 1 to be adjacent.
             if (i != dp.length - 1) {
                 res += dp[i][K][1];
             }
