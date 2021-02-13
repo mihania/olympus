@@ -25,7 +25,7 @@ public class Main {
         for (int i = 1; i <= N; i++) {
             res += dp[i][K][0];
             
-            // prenting N and 1 to be adjacent.
+            // preventing N and 1 to be adjacent.
             if (i != N) {
                 res += dp[i][K][1];
             }
