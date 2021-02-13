@@ -68,4 +68,5 @@ SMULTIMI.OUT
 1. [78. Subsets](https://leetcode.com/problems/subsets/)
 2. [90. Subsets II](https://leetcode.com/problems/subsets-ii/)
 3. [784. Letter Case Permutation](https://leetcode.com/problems/letter-case-permutation/)
+4. [Count subsets of integers from 1 to n](https://www.geeksforgeeks.org/count-of-subsets-of-integers-from-1-to-n-having-no-adjacent-elements/)
 
