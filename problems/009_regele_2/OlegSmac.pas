@@ -101,16 +101,6 @@ begin
     end;
 end;
 
-procedure Print(var f : text; a : array of BigInteger; size : integer);
-var i : integer;
-begin
-  for i := 0 to size - 1 do
-  begin
-    Print(f, a[i]);
-    write(fout, ' ');
-  end;
-end;
-
 begin
   assign(fin, 'REGE.IN');
   reset(fin);
@@ -138,7 +128,6 @@ begin
       end;
     end;
   end;
-  //Print(fout, A, N);
 
   for i := N - 1 downto 0 do
   begin
