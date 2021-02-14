@@ -50,7 +50,6 @@ begin
   for i := a.size - 1 downto 0 do
   begin
     write(f, a.digits[i]);
-    //write(a.digits[i]);  
   end;
 end;  
   
@@ -68,11 +67,6 @@ begin
   for i := 0 to N - 1 do
   begin
     tmp := Add(p, q);
-    writeln('i = ', i);
-    writeln('p[1] = ', p.digits[1], ' p[0] = ', p.digits[0], ' size = ', p.size);
-    writeln('q[1] = ', q.digits[1], ' q[0] = ', q.digits[0], ' size = ', q.size);
-    writeln('tmp[1] = ', tmp.digits[1], ' tmp[0] = ', tmp.digits[0], ' size = ', tmp.size);
-    writeln();
     q := p;
     p := tmp;
   end;
