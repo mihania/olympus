@@ -3,9 +3,9 @@
   Tout : text;
   p,num,sum,i,j : integer;
 begin
-  assign(Tin,'C:\src\olympus\problems\001_numere_de_inmatriculare\TEST1.IN');
+  assign(Tin,'AUTO.IN');
   reset(Tin);
-  assign(Tout,'C:\src\olympus\problems\001_numere_de_inmatriculare\TEST1.OUT');
+  assign(Tout,'AUTO.OUT');
   rewrite(Tout);
   readln(Tin, p);
   for j := 1 to p do
