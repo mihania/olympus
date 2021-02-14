@@ -7,9 +7,9 @@
   b: array of integer;
   dp: array of integer;
 begin
-  assign(fin,'TEST1.IN');
+  assign(fin,'FOCURI.IN');
   reset(fin);
-  assign(fout,'TEST1.OUT');
+  assign(fout,'FOCURI.OUT');
   rewrite(fout);
   read(fin, N);
   setLength(h, N);
