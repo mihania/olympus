@@ -167,7 +167,6 @@ begin
     writeln(fout, ' ');
     while (max_idx <> idx[max_idx]) do
     begin
-      {write('max_idx = ', max_idx, ' idx[max] = ', idx[max_idx]);}
       Print(fout,  A[max_idx]);
       writeln(fout, ' ');
       max_idx := idx[max_idx];
