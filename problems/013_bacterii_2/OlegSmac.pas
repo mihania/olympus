@@ -1,5 +1,5 @@
 ﻿type BigInteger = record
-     digits: array [0..2100] of integer;
+     digits: array [0..2100] of byte;
      size: integer;  // длина числа
 end;
 
