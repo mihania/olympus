@@ -6,9 +6,9 @@
   x: array of integer;
   y: array of integer;
 begin
-  assign(fin,'C:\src\olympus\problems\003_cenusareasa\TEST1.IN');
+  assign(fin,'CENUSRSA.IN');
   reset(fin);
-  assign(fout,'C:\src\olympus\problems\003_cenusareasa\TEST1.OUT');
+  assign(fout,'CENUSRSA.OUT');
   rewrite(fout);
   read(fin, N);
   setLength(x, N);
