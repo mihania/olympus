@@ -18,9 +18,9 @@ var
   fin, fout : text;
   a, b, c, n : int64;
 begin
-  assign(fin, 'TRIP.IN');
+  assign(fin, 'TRIPLETE.IN');
   reset(fin);
-  assign(fout, 'TRIP.OUT');
+  assign(fout, 'TRIPLETE.OUT');
   rewrite(fout);
   read(fin, c);
   for a := 1 to c - 1 do
