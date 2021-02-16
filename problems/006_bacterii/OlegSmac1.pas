@@ -3,11 +3,11 @@
   fout : text;
   N, i, p_int, q_int : integer;
   p, q, tmp : string;
-  
-  function add(s1, s2 : string) : string;
-  var
-    a, b, sum, err, l1, l2 : integer;
-    res, sum_str : string;
+
+function add(s1, s2 : string) : string;
+var
+  a, b, sum, err, l1, l2 : integer;
+  res, sum_str : string;
   begin
     l1 := length(s1);
     l2 := length(s2);
@@ -25,14 +25,14 @@
       end;
       l1 := l1 - 1;
       l2 := l2 - 1;
-      
-      sum := sum + a + b;
-      str(sum mod 10, sum_str);
-      sum := sum div 10;
-      res := sum_str + res;
+  
+    sum := sum + a + b;
+    str(sum mod 10, sum_str);
+    sum := sum div 10;
+    res := sum_str + res;
     end;
     add := res;
-  end;
+  end;  
 begin
   assign(fin,'BACTERII.IN');
   reset(fin);
@@ -52,4 +52,4 @@ begin
   write(fout, add(p, q));
   close(fin);
   close(fout);
-end. 
+end.
