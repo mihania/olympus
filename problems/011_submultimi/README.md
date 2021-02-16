@@ -46,17 +46,21 @@ SMULTIMI.OUT
 # Пример 2
 SMULTIMI.IN
 ```
+2
+1 1
 6 2
 ```
 
 SMULTIMI.OUT
 ```
+1
 9
 ```
 
 # Пример 3
 SMULTIMI.IN
 ```
+1
 64 7
 ```
 
