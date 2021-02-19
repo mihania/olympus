@@ -1,25 +1,28 @@
-﻿function Check(a : array of integer; b : integer) : integer;
-var i, res, len : integer;
+﻿function IsValid(subset : array of integer; k : integer) : boolean;
+var i, len, prev : integer;
+    res : boolean;
 begin
-  for i := 0 to length(a) - 1 do
+  res := TRUE;
+  for i := 0 to length(subset) - 1 do
   begin
-    if (a[i] <> 0) then
+    if (subset[i] <> 0) then
     begin
-      len := len + 1;
-      if ((i = 0) and (length(a) = 1)) or
-         ((i = 0) and (a[i + 1] = 0)) or
-         ((i > 0) and (a[i - 1] = 0)) then
+      if (i = 0) then
       begin
-        res := 1;
+        prev := length(subset) - 1;
       end
       else begin
-        res := 0;
+        prev := i - 1;  
+      end;
+      len := len + 1;
+      if ((subset[prev] <> 0) and (length(subset) <> 1)) then
+      begin
+        res := FALSE;
         break;
       end;
     end;
   end;
-  if (len <> b) or (a[0] <> 0) and (a[length(a)-1] <> 0) and (length(a) <> 1) then res := 0;
-  Check := res;
+  IsValid := res and (len = k);
 end;
 
 function Solve(n, k : integer) : integer;
@@ -28,10 +31,9 @@ var subset : array of integer;
 begin
   setLength(subset, n);
   tmp := 1;
-  while i < n do //math.pow(2, time.length);
+  for i := 0 to n - 1 do //math.pow(2, time.length);
   begin
     tmp := tmp * 2;
-    i := i + 1;
   end;
   
   for x := 0 to tmp - 1 do //создание подмножеств
@@ -47,7 +49,10 @@ begin
       p := p div 2;
       i := i + 1;
     end;
-    num := num + Check(subset, k);
+    if IsValid(subset, k) then
+    begin
+      num := num + 1;  
+    end;
     
     for j := 0 to length(subset) - 1 do //обнуление массива
     begin
