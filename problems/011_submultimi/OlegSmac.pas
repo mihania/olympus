@@ -22,25 +22,17 @@ begin
   Check := res;
 end;
 
-var fin, fout : text;
-    i, j, n, k, x, p, tmp, num : integer;
-    subset : array of integer;
+function Solve(n, k : integer) : integer;
+var subset : array of integer;
+    i, j, x, p, tmp, num : integer;
 begin
-  assign(fin, 'SMULTIMI.IN');
-  reset(fin);
-  assign(fout, 'SMULTIMI.OUT');
-  rewrite(fout);
-  read(fin, n);
-  read(fin, k);
   setLength(subset, n);
-  
   tmp := 1;
   while i < n do //math.pow(2, time.length);
   begin
     tmp := tmp * 2;
     i := i + 1;
   end;
-  writeln('tmp = ' , tmp);
   
   for x := 0 to tmp - 1 do //создание подмножеств
   begin
@@ -62,8 +54,23 @@ begin
       subset[j] := 0;
     end;
   end;
-  
-  writeln(fout, num);
+  Solve := num;
+end;
+
+var fin, fout : text;
+    n, k, T, i : integer;
+begin
+  assign(fin, 'TESTS.IN');
+  reset(fin);
+  assign(fout, 'TESTS.OUT');
+  rewrite(fout);
+  readln(fin, T);
+  for i := 0 to T - 1 do
+  begin
+    read(fin, n);
+    read(fin, k);
+    writeln(fout, Solve(n, k));
+  end;
   close(fin);
   close(fout);
 end.
