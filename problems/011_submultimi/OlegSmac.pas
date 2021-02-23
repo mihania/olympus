@@ -1,9 +1,4 @@
-﻿type BigInteger = record
-     digits : array [0..259] of byte;
-     size : integer;
-end;
-
-function Solve(n, k : integer) : integer;
+﻿function Solve(n, k : integer) : integer;
 var dp : array [1..444, 1..444, 0..1] of integer;
     i, j, x, sum1, sum0, res_sum : integer;
 begin
