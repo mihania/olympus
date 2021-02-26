@@ -1,5 +1,5 @@
 ﻿type BigInteger = record
-     digits : array [0..95] of byte;
+     digits : array [0..93] of byte;
      size : integer;
 end;
 
@@ -49,7 +49,10 @@ begin
 end;
 
 function Solve(n, k : integer) : BigInteger;
-var dp : array [1..444, 1..444, 0..1] of BigInteger;
+var 
+    //dp[i][j][k] - это количество подмножеств, которые заканчивается на j и имеет размер i. k = [1] - cумма всех подмножеств
+    //                                                                                       k = [0] - сумма подмножеств без единицы
+    dp : array [1..444, 1..444, 0..1] of BigInteger; 
     i, j, x, sum1, sum0 : integer;
     res_sum : BigInteger;
 begin
@@ -58,27 +61,27 @@ begin
     res_sum := Init('1');
   end;
   
-  for i := 1 to n do //длина 1
+  for j := 1 to n do //длина 1
   begin
-    dp[1][i][1] := Init('1');
-    if (i <> 1) then dp[1][i][0] := Init('1');
+    dp[1][j][1] := Init('1');
+    if (j <> 1) then dp[1][j][0] := Init('1');
   end;
   
-  for i := 2 to k do
+  for i := 2 to k do 
   begin
     for j := 1 to n do
     begin
       for x := 1 to j - 2 do
       begin
-        dp[i][j][1] := Add(dp[i][j][1], dp[i - 1][x][1]); //сумма всех подмножеств, заканчивающихся на i элемент
-        dp[i][j][0] := Add(dp[i][j][0], dp[i - 1][x][0]); //сумма подмножеств, в которых нет цифры 1 и которые заканчиваются на i элемент
+        dp[i][j][1] := Add(dp[i][j][1], dp[i - 1][x][1]);
+        dp[i][j][0] := Add(dp[i][j][0], dp[i - 1][x][0]);
       end;
     end;
   end;
   
-  for i := 1 to n - 1 do
+  for j := 1 to n - 1 do
   begin
-    res_sum := Add(res_sum, dp[k][i][1]);
+    res_sum := Add(res_sum, dp[k][j][1]);
   end;
   res_sum := Add(res_sum, dp[k][n][0]);
   Solve := res_sum;
