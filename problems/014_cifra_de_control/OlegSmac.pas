@@ -1,14 +1,12 @@
-﻿function Pow(n : integer) : integer;
+﻿function Pow10(n : integer) : integer;
 var res, i : integer;
 begin
-  i := 0;
   res := 1;
-  while i < n do
+  for i := 0 to n - 1 do
   begin
     res := res * 10;
-    i := i + 1;
   end;
-  Pow := res;
+  Pow10 := res;
 end;
 
 function Finding_sum(num : integer) : integer;
@@ -24,25 +22,16 @@ begin
 end;
 
 function Solve(num : integer) : integer;
-var i, sum : integer;
 begin
-  while (num > -1) do
+  while (num > 9) do
   begin
-    sum := Finding_sum(num);
-    if (sum <= 9) then
-    begin
-      num := sum;
-      break;
-    end
-    else begin
-      num := sum;
-    end;  
+    num := Finding_sum(num);
   end;
   Solve := num;
 end;
 
 var fin, fout : text;
-    n, k, M, i, j, start, finish : integer;
+    n, k, M, i : integer;
 begin
   assign(fin, 'CIFRA.IN');
   reset(fin);
@@ -50,10 +39,8 @@ begin
   rewrite(fout);
   read(fin, n);
   read(fin, k);
-  start := Pow(n - 1);
-  finish := Pow(n);
   
-  for i := start to finish - 1 do
+  for i := Pow10(n - 1) to Pow10(n) - 1 do
   begin
     if (Solve(i) = k) then
     begin
