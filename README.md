@@ -8,6 +8,11 @@
 #  Как создать Pull Request?
 1. `git check -b <имя бранча>` 
 
+# Как компилировать и запускать программы на С++?
+1. Установить GCC
+2. Скомпилировать программу: gcc test.cpp -lstdc++
+3. Запустить программу: ./a.out
+
 
 # Какие языки программирования и средства разработки можно использовать?
 Limbajele de programare acceptate la Olimpiadă sunt FreePascal si
