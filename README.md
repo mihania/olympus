@@ -1,4 +1,4 @@
-# Как установить Git на Windows?
+﻿# Как установить Git на Windows?
 1. Скачать и установить [Git For Windows](https://git-scm.com/download/win)
 2. Открыть СMD
 2. `mkdir src`
