@@ -5,18 +5,22 @@
 using namespace std;
 
 int main() {
-	ifstream in("in2.txt");
-	cout << "3 / 4 = " << 3/4 << " 3 % 4 = " << 3%4 << endl; 
+	ifstream in("in2.txt"); 
 	int n;
 	in >> n;
 	//n = num1 * 1! + num2 * 2! + num3 * 3! + ... + numn * n!;
 	//n! = 1 * 2 * 3 * ... * n;
 	//n = num1 * 1 + num2 * (1 * 2) + num3 * (2 * 3) + ... + numn * (1 * 2 * ... * n);
 	//n % 2 = num1 * 1 % 2 + 0 + 0;
-	//n / 2 = num1 * 1/2 + num2 * 1 + num3 * 3 + ... + numn * (1 * 3 * ... * n);
-	//n % 3 = num1 * 1/2 % 3 + num2 * 1 % 3 + 0 + 0;
-	//n / 3 = num1 * 1/6 + num2 * 1/3 + num3 * 1 + ... + numn * (1 * 4 * ... * n);
+	//n / 2 = num2 * 1 + num3 * 3 + ... + numn * (1 * 3 * ... * n);
+	//n % 3 = num2 * 1 % 3 + 0 + 0;
+	//n / 3 = num3 * 1 + ... + numn * (1 * 4 * ... * n);
 	//
+	//cout << "3 / 4 = " << 3/4 << " 3 % 4 = " << 3%4 << endl;
+	
+	cout << "23 / 2 = " << 23 / 2 << endl;
+	cout << "11 / 3 = " << 11 / 3 << endl;
+	cout << "1 / 2 = " << 1 / 2 << endl;
 	cout << "n = " << n << endl; 
 	stack<int> stack;
 	for (int i = 2; n != 0; i++) {
