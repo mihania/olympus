@@ -53,11 +53,3 @@ int main() {
 	
 	cout << "Program is done.\n";
 }
-
-/*
-for (int j = levelJ; j <= levelJ + 1 && j <= levelI; j++) {
-		//cout << "i = " << i << " j = " << j << " nums[i][j] = " << nums[i][j];
-		cout << " levelI = " << levelI << " levelJ = " << levelJ << " path = " << path << endl;
-		findPaths(path + nums[levelI][j], levelI + 1, j);
-	}
-*/
