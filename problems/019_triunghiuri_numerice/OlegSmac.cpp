@@ -1,14 +1,13 @@
 #include<vector>
 #include<iostream>
 #include<fstream>
+#include<algorithm>
 
 using namespace std;
 
 int main() {
-	ifstream in("in50.txt");
+	ifstream in("in5.txt");
 	ofstream out("res.txt");
-	int minRes = -1;
-	int maxRes = 0;
 	vector<vector<int>> nums;
 	vector<vector<int>> maxim;
 	vector<vector<int>> minim;
@@ -16,12 +15,11 @@ int main() {
 	in >> n;
 	for (int i = 0; i < n; i++) {
 		vector<int> level;
-		vector<int> empty;
+		vector<int> empty(i + 1, 0);
 		for (int j = 0; j < i + 1; j++) {
 			int num;
 			in >> num;
 			level.push_back(num);
-			empty.push_back(0);
 		}
 		nums.push_back(level);
 		maxim.push_back(empty);
@@ -29,7 +27,7 @@ int main() {
 	}
 	for (int i = 0; i < n; i++) { //filling in the maximum and minimum paths
 		for (int j = 0; j < i + 1; j++) {
-			if (i == 0 && j == 0) {
+			if (i == 0) {
 				maxim[i][j] = nums[i][j];
 				minim[i][j] = nums[i][j];
 			}
@@ -44,21 +42,15 @@ int main() {
 			else {
 				maxim[i][j] = nums[i][j] + max(maxim[i - 1][j - 1], maxim[i - 1][j]);
 				minim[i][j] = nums[i][j] + min(minim[i - 1][j - 1], minim[i - 1][j]);
-			}
+			} 
 		}
 	}
-	for (int j = 0; j < n; j++) { //find maximum and minimum in last string
-		if (maxim[n - 1][j] > maxRes) {
-			maxRes = maxim[n - 1][j];
-		}
-		if (minRes == -1 || minim[n - 1][j] < minRes) {
-			minRes = minim[n - 1][j];
-		}
-	}
-	cout << "min = " << minRes << endl;
-	cout << "max = " << maxRes << endl;
+	auto maxRes = max_element(maxim[n - 1].begin(), maxim[n - 1].end());
+	auto minRes = min_element(minim[n - 1].begin(), minim[n - 1].end());
+	cout << "min = " << *minRes << endl;
+	cout << "max = " << *maxRes << endl;
 	
-	out << minRes << " " << maxRes;
+	out << *minRes << " " << *maxRes;
 	in.close();
 	out.close();
 	
