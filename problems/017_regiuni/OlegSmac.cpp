@@ -12,7 +12,7 @@ int numComponents;
 stack<int> orderVertices;
 vector<bool> marked;
 
-void dfs(int v, unordered_map<int, vector<int>> revPaths) {
+void dfs(int v, unordered_map<int, vector<int>>& revPaths) {
 	marked[v] = true;
 	if (revPaths.find(v) != revPaths.end()) {
 		for (int i : revPaths[v]) {
@@ -27,7 +27,7 @@ void dfs(int v, unordered_map<int, vector<int>> revPaths) {
 	}
 }
 
-void findOrderVertices(unordered_map<int, vector<int>> p) {
+void findOrderVertices(unordered_map<int, vector<int>>& p) {
 	unordered_map<int, vector<int>> revPaths;
 	for (int i = 0; i < p.size(); i++) {
 		vector<int> listI = p[i];
