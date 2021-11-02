@@ -12,21 +12,21 @@ int main() {
 	in.close();		
 
 	// c[i][j] - number of combinations of i coins with weight j
-        vector<vector<long>> c(N + 1, vector<long>(G + 1, 0));	
+        vector<vector<long long>> c(N + 1, vector<long long>(G + 1, 0));	
 	
 	// mc[i][j] - minimum value of i coins with weight j 
-	vector<vector<long>> mc(N + 1, vector<long>(G + 1, LONG_MAX)); 
+	vector<vector<long long>> mc(N + 1, vector<long long>(G + 1, LONG_MAX)); 
 
 	// coin weight -> value mapping
 	vector<int> coins = {0, 1, 5, 10, 25, 50};
 
+	for (int j = 1; j < min(c[0].size(), coins.size()); j++) {
+		c[1][j] = 1;
+		mc[1][j] = coins[j];
+	}
+	
 	for (int i = 1; i < c.size(); i++) {
 		for (int j = 1; j < c[0].size(); j++) {
-			if (i == 1 && j < coins.size()) {
-				c[i][j] = 1;
-				mc[i][j] = coins[j];
-			}
-
 			for (int k = 1; k < coins.size(); k++) {
 				
 				// boundary check
