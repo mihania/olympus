@@ -7,8 +7,7 @@ using namespace std;
 int main() {
 	ifstream in("in.txt");
 	int N, G;
-	in >> N;
-	in >> G;
+	in >> N >> G;
 	in.close();		
 
 	// c[i][j] - number of combinations of i coins with weight j
@@ -27,16 +26,11 @@ int main() {
 	
 	for (int i = 1; i < c.size(); i++) {
 		for (int j = 1; j < c[0].size(); j++) {
-			for (int k = 1; k < coins.size(); k++) {
+			for (int k = 1; k < min(j + 1, (int)coins.size()); k++) {
 				
-				// boundary check
-				if (j - k >= 0 
-						// checking that a combination exist
-						&& c[i - 1][j - k] > 0 
-
-						// preventing duplicate combinations
-						&& j - k >= k) {
-
+				// checking that a combination exist
+				// preventing duplicate combinations
+				if (c[i - 1][j - k] > 0 && j - k >= k) {
 					c[i][j] += c[i - 1][j - k];
 					mc[i][j] = min(mc[i][j], mc[i - 1][j - k] + coins[k]);
 				}
@@ -45,10 +39,7 @@ int main() {
  	}
 
 	ofstream out("out.txt");
-	out << (c[N][G] == 0 ? 0 : mc[N][G]);
-	out << " ";
-	out << c[N][G];
-	out << endl;
+	out << (c[N][G] == 0 ? 0 : mc[N][G]) << " " << c[N][G] << endl;
 	out.close();
 	return 0;
 }
