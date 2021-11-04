@@ -5,36 +5,31 @@
 
 using namespace std;
 
-int checkCoincidence(vector<char>& s1, vector<char>& s2) {
-	int L = 0;
-	for (int i = 0; i < s1.size(); i++) {
-		if (s1[i] == s2[i]) {
-			L++;
-		}
-	}
-	return L;
-}
-
 int main() {
-	ifstream in("in1.txt");
+	ifstream in("in2.txt");
 	ofstream out("res.txt");
-	vector<char> s1;
-	vector<char> s2;
+	vector<int> letters;
 	int G = 0;
-	while (in.peek() != '\n') { //reading first line
-		char c;
-		in >> c; 
-		s1.push_back(c);
+	string s1;
+	in >> s1;
+	string s2;
+	in >> s2;
+	int len1 = s1.size();
+	int len2 = s2.size();
+	for (char c = 'a'; c < 'z'; c++) {
+		letters.push_back(0);
 	}
-	while (in.peek() != EOF) { //reading second line and search
-		char c;
-		in >> c;
-		s2.push_back(c);
-		if (s2.size() == s1.size()) {
-			G += checkCoincidence(s1, s2);
-			s2.erase(s2.begin());
+	
+	for (int i = 0; i < len2; i++) {
+		if (i < len1) {
+			letters[s1[i] - 'a']++;
+		}
+		G += letters[s2[i] - 'a'];
+		if (i >= len2 - len1) {
+			letters[s1[len1 - len2 + i] - 'a']--;
 		}
 	}
+	
 	cout << "G = " << G << endl;
 	out << G;
 	in.close();
