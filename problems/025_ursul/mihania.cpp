@@ -8,19 +8,6 @@ using namespace std;
 // 4-way directions: north, east, south, west.
 int dpp[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}}; 
 
-
-void printf(vector<vector<int>> m) {
-	for (auto& v : m) {
-		for (auto k : v) {
-			printf("%d ", k);
-		}
-
-		printf("\n");
-	}
-
-	printf("\n");
-}
-
 // return T[i][j], where T[i][j] is the minimum time the bee can reach the cell i, j 
 vector<vector<int>> getMinBeeTime(vector<string>& m) {
 	vector<vector<int>> res(m.size(), vector<int>(m.size(), INT_MAX));
@@ -64,8 +51,6 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 		}
 	}
 
-	printf(res);
-
 	return res;
 }
 
@@ -78,7 +63,7 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 	// bearTime[i][j] = max bear time to leave cell {i, j} before safely getting into house.	
 	vector<vector<int>> bearTime(m.size(), vector<int>(m.size(), -1));
 
-	bearTime[housePos.first][housePos.second] = beeTime[housePos.first][housePos.second];
+	bearTime[housePos.first][housePos.second] = beeTime[housePos.first][housePos.second] - 1;
 	q.push({housePos.first, housePos.second, S});
 	
 	while (!q.empty()) {
@@ -95,25 +80,22 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 			if (ni >= 0 && ni < m.size() && nj >= 0 && nj < m[0].size() 
 					
 					// can bear run to ni nj?
-					&& m[ni][nj] == 'G') {
+					&& (m[ni][nj] == 'G' ||  m[ni][nj] == 'M')) {
 
-				
-				int time = bearTime[i][j] - (remSteps == 0 ? 1 : 0);
+				int pureTime  = bearTime[i][j] - (remSteps == 0 ? 1 : 0);
+				int safeTime  = min(beeTime[ni][nj] - 1, pureTime);
 
-				// is bear time increasing?
-				if (bearTime[ni][nj] < time 
-				
-					// can bear get faster then the bee?
-					&& time <= beeTime[ni][nj]) {
-						bearTime[ni][nj] = time;
-						q.push({ni, nj, (remSteps == 0 ? S : remSteps - 1)});
+				// is bear time valid
+				if (safeTime >= 0 
+						// is bear time better?
+						&& bearTime[ni][nj] < safeTime) {
+					bearTime[ni][nj] = safeTime;
+					q.push({ni, nj, pureTime == safeTime ? (remSteps == 0 ? S : remSteps - 1) : S});
 				}
 			}	
 		}
 	}
 
-	
-	printf(bearTime);
 	return bearTime[bearPos.first][bearPos.second];
 }
 
@@ -121,7 +103,7 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 int main() {
 
 	// reading input
-	ifstream in("in.txt");
+	ifstream in("in2.txt");
 	int N, S;
 	in >> N >> S;
 	vector<string> m(N);
