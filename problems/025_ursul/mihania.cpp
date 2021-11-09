@@ -96,14 +96,15 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 		}
 	}
 
-	return bearTime[bearPos.first][bearPos.second];
+	// checking for case when bear is absolutely safe to start at any time
+	return bearTime[bearPos.first][bearPos.second] > m.size() * m.size() ? -1 : bearTime[bearPos.first][bearPos.second];
 }
 
 
 int main() {
 
 	// reading input
-	ifstream in("in2.txt");
+	ifstream in("in1.txt");
 	int N, S;
 	in >> N >> S;
 	vector<string> m(N);
