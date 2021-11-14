@@ -26,7 +26,7 @@ int main() {
 			for (int t = 1; t < min(j + 1, (int)coins.size()); t++) {
 				if (k[i - 1][j - t] > 0 && j - t >= t) {
 					k[i][j] += k[i - 1][j - t];
-					m[i][j] = coins[t] + min(m[i][j], m[i - 1][j - t]);
+					m[i][j] =  min(m[i][j], m[i - 1][j - t] + coins[t]);
 				}
 			}
 		}
