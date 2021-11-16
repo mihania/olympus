@@ -80,14 +80,15 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 
 
 int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, pair<int, int>& bearPos, pair<int, int>& housePos) {
-	// queue of i, j, remaining steps
+	// queue of i, j, remaining steps left before entering the cell.
 	queue<tuple<int, int, int>> q;
 
-	// bearTime[i][j] = max bear time to enter cell {i, j} before safely getting into house.	
+	// bearTime[i][j] = max bear time to leave cell {i, j}	
 	vector<vector<int>> bearTime(m.size(), vector<int>(m.size(), -1));
 
-	// bee cannot enter bear house, so setting it to unreacheable time.
-	bearTime[housePos.first][housePos.second] = m.size() * m.size();
+	// as bear won't leave the hose, bear time does not matter in house cell,  setting to a high number.
+	int maxTime = m.size() * m.size();
+	bearTime[housePos.first][housePos.second] = maxTime;
 	q.push({housePos.first, housePos.second, S - 1});
 	
 	while (!q.empty()) {
@@ -107,15 +108,16 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 					// can bear run to ni nj?
 					&& (m[ni][nj] == 'G' ||  m[ni][nj] == 'M')) {
 
+
 				int pureTime  = bearTime[i][j] - (remSteps == 0 ? 1 : 0);
-				int safeTime  = min(beeTime[ni][nj] - 1, pureTime);
-				printf("[%d,%d]->[%d,%d] pureTime=%d safeTime=%d remSteps=%d\n", i, j, ni, nj, pureTime, safeTime, remSteps);
+				int safeTime  = min(beeTime[ni][nj], pureTime);
+				// printf("[%d,%d]->[%d,%d] pureTime=%d safeTime=%d remSteps=%d\n", i, j, ni, nj, pureTime, safeTime, remSteps);
 				// is bear time valid
 				if (safeTime >= 0 
 						// is bear time better?
 						&& bearTime[ni][nj] <  safeTime) {
 					bearTime[ni][nj] = safeTime;
-					q.push({ni, nj, pureTime == safeTime ? (remSteps == 0 ? S - 1 : remSteps - 1) : S - 1});
+					q.push({ni, nj, beeTime[ni][nj] < pureTime ? S - 1 : (remSteps == 0 ? S - 1 : remSteps - 1)});
 				}
 
 			//	print(bearTime);
@@ -124,8 +126,8 @@ int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, 
 	}
 
 	// checking for case when bear is absolutely safe to start at any time
-	print(bearTime);
-	return bearTime[bearPos.first][bearPos.second] > m.size() * m.size() ? -1 : bearTime[bearPos.first][bearPos.second];
+	// print(bearTime);
+	return bearTime[bearPos.first][bearPos.second] == maxTime ? -1 : max(0, bearTime[bearPos.first][bearPos.second] - 1);
 }
 
 class Test {
@@ -139,8 +141,8 @@ public:
 int solve(Test& test) {
 	pair<int, int> bearPos;
 	pair<int, int> housePos;
-	printf("%d %d\n", test.N, test.S);
-	print(test.m);
+	// printf("%d %d\n", test.N, test.S);
+	// print(test.m);
 	for (int i = 0; i < test.m.size(); i++) {
 		for (int j = 0; j < test.m[i].length(); j++) {
 			if (test.m[i][j] == 'M') {
@@ -153,7 +155,7 @@ int solve(Test& test) {
 
 	// calculations
 	vector<vector<int>> beeTime = getMinBeeTime(test.m);
-	print(beeTime);
+	// print(beeTime);
 	return getMaxBearStartTime(test.m, beeTime, test.S, bearPos, housePos);
 }
 
@@ -181,7 +183,7 @@ int main() {
 	// writing output 
 	ofstream out("tests.out");
 	for (int i = 0; i < tests.size(); i++) {
-		if (i == 5) 
+		// if (i == 2) 
 		{
 			out << solve(tests[i]) << endl;
 		}
