@@ -71,11 +71,7 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 					// can min bee time be decreased?
 					&& res[ni][nj] > res[i][j] + 1) {
 				res[ni][nj] = res[i][j] + 1;
-
-				// bee cannot fly from bear's house.
-				if (m[ni][nj] != 'D') {
-					q.push({ni, nj});
-				}
+				q.push({ni, nj});
 			}
 		}
 	}
