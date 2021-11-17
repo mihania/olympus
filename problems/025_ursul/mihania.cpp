@@ -157,15 +157,16 @@ int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int
 			start = mid;
 		} else {
 			end = mid - 1;
-			if (end == 0) {
-				end = -1;
-			}
 		}
 		
 		// printf("start=%d end=%d\n", start, end);
 	}
 
-	return end == cellCount ? -1 : end;
+	if (end == 0 && !canBearReachHome(test, beeTime, bearPos, housePos, 0)) {
+		end = -1;
+	}
+
+	return end == cellCount ?  -1 : end;
 }
 
 
