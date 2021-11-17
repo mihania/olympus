@@ -31,6 +31,13 @@ void print(vector<string>& v) {
 
 }
 
+class Test {
+public:
+	int N;
+	int S;
+	vector<string> m;
+};
+
 // return T[i][j], where T[i][j] is the minimum time the bee can enter the cell i, j 
 vector<vector<int>> getMinBeeTime(vector<string>& m) {
 	vector<vector<int>> res(m.size(), vector<int>(m.size(), m.size() * m.size()));
@@ -58,9 +65,8 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 					// checking boundaries
 					ni >= 0 && ni < m.size() && nj >= 0 && nj < m[0].size() 
 						
-					// can bee fly? we allow to fly into the house to check the bee time in the house,
-					// but won't let the bee fly out of the house.
-					&& m[ni][nj] != 'T'
+					// can bee fly into?
+					&& m[ni][nj] != 'T' && m[ni][nj] != 'D'
 
 					// can min bee time be decreased?
 					&& res[ni][nj] > res[i][j] + 1) {
@@ -77,72 +83,97 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 	return res;
 }
 
+bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>& bearPos, pair<int, int>& housePos, int startTime) {
+	queue<tuple<int, int, int, int>> q;
+	q.push({bearPos.first, bearPos.second, startTime, test.S - 1});
 
+	// bearTime[i][j] = min  bear time to reach cell {i, j}	
+	vector<vector<int>> bearTime(test.m.size(), vector<int>(test.m.size(), test.m.size() * test.m.size()));
+	bearTime[bearPos.first][bearPos.second] = startTime;
 
-int getMaxBearStartTime(vector<string>& m, vector<vector<int>>& beeTime, int S, pair<int, int>& bearPos, pair<int, int>& housePos) {
-	// queue of i, j, remaining steps left before entering the cell.
-	queue<tuple<int, int, int>> q;
-
-	// bearTime[i][j] = max bear time to leave cell {i, j}	
-	vector<vector<int>> bearTime(m.size(), vector<int>(m.size(), -1));
-
-	// as bear won't leave the hose, bear time does not matter in house cell,  setting to a high number.
-	int maxTime = m.size() * m.size();
-	bearTime[housePos.first][housePos.second] = maxTime;
-	q.push({housePos.first, housePos.second, S - 1});
-	
 	while (!q.empty()) {
 		int i = get<0>(q.front());
 		int j = get<1>(q.front());
-		int remSteps = get<2>(q.front());
-		//printf("i=%d j=%d remSteps=%d\n", i, j, remSteps);
+		
+		// source bear time
+		int t = get<2>(q.front());
+
+		// remaining steps
+		int rs = get<3>(q.front());
 		q.pop();
+		
 
 		for (auto& dp : dpp) {
 			int ni = i + dp[0];
 			int nj = j + dp[1];
-			
-			// checking boundaries
-			if (ni >= 0 && ni < m.size() && nj >= 0 && nj < m[0].size() 
+
+			if (
+					// checking boundaries
+					ni >= 0 && ni < test.m.size() && nj >= 0 && nj < test.m[0].size() 
 					
-					// can bear run to ni nj?
-					&& (m[ni][nj] == 'G' ||  m[ni][nj] == 'M')) {
+					// can bear run to a new cell?	
+					&& (test.m[ni][nj] != 'T') 
+					) {
+				
+				// new bear time
+				int nt = rs > 0 ? t : t + 1;
+				
+				// new remaining steps
+				int nrs = rs > 0 ? rs - 1 : test.S - 1;
 
+				if (bearTime[ni][nj] > nt) {
+					bearTime[ni][nj] = nt;
 
-				int pureTime  = bearTime[i][j] - (remSteps == 0 ? 1 : 0);
-				int safeTime  = min(beeTime[ni][nj], pureTime);
-				// printf("[%d,%d]->[%d,%d] pureTime=%d safeTime=%d remSteps=%d\n", i, j, ni, nj, pureTime, safeTime, remSteps);
-				// is bear time valid
-				if (safeTime >= 0 
-						// is bear time better?
-						&& bearTime[ni][nj] <  safeTime) {
-					bearTime[ni][nj] = safeTime;
-					q.push({ni, nj, beeTime[ni][nj] < pureTime ? S - 1 : (remSteps == 0 ? S - 1 : remSteps - 1)});
-				}
-
-			//	print(bearTime);
-			}	
+					// if bear reach the house, we are ending here.
+					if (test.m[ni][nj] == 'D') {
+						// print(bearTime);
+						return true;
+					}
+					
+					// if bear reach the cell before the bee, he can continue running to a house.
+					if (bearTime[ni][nj] < beeTime[ni][nj]) {
+						q.push({ni, nj, nt, nrs});
+					}
+				}	
+			}
 		}
+
 	}
 
-	// checking for case when bear is absolutely safe to start at any time
 	// print(bearTime);
-	return bearTime[bearPos.first][bearPos.second] == maxTime ? -1 : max(0, bearTime[bearPos.first][bearPos.second] - 1);
+	return false;
+		
 }
 
-class Test {
-public:
-	int N;
-	int S;
-	vector<string> m;
-	int res;
-};
+int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int>& bearPos, pair<int, int>& housePos) {
+	
+	// binary searching the right most startTime.
+	int start = 0;
+	const int cellCount = test.m.size() * test.m.size();
+	int end = cellCount;
+	while (start < end) {
+		int mid = start + (end - start + 1) / 2;
+		if (canBearReachHome(test, beeTime, bearPos, housePos, mid)) {
+			start = mid;
+		} else {
+			end = mid - 1;
+			if (end == 0) {
+				end = -1;
+			}
+		}
+		
+		// printf("start=%d end=%d\n", start, end);
+	}
+
+	return end == cellCount ? -1 : end;
+}
+
 
 int solve(Test& test) {
 	pair<int, int> bearPos;
 	pair<int, int> housePos;
-	// printf("%d %d\n", test.N, test.S);
-	// print(test.m);
+//	printf("%d %d\n", test.N, test.S);
+//	print(test.m);
 	for (int i = 0; i < test.m.size(); i++) {
 		for (int j = 0; j < test.m[i].length(); j++) {
 			if (test.m[i][j] == 'M') {
@@ -156,7 +187,7 @@ int solve(Test& test) {
 	// calculations
 	vector<vector<int>> beeTime = getMinBeeTime(test.m);
 	// print(beeTime);
-	return getMaxBearStartTime(test.m, beeTime, test.S, bearPos, housePos);
+	return getMaxBearStartTime(test, beeTime, bearPos, housePos);
 }
 
 int main() {
@@ -183,9 +214,11 @@ int main() {
 	// writing output 
 	ofstream out("tests.out");
 	for (int i = 0; i < tests.size(); i++) {
-		// if (i == 2) 
+		// if (i == 14) 
 		{
-			out << solve(tests[i]) << endl;
+			int res = solve(tests[i]);
+			printf("test=%d res=%d\n", i, res);
+			out << res << endl;
 		}
 	}
 
