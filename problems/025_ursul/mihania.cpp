@@ -144,11 +144,11 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int>& bearPos, pair<int, int>& housePos) {
 	
 	// binary searching the right most startTime.
-	int start = 0;
+	int start = -1;
 	const int cellCount = test.m.size() * test.m.size();
 	int end = cellCount;
 	while (start < end) {
-		int mid = start + (end - start + 1) / 2;
+		int mid = max(0, start + (end - start + 1) / 2);
 		if (canBearReachHome(test, beeTime, bearPos, housePos, mid)) {
 			start = mid;
 		} else {
@@ -156,10 +156,6 @@ int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int
 		}
 		
 		// printf("start=%d end=%d\n", start, end);
-	}
-
-	if (end == 0 && !canBearReachHome(test, beeTime, bearPos, housePos, 0)) {
-		end = -1;
 	}
 
 	return end == cellCount ?  -1 : end;
