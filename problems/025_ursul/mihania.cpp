@@ -98,8 +98,15 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 		int rs = get<3>(q.front());
 		q.pop();
 		
+		// new bear time
+		int nt = rs > 0 ? t : t + 1;
+				
+		// new remaining steps
+		int nrs = rs > 0 ? rs - 1 : test.S - 1;
 
 		for (auto& dp : dpp) {
+			
+			// new bear coordinates
 			int ni = i + dp[0];
 			int nj = j + dp[1];
 
@@ -108,29 +115,24 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 					ni >= 0 && ni < test.m.size() && nj >= 0 && nj < test.m[0].size() 
 					
 					// can bear run to a new cell?	
-					&& (test.m[ni][nj] != 'T') 
-					) {
-				
-				// new bear time
-				int nt = rs > 0 ? t : t + 1;
-				
-				// new remaining steps
-				int nrs = rs > 0 ? rs - 1 : test.S - 1;
-
-				if (bearTime[ni][nj] > nt) {
-					bearTime[ni][nj] = nt;
-
-					// if bear reach the house, we are ending here.
-					if (test.m[ni][nj] == 'D') {
-						// print(bearTime);
-						return true;
-					}
+					&& (test.m[ni][nj] == 'G' || test.m[ni][nj] == 'D')
+			
+					// preventing infinity loop		
+					&& bearTime[ni][nj] > nt
 					
-					// if bear reach the cell before the bee, he can continue running to a house.
-					if (bearTime[ni][nj] < beeTime[ni][nj]) {
-						q.push({ni, nj, nt, nrs});
-					}
-				}	
+					// did bear get earlier than the bee?
+					&& nt < beeTime[ni][nj]) {
+				
+
+				// if bear reach the house, we are ending here.
+				if (test.m[ni][nj] == 'D') {
+					// print(bearTime);
+					return true;
+				}
+					
+					
+				bearTime[ni][nj] = nt;
+				q.push({ni, nj, nt, nrs});		
 			}
 		}
 
@@ -165,8 +167,8 @@ int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int
 int solve(Test& test) {
 	pair<int, int> bearPos;
 	pair<int, int> housePos;
-//	printf("%d %d\n", test.N, test.S);
-//	print(test.m);
+	// printf("%d %d\n", test.N, test.S);
+	// print(test.m);
 	for (int i = 0; i < test.m.size(); i++) {
 		for (int j = 0; j < test.m[i].length(); j++) {
 			if (test.m[i][j] == 'M') {
@@ -207,10 +209,10 @@ int main() {
 	// writing output 
 	ofstream out("tests.out");
 	for (int i = 0; i < tests.size(); i++) {
-		// if (i == 14) 
+		// if (i == 0 /*|| i == 14 || i == 73 || i == 74*/) 
 		{
 			int res = solve(tests[i]);
-			printf("test=%d res=%d\n", i, res);
+			// printf("test=%d res=%d\n", i, res);
 			out << res << endl;
 		}
 	}
