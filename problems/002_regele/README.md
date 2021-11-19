@@ -61,3 +61,7 @@ REGE.OUT
 8
 36
 ```
+
+# Похожие задачи
+
+1. [78. Subsets](https://leetcode.com/problems/subsets/)
