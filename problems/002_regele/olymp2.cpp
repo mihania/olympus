@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 int main (){
-    int n, s, x, m, rem_soldats; //x ıòî ñóììà çíà÷åíèé ñòğàí
+    int n, s, x, m, rem_soldats; //x - ÑÑ‚Ğ¾ ÑÑƒĞ¼Ğ¼Ğ° Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğ¹ Ğ·Ğ°Ğ²Ğ¾Ñ‘Ğ²Ğ°Ğ½Ğ½Ñ‹Ñ… ÑÑ‚Ñ€Ğ°Ğ½(Ğ¸Ñ… ÑĞ¾Ğ»Ğ´Ğ°Ñ‚)
     cin >> n >> s;
     int *a = new int[n];
     m = 0;
