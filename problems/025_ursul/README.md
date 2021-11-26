@@ -121,4 +121,5 @@ tests.out
 ```
 
 # Похожие задачи
-https://leetcode.com/problems/cat-and-mouse-ii/
+1. [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+2. [1728. Cat and Mouse II](https://leetcode.com/problems/cat-and-mouse-ii/)
