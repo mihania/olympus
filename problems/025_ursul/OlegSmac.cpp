@@ -31,26 +31,27 @@ int computation(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& t
 		}
 	}
 	
-	vector<int> line;
+	vector<vector<int>> empty;
 	for (int i = 0; i < N; i++) {
-		line.push_back(-1);
+		vector<int> line;
+		for (int j = 0; j < N; j++) {
+			line.push_back(-1);
+		}
+		empty.push_back(line);
 	}
 	
-	for (int i = 0; i < N; i++) {
-		vector<vector<int>> timeOfMekko;
-		for (int j = 0; j < N; j++) {
-			timeOfMekko.push_back(line);
-		}
+	for (int i = 0; i < N * N; i++) {
+		vector<vector<int>> timeOfMekko(empty);
 		timeOfMekko[Mekko.first][Mekko.second] = i;
 		queue<vector<int>> MekkoWay;
-		vector<int> p = {Mekko.first, Mekko.second, i, 0}; //(row, col, minute, steps)
+		vector<int> p = {Mekko.first, Mekko.second, 0}; //(row, col, steps)
 		MekkoWay.push(p);
 		while (!MekkoWay.empty()) {
 			vector<int> p = MekkoWay.front();
 			int row = p[0];
 			int col = p[1];
-			int minute = p[2];
-			int steps = p[3];
+			int steps = p[2] + 1;
+			int minute = timeOfMekko[row][col];
 			if (steps == S) {
 				minute++;
 				steps = 0;
@@ -67,20 +68,26 @@ int computation(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& t
 						timeOfMekko[row + v[0]][col + v[1]] = minute;
 						p[0] = row + v[0];
 						p[1] = col + v[1];
-						p[2] = minute;
-						p[3] = steps + 1;
+						p[2] = steps;
 						MekkoWay.push(p);
 					}
 			}
 		}
+		/*
+		cout << "i = " << i << endl;
+		for (int x = 0; x < timeOfMekko.size(); x++) {
+			for (int y = 0; y < timeOfMekko[i].size(); y++) {
+				cout << timeOfMekko[x][y] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+		*/
 		if (timeOfMekko[D.first][D.second] == -1) {
 			return i - 1;
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					cout << timeOfMekko[i][j] << " ";
-				}
-				cout << endl;
-			}
+		}
+		else if (i == N * N - 1) {
+			return i;
 		}
 	}
 	
@@ -88,7 +95,7 @@ int computation(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& t
 }
 
 int main() {
-	ifstream in("in1.txt");
+	ifstream in("tests.in");
 	ofstream out("res.txt");
 	int kol;
 	in >> kol;

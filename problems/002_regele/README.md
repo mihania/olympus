@@ -65,3 +65,4 @@ REGE.OUT
 # Похожие задачи
 
 1. [78. Subsets](https://leetcode.com/problems/subsets/)
+2. [300. Longest increasing subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
