@@ -8,29 +8,6 @@ using namespace std;
 // 4-way directions: north, east, south, west.
 int dpp[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}}; 
 
-void print(vector<vector<int>>& v) {
-	for (vector<int>& vv : v) {
-		for (int k : vv) {
-			printf("%d\t", k);
-		}
-
-		printf("\n");
-	}
-
-	printf("\n");
-
-}
-
-
-void print(vector<string>& v) {
-	for (string& s : v) {	
-		printf("%s\n", s.c_str());
-	}
-
-	printf("\n");
-
-}
-
 class Test {
 public:
 	int N;
@@ -87,6 +64,7 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 	vector<vector<int>> bearTime(test.m.size(), vector<int>(test.m.size(), test.m.size() * test.m.size()));
 	bearTime[bearPos.first][bearPos.second] = startTime;
 
+	// did bee bite bear at the starting position?
 	if (startTime >= beeTime[bearPos.first][bearPos.second]) {
 		return false;
 	}
@@ -142,7 +120,6 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 
 	}
 
-	// print(bearTime);
 	return false;
 		
 }
@@ -160,8 +137,6 @@ int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int
 		} else {
 			end = mid - 1;
 		}
-		
-		// printf("start=%d end=%d\n", start, end);
 	}
 
 	return end == cellCount ?  -1 : end;
@@ -171,8 +146,6 @@ int getMaxBearStartTime(Test& test,  vector<vector<int>>& beeTime, pair<int, int
 int solve(Test& test) {
 	pair<int, int> bearPos;
 	pair<int, int> housePos;
-	// printf("%d %d\n", test.N, test.S);
-	// print(test.m);
 	for (int i = 0; i < test.m.size(); i++) {
 		for (int j = 0; j < test.m[i].length(); j++) {
 			if (test.m[i][j] == 'M') {
@@ -185,7 +158,6 @@ int solve(Test& test) {
 
 	// calculations
 	vector<vector<int>> beeTime = getMinBeeTime(test.m);
-	// print(beeTime);
 	return getMaxBearStartTime(test, beeTime, bearPos, housePos);
 }
 
@@ -213,12 +185,7 @@ int main() {
 	// writing output 
 	ofstream out("tests.out");
 	for (int i = 0; i < tests.size(); i++) {
-		// if (i == 13 /*|| i == 14 || i == 73 || i == 74*/) 
-		{
-			int res = solve(tests[i]);
-			// printf("test=%d res=%d\n", i, res);
-			out << res << endl;
-		}
+		out << solve(tests[i]) << endl;
 	}
 
 	out.close();
