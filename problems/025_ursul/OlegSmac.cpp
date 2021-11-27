@@ -71,14 +71,6 @@ int computation(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& t
 		}
 	}
 	
-	/*
-	for (int i = 0; i < N * N; i++) {
-		if (canBearReach(N, S, grid, timeOfBees, Mekko, D, i) == false) {
-			return i - 1;
-		}
-	}
-	*/
-	
 	int low = 0;
 	int high = N * N;
 	while (low < high) {
