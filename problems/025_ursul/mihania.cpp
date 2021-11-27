@@ -11,7 +11,7 @@ int dpp[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 void print(vector<vector<int>>& v) {
 	for (vector<int>& vv : v) {
 		for (int k : vv) {
-			printf("%d ", k);
+			printf("%d\t", k);
 		}
 
 		printf("\n");
@@ -40,7 +40,7 @@ public:
 
 // return T[i][j], where T[i][j] is the minimum time the bee can enter the cell i, j 
 vector<vector<int>> getMinBeeTime(vector<string>& m) {
-	vector<vector<int>> res(m.size(), vector<int>(m.size(), m.size() * m.size()));
+	vector<vector<int>> res(m.size(), vector<int>(m.size(), -1));
   	queue<pair<int, int>> q;	
 	for (int i = 0; i < m.size(); i++) {
 		for (int j = 0; j < m[i].size(); j++) {
@@ -69,7 +69,7 @@ vector<vector<int>> getMinBeeTime(vector<string>& m) {
 					&& m[ni][nj] != 'T' && m[ni][nj] != 'D'
 
 					// can min bee time be decreased?
-					&& res[ni][nj] > res[i][j] + 1) {
+					&& (res[ni][nj] == -1 || res[ni][nj] > res[i][j] + 1)) {
 				res[ni][nj] = res[i][j] + 1;
 				q.push({ni, nj});
 			}
@@ -86,6 +86,10 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 	// bearTime[i][j] = min  bear time to reach cell {i, j}	
 	vector<vector<int>> bearTime(test.m.size(), vector<int>(test.m.size(), test.m.size() * test.m.size()));
 	bearTime[bearPos.first][bearPos.second] = startTime;
+
+	if (startTime >= beeTime[bearPos.first][bearPos.second]) {
+		return false;
+	}
 
 	while (!q.empty()) {
 		int i = get<0>(q.front());
@@ -121,7 +125,7 @@ bool canBearReachHome(Test& test, vector<vector<int>>& beeTime,  pair<int, int>&
 					&& bearTime[ni][nj] > nt
 					
 					// did bear get earlier than the bee?
-					&& nt < beeTime[ni][nj]) {
+					&& (nt < beeTime[ni][nj] || beeTime[ni][nj] == -1)) {
 				
 
 				// if bear reach the house, we are ending here.
@@ -209,7 +213,7 @@ int main() {
 	// writing output 
 	ofstream out("tests.out");
 	for (int i = 0; i < tests.size(); i++) {
-		// if (i == 0 /*|| i == 14 || i == 73 || i == 74*/) 
+		// if (i == 13 /*|| i == 14 || i == 73 || i == 74*/) 
 		{
 			int res = solve(tests[i]);
 			// printf("test=%d res=%d\n", i, res);
