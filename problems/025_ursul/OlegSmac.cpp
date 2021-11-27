@@ -7,7 +7,11 @@ using namespace std;
 
 vector<vector<int>> bound = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-bool canBearReach(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& timeOfBees, pair<int, int>& Mekko, pair<int, int>& D, int startTime) {
+bool canBearReach(int N, int S, vector<vector<char>>& grid, vector<vector<int>>& timeOfBees, 
+				  pair<int, int>& Mekko, pair<int, int>& D, int startTime) {
+	if (timeOfBees[Mekko.first][Mekko.second] <= startTime) {
+		return false;
+	}
 	vector<vector<int>> timeOfMekko(N, vector<int>(N, -1));
 	timeOfMekko[Mekko.first][Mekko.second] = startTime;
 	queue<vector<int>> MekkoWay;
