@@ -25,3 +25,9 @@ Regulamentul Olimpiadei.
 La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 însă, la evaluare, compilarea programelor sursă va fi făcută cu FreePascal
 şi GCC.
+
+# Задачи
+# | Название | Год | Класс | Уровень
+--- | ---| --- | --- | ---
+001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республика
+
