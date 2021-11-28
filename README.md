@@ -29,7 +29,7 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 # Задачи
 
 
-# | #1 | #2 | #3 | #4 | #5 |  
+ Number | #1 | #2 | #3 | #4 | #5 |  
 --- | --- | --- | --- |--- |--- |
 001 | 301 | 283 | 290 | 286 | 289 | 
 
