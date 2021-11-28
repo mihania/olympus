@@ -31,5 +31,6 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 
  Number | Название | Год | Класс | Уровень |  
 --- | --- | --- | --- |--- |
-001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республика |
+001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республиканская олимпиада Молдовы |
+055 | [Numer Sum](problems/055_numer_sum) | 2019 | 10-12 | Районная олимпиада Кишинева |
 
