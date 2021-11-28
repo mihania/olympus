@@ -29,6 +29,11 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 # Задачи
 
 
+Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
+
+
 # | Название | Год | Класс | Уровень
 --- | ---| --- | --- | ---
 001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республика
