@@ -16,12 +16,8 @@ bool isSign(char c) {
 
 bool check(string s) {
 	for (int i = 0; i < s.size(); i++) {
-		if ((s[i] < '0' || s[i] > '9') && (!isSign(s[i]))) {
-				return false;
-			}
-		if (i == 0 && isSign(s[i]) ||
-			i != 0 && isSign(s[i]) && isSign(s[i - 1]) ||
-			i == s.size() - 1 && isSign(s[i])) {
+		if (((s[i] < '0' || s[i] > '9') && (!isSign(s[i]))) ||
+			(isSign(s[i]) && (i == 0 || i != 0 && isSign(s[i - 1]) || i == s.size() - 1))) {
 				return false;
 			}
 	} 
