@@ -31,10 +31,5 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 
  Number | Название | Год | Класс | Уровень |  
 --- | --- | --- | --- |--- |
-001 | 301 | 283 | 290 | 286 | 
-
-
-# | Название | Год | Класс | Уровень
---- | ---| --- | --- | ---
-001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республика
+001 | [Numere de Inmatriculare](problems/001_numere_de_inmatriculare) | 2014 | 7-9 | Республика |
 
