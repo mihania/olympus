@@ -14,9 +14,6 @@ long solve(const long N, long S, vector<long>& c2) {
 	// S cannot be bigger than sum of tickets
 	S = min(S, accumulate(c.begin(), c.end(), (long)0));
 	
-	
-	sort(c.begin(), c.end());
-
 	// m[i][j] - number of different tickets to buy with i money if we have only j tickets
 	unordered_map<long, unordered_map<int, long>> m;	
 
