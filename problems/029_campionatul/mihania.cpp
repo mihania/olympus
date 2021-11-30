@@ -15,12 +15,13 @@ long solve(const long N, long S, vector<long>& c2) {
 	S = min(S, accumulate(c.begin(), c.end(), (long)0));
 	
 	// m[i][j] - number of different tickets to buy with i money if we have only j tickets
-	unordered_map<long, unordered_map<int, long>> m;	
+	vector<vector<long>> m(S + 1, vector<long>(c.size(), 0));
 
 	// 1 - is the empty set.
 	long res = 1;
 	for (long i = 0; i <= S; i++) {
 		for (int j = 0; j < c.size(); j++) {
+			m[i][j] = 0;
 			long sum = 0;
 
 			// if we don't take the coin.
@@ -41,7 +42,6 @@ long solve(const long N, long S, vector<long>& c2) {
 			if (sum > 0) {
 				res += sum;
 				m[i][j] += sum;
-			//	printf("[%ld, %d]=%ld\n", i, j, sum);
 			}			
 		}
 	}
