@@ -22,21 +22,7 @@ long solve(const long N, long S, vector<long>& c2) {
 
 	// 1 - is the empty set.
 	long res = 1;
-	m[0][-1] = 1;
 	for (long i = 0; i <= S; i++) {
-		bool isValid = false;
-		for (int k : c) {
-			if (i - k >= 0 && m[i - k][-1] == 1) {
-				isValid = true;
-				break;
-			}
-		}
-
-		if (i > 0 && !isValid) {
-			continue;
-		}
-
-		m[i][-1] = 1;
 		for (int j = 0; j < c.size(); j++) {
 			long sum = 0;
 
