@@ -18,15 +18,22 @@ long long solve(const long long N, long long S, vector<long long>& c2) {
     	m[0] = 1;
     	for (auto k : c) {
 		vector<long long> values;
-	       	for (auto it = m.rbegin(); it != m.rend(); it++) {
-			values.push_back(it->first);
-		}	
-
-		for (auto i : values) {
-			if (i + k <= S) {
-			 	m[i + k] += m[i];
+	       	long long prev = -1;
+		for (auto it = m.rbegin(); it != m.rend(); it++) {
+			
+			// inserting a new element in the map changes the iterator order. dirty fix to not go 
+			// over the same element again.
+			auto i = it->first;
+			if (prev == i) {
+				continue;
 			}
-		}
+
+			prev = i;
+			
+			if (i + k <= S) {
+			 	m[i + k] += m[i];	
+			}
+		}	
     	}
 
     	long long res = 0;
