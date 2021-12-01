@@ -5,14 +5,6 @@
 #include<set>
 using namespace std;
 
-void printf(vector<long long>& v) {
-	for (auto k : v) {
-		printf("%lld ", k);
-	}
-
-	printf("\n");
-}
-
 long long solve(const long long N, long long S, vector<long long>& c2) {
 	vector<long long> c;
 	
@@ -22,8 +14,6 @@ long long solve(const long long N, long long S, vector<long long>& c2) {
 	// S cannot be bigger than sum of tickets
 	S = min(S, accumulate(c.begin(), c.end(), (long long)0));
 	
-	printf(c);
-
 	map<long long, long long> m;
     	m[0] = 1;
     	for (auto k : c) {
@@ -36,7 +26,6 @@ long long solve(const long long N, long long S, vector<long long>& c2) {
 			auto i = *it;
 			if (i + k <= S) {
 			 	m[i + k] += m[i];
-				printf("i=%lld k=%lld m[%lld]=%lld m[%lld]=%lld\n", i, k, i, m[i], i + k, m[i + k]);
 			}
 		}
     	}
@@ -62,18 +51,15 @@ int main() {
 		in >> N;
 		in >> S;
 		for (auto j = 0; j < N; j++) {
-			int v;
+			long long v;
 			in >> v;
 			c.push_back(v);
 		}
 		
-		if (i == 9) 
-		{
-			printf("i=%d N=%lld S=%lld\n", i, N, S);
-			long long res = solve(N, S, c);
-			out << res << endl;
-			printf(" res=%lld\n", res);
-		}
+		printf("i=%d N=%lld S=%lld\n", i, N, S);
+		long long res = solve(N, S, c);
+		out << res << endl;
+		printf(" res=%lld\n", res);
 	}
 
 
