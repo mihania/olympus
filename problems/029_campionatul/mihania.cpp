@@ -17,13 +17,12 @@ long long solve(const long long N, long long S, vector<long long>& c2) {
 	map<long long, long long> m;
     	m[0] = 1;
     	for (auto k : c) {
-		set<long long> values;
+		vector<long long> values;
 	       	for (auto it = m.rbegin(); it != m.rend(); it++) {
-			values.insert(it->first);
+			values.push_back(it->first);
 		}	
 
-		for (auto it = values.rbegin(); it != values.rend(); it++) {
-			auto i = *it;
+		for (auto i : values) {
 			if (i + k <= S) {
 			 	m[i + k] += m[i];
 			}

@@ -15,18 +15,10 @@ public class TestGenerator {
             testIn.newLine();
             for (int i = 0; i < tests.size(); i++) {
                 Test test = tests.get(i);
-                testIn.append(String.format("%d %d", test.m.size(), test.s));
+                testIn.append(test.first);
 		testIn.newLine();
-		if (i == 0) {
-			System.out.println(test.m);
-		}
-
-                for (long s : test.m) {
-			testIn.append(String.valueOf(s));
-			testIn.append(" ");
-                }
-
-                testOut.append(String.valueOf(test.expectedResult));
+		testIn.append(test.second);
+                testOut.append(test.expectedResult);
                 if (i != tests.size() - 1) {
                 	testIn.newLine();    
 			testOut.newLine();
@@ -68,12 +60,8 @@ public class TestGenerator {
         Test result = new Test();
         try {
             scanner = new Scanner(file);
-            result.n = scanner.nextInt();
-	    result.s = scanner.nextLong(); 
-            scanner.nextLine();
-	    for (int i = 0; i < result.n; i++) {
-            	result.m.add(scanner.nextLong());
-	    }
+            result.first = scanner.nextLine();
+	    result.second = scanner.nextLine(); 
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -83,11 +71,11 @@ public class TestGenerator {
         return result;
     }
 
-    private static long readOutput(File file) throws Exception {
+    private static String readOutput(File file) throws Exception {
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
-            return scanner.nextLong();
+            return scanner.nextLine();
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -97,10 +85,9 @@ public class TestGenerator {
 
     private static class Test {
         String testId;
-        int n;
-	long s;
-	List<Long> m = new ArrayList<>();
-        long expectedResult;
+        String first;
+	String second;
+        String expectedResult;
 	
 
         @Override
