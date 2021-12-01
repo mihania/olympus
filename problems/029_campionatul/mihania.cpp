@@ -1,49 +1,49 @@
 #include<fstream>
 #include<vector>
-#include<unordered_map>
+#include<map>
 #include<numeric>
-
+#include<set>
 using namespace std;
 
-long solve(const long N, long S, vector<long>& c2) {
-	vector<long> c;
+void printf(vector<long long>& v) {
+	for (auto k : v) {
+		printf("%lld ", k);
+	}
+
+	printf("\n");
+}
+
+long long solve(const long long N, long long S, vector<long long>& c2) {
+	vector<long long> c;
 	
 	// filter out elements greater than S
 	copy_if(c2.begin(), c2.end(), back_inserter(c), [S](long i) { return i <= S; });
 	
 	// S cannot be bigger than sum of tickets
-	S = min(S, accumulate(c.begin(), c.end(), (long)0));
+	S = min(S, accumulate(c.begin(), c.end(), (long long)0));
 	
-	// m[i][j] - number of different tickets to buy with i money if we have only j tickets
-	vector<vector<long>> m(S + 1, vector<long>(c.size(), 0));
+	printf(c);
 
-	// 1 - is the empty set.
-	long res = 1;
-	for (long i = 0; i <= S; i++) {
-		for (int j = 0; j < c.size(); j++) {
-			m[i][j] = 0;
-			long sum = 0;
+	map<long long, long long> m;
+    	m[0] = 1;
+    	for (auto k : c) {
+		set<long long> values;
+	       	for (auto it = m.rbegin(); it != m.rend(); it++) {
+			values.insert(it->first);
+		}	
 
-			// if we don't take the coin.
-			if (j > 0 &&  m[i][j - 1] > 0) {
-				m[i][j] += m[i][j - 1];
+		for (auto it = values.rbegin(); it != values.rend(); it++) {
+			auto i = *it;
+			if (i + k <= S) {
+			 	m[i + k] += m[i];
+				printf("i=%lld k=%lld m[%lld]=%lld m[%lld]=%lld\n", i, k, i, m[i], i + k, m[i + k]);
 			}
-
-			// if we take the coin and add to previous subset
-			if (j > 0 && c[j] <= i) {
-				sum += m[i - c[j]][j - 1];
-			}	
-			
-			// if we just take the coin by itsef {j}
-			if (i == c[j]) {
-				sum += 1;
-			}	
-
-			if (sum > 0) {
-				res += sum;
-				m[i][j] += sum;
-			}			
 		}
+    	}
+
+    	long long res = 0;
+	for (auto it : m) {
+		res += it.second;
 	}
 
 	return res;
@@ -55,24 +55,24 @@ int main() {
 	in >> T;
 
 	ofstream out("tests.out");
-	for (int i = 0; i < T; i++) {
-		long N;
-		long S;
-		vector<long> c;
+	for (auto i = 0; i < T; i++) {
+		long long N;
+		long long S;
+		vector<long long> c;
 		in >> N;
 		in >> S;
-		for (int j = 0; j < N; j++) {
+		for (auto j = 0; j < N; j++) {
 			int v;
 			in >> v;
 			c.push_back(v);
 		}
 		
-		// if (i < 10) 
+		if (i == 9) 
 		{
-			printf("i=%d N=%ld S=%ld", i, N, S);
-			long res = solve(N, S, c);
+			printf("i=%d N=%lld S=%lld\n", i, N, S);
+			long long res = solve(N, S, c);
 			out << res << endl;
-			printf(" res=%ld\n", res);
+			printf(" res=%lld\n", res);
 		}
 	}
 
