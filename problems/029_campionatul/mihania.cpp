@@ -1,18 +1,7 @@
 #include<fstream>
 #include<vector>
-#include<map>
 #include<numeric>
-#include<set>
 using namespace std;
-
-void printf(vector<long long>& v) {
-	return;
-	for (auto k : v) {
-		printf("%lld ", k);
-	}
-
-	printf("\n");
-}
 
 vector<long long> getSums(long long S, vector<long long>& c) {
 	vector<long long> res;
@@ -39,22 +28,13 @@ vector<long long> getSums(long long S, vector<long long>& c) {
 	return res;
 }
 
-long long solve(long long S, vector<long long>& c2) {
-	vector<long long> c = c2;
-	/*
+long long solve(long long S, vector<long long>& c) {
 	
-	// filter out elements greater than S
-	copy_if(c2.begin(), c2.end(), back_inserter(c), [S](long i) { return i <= S; });
-	
-	// S cannot be bigger than sum of tickets
-	S = min(S, accumulate(c.begin(), c.end(), (long long)0));
-	*/
+	// splitting array into two equal subarrays
+	auto v1 = vector<long long>(c.begin(), c.begin() + c.size() / 2);
+	auto v2 = vector<long long>(c.begin() + c.size() / 2, c.end());
 
-	vector<long long> v1 = vector<long long>(c.begin(), c.begin() + c.size() / 2);
-	vector<long long> v2 = vector<long long>(c.begin() + c.size() / 2, c.end());
-
-	printf(v1);
-	printf(v2);	
+	// calculating all possible subset sums in each array
 	auto s1 = getSums(S, v1);
 	auto s2 = getSums(S, v2);
 	
@@ -62,18 +42,12 @@ long long solve(long long S, vector<long long>& c2) {
 	
 	// erasing empty set from the second array
 	s2.erase(s2.begin());
-	printf(s1);
-	printf(s2);
 
+	// merging arrays subset sums
 	long long res = 0;
 	for (auto k : s1) {
 		auto it = upper_bound(s2.begin(), s2.end(), S - k);
-		// if (it != s2.end()) 
-		{
-			res += 1 + (it - s2.begin());
-		}
-
-		// printf("k=%lld res=%lld\n", k, res);	
+		res += 1 + (it - s2.begin());
 	}
 
 	return res;
@@ -86,8 +60,6 @@ int main() {
 
 	ofstream out("tests.out");
 	for (auto i = 0; i < T; i++) {
-		// if (i != 0) break;
-
 		long long N;
 		long long S;
 		vector<long long> c;
@@ -99,10 +71,7 @@ int main() {
 			c.push_back(v);
 		}
 		
-		printf("i=%d N=%lld S=%lld\n", i, N, S);
-		long long res = solve(S, c);
-		out << res << endl;
-		printf(" res=%lld\n", res);
+		out << solve(S, c) << endl;
 	}
 
 
