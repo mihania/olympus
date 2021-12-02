@@ -38,16 +38,12 @@ long solve(long S, vector<long>& c) {
 	auto s1 = getSums(S, v1);
 	auto s2 = getSums(S, v2);
 	
-	sort(s2.begin(), s2.end());
-	
-	// erasing empty set from the second array
-	s2.erase(s2.begin());
-
 	// merging arrays subset sums
+	sort(s2.begin(), s2.end());
 	long res = 0;
 	for (auto k : s1) {
 		auto it = upper_bound(s2.begin(), s2.end(), S - k);
-		res += 1 + (it - s2.begin());
+		res += it - s2.begin();
 	}
 
 	return res;
