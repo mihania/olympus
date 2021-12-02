@@ -5,34 +5,17 @@
 #include<set>
 using namespace std;
 
-map<long long, long long> getMap(long long S, vector<long long>& c) {
-	map<long long, long long> m;
-    	m[0] = 1;
-    	for (auto k : c) {
-		vector<long long> values;
-	       	long long prev = -1;
-		for (auto it = m.rbegin(); it != m.rend(); it++) {
-			
-			// inserting a new element in the map changes the iterator order. dirty fix to not go 
-			// over the same element again.
-			auto i = it->first;
-			if (prev == i) {
-				continue;
-			}
+void printf(vector<long long>& v) {
+	return;
+	for (auto k : v) {
+		printf("%lld ", k);
+	}
 
-			prev = i;
-			
-			if (i + k <= S) {
-			 	m[i + k] += m[i];	
-			}
-		}	
-    	}
-	
-	return m;
+	printf("\n");
 }
 
-map<long long, long long> getMap2N(long long S, vector<long long>& c) {
-	map<long long, long long> res;
+vector<long long> getSums(long long S, vector<long long>& c) {
+	vector<long long> res;
 	long long max = (long long)pow(2, c.size());
 	for (long long k = 0; k < max; k++) {
 		long long sum = 0;
@@ -45,49 +28,52 @@ map<long long, long long> getMap2N(long long S, vector<long long>& c) {
 
 			mask /= 2;
 			idx++;
-			// printf("\tmask=%lld idx=%d\n", mask, idx);
 		}
 
 		if (sum <= S) {
-			res[sum]++;
+			res.push_back(sum);
 		}
 
-		// printf("mask=%lld sum=%lld\n", mask, sum);
 	}
 
 	return res;
 }
 
 long long solve(long long S, vector<long long>& c2) {
-	vector<long long> c;
+	vector<long long> c = c2;
+	/*
 	
 	// filter out elements greater than S
 	copy_if(c2.begin(), c2.end(), back_inserter(c), [S](long i) { return i <= S; });
 	
 	// S cannot be bigger than sum of tickets
 	S = min(S, accumulate(c.begin(), c.end(), (long long)0));
+	*/
 
-	sort(c.begin(), c.end());
+	vector<long long> v1 = vector<long long>(c.begin(), c.begin() + c.size() / 2);
+	vector<long long> v2 = vector<long long>(c.begin() + c.size() / 2, c.end());
 
-	vector<long long> odd;
-	vector<long long> even;
-	for (int i = 0;i < c.size(); i++) {
-		if (i % 2 == 0) {
-			even.push_back(c[i]);
-		} else {
-			odd.push_back(c[i]);
-		}
-	}
+	printf(v1);
+	printf(v2);	
+	auto s1 = getSums(S, v1);
+	auto s2 = getSums(S, v2);
+	
+	sort(s2.begin(), s2.end());
+	
+	// erasing empty set from the second array
+	s2.erase(s2.begin());
+	printf(s1);
+	printf(s2);
 
-	map<long long, long long> evenM = getMap2N(S, even);
-	map<long long, long long> oddM = getMap2N(S, odd);
 	long long res = 0;
-	for (auto i : evenM) {
-		for (auto j : oddM) {
-			if (i.first + j.first <= S) {
-				res += i.second * j.second;
-			}
+	for (auto k : s1) {
+		auto it = upper_bound(s2.begin(), s2.end(), S - k);
+		// if (it != s2.end()) 
+		{
+			res += 1 + (it - s2.begin());
 		}
+
+		// printf("k=%lld res=%lld\n", k, res);	
 	}
 
 	return res;
@@ -100,6 +86,8 @@ int main() {
 
 	ofstream out("tests.out");
 	for (auto i = 0; i < T; i++) {
+		// if (i != 0) break;
+
 		long long N;
 		long long S;
 		vector<long long> c;
