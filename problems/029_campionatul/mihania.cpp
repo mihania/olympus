@@ -9,7 +9,7 @@ vector<long> getSums(long S, vector<long>& c) {
 	for (long k = 0; k < max; k++) {
 		long sum = 0;
 		int idx = 0;
-		auto mask = k;
+		long mask = k;
 		while (mask > 0) {
 			if (mask % 2 == 1) {
 				sum += c[idx];
@@ -22,7 +22,6 @@ vector<long> getSums(long S, vector<long>& c) {
 		if (sum <= S) {
 			res.push_back(sum);
 		}
-
 	}
 
 	return res;
@@ -31,17 +30,17 @@ vector<long> getSums(long S, vector<long>& c) {
 long solve(long S, vector<long>& c) {
 	
 	// splitting array into two equal subarrays
-	auto v1 = vector<long>(c.begin(), c.begin() + c.size() / 2);
-	auto v2 = vector<long>(c.begin() + c.size() / 2, c.end());
+	vector<long> v1(c.begin(), c.begin() + c.size() / 2);
+	vector<long> v2(c.begin() + c.size() / 2, c.end());
 
 	// calculating all possible subset sums in each array
-	auto s1 = getSums(S, v1);
-	auto s2 = getSums(S, v2);
+	vector<long> s1 = getSums(S, v1);
+	vector<long> s2 = getSums(S, v2);
 	
 	// merging arrays subset sums
 	sort(s2.begin(), s2.end());
 	long res = 0;
-	for (auto k : s1) {
+	for (long k : s1) {
 		auto it = upper_bound(s2.begin(), s2.end(), S - k);
 		res += it - s2.begin();
 	}
@@ -55,7 +54,7 @@ int main() {
 	in >> T;
 
 	ofstream out("tests.out");
-	for (auto i = 0; i < T; i++) {
+	for (int i = 0; i < T; i++) {
 		long N;
 		long S;
 		vector<long> c;
