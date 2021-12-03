@@ -57,3 +57,8 @@
 Множество М может иметь следующие значения: 
 * {} (Петр не покупает ни одного билета); 
 {1}; {3}; {4}; {5}; {1, 3}; {1, 4}; {3, 4} - всего 8 вариантов.
+
+
+# Похожие задачи
+1. [78. Subsets](https://leetcode.com/problems/subsets/)
+2. [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
