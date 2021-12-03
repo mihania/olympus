@@ -65,3 +65,4 @@ tests.out
 # Похожие задачи
 1. [78. Subsets](https://leetcode.com/problems/subsets/)
 2. [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+3. [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
