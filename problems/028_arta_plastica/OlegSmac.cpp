@@ -4,21 +4,21 @@
 
 using namespace std;
 
-void filling(vector<vector<int>>& rectangles, int a, int b, int c, int d) {
+void filling(vector<vector<bool>>& rectangles, int a, int b, int c, int d) {
 	for (int i = 0; i < rectangles.size(); i++) { //H
 		for (int j = 0; j < rectangles[i].size(); j++) { //W
 			if (i >= b && i < d && j >= a && j < c) {
-				rectangles[i][j] = 1;
+				rectangles[i][j] = true;
 			}
 		}
 	}
 }
 
-int solution(vector<vector<int>>& rectangles) {
+int solution(vector<vector<bool>>& rectangles) {
 	int res = 0;
 	for (int i = 0; i < rectangles.size(); i++) { //H
 		for (int j = 0; j < rectangles[i].size(); j++) { //W
-			if (rectangles[i][j] == 0) {
+			if (rectangles[i][j] == false) {
 				res++;
 			} 
 		}
@@ -35,7 +35,7 @@ int main() {
 	int a, b, c, d;
 	for (int i = 0; i < T; i++) {
 		in >> W >> H;
-		vector<vector<int>> rectangles(H, vector<int>(W, 0));
+		vector<vector<bool>> rectangles(H, vector<bool>(W, false));
 		in >> n;
 		for (int j = 0; j < n; j++) {
 			in >> a >> b >> c >> d;
