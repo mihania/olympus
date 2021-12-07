@@ -58,7 +58,3 @@ m, x, y разделенные пробелами. Следующие n стро
 1
 ```
 
-# Похожие задачи
-1. [127. Word Ladder](https://leetcode.com/problems/word-ladder/)
-
-
