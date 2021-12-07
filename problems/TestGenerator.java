@@ -5,20 +5,26 @@ import java.util.stream.*;
 
 public class TestGenerator {
     public static void main(String[] args) throws Exception {
-        List<Test> tests = loadTests();
+	if (args.length < 2) {
+		System.out.println("Usage TestGenerator [tests folder] [output folder]");
+		return;
+	}
+
         BufferedWriter testIn = null;
         BufferedWriter testOut = null;
+	String testCasesFolderName = args[0];
+	String outputFolder = args[1];
+
+        List<Test> tests = loadTests(testCasesFolderName);
         try {
-            testIn = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tests.in"), "utf-8"));
-            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tests.expected.out"), "utf-8"));
+            testIn = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFolder + "/tests.in"), "utf-8"));
+            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFolder + "/tests.expected.out"), "utf-8"));
             testIn.append(String.valueOf(tests.size()));
             testIn.newLine();
             for (int i = 0; i < tests.size(); i++) {
                 Test test = tests.get(i);
-                testIn.append(test.first);
-		testIn.newLine();
-		testIn.append(test.second);
-                testOut.append(test.expectedResult);
+                testIn.append(test.input);
+                testOut.append(test.output);
                 if (i != tests.size() - 1) {
                 	testIn.newLine();    
 			testOut.newLine();
@@ -35,8 +41,7 @@ public class TestGenerator {
         }
     }
 
-    private static List<Test> loadTests() throws Exception {
-        final String testCasesFolderName = "testcases_campionat";
+    private static List<Test> loadTests(String testCasesFolderName) throws Exception {
         final File testcasesFolder = new File(testCasesFolderName);
         final List<Test> result = new ArrayList<>();
         for (final File file : testcasesFolder.listFiles()) {
@@ -44,8 +49,9 @@ public class TestGenerator {
             if (fileName.startsWith("input")) {
 		int startIndex = fileName.indexOf('.') + 1;
                 String testId = fileName.substring(startIndex);
-                Test test = readInput(file);
-                test.expectedResult = readOutput(new File(testCasesFolderName, "output." + testId));
+                Test test = new Test();
+		test.input = readFile(file);
+		test.output = readFile(new File(testCasesFolderName, "output." + testId));
                 test.testId = testId;
                 result.add(test);
             }
@@ -55,27 +61,23 @@ public class TestGenerator {
         return result.stream().sorted((a, b) -> a.testId.compareTo(b.testId)).collect(Collectors.toList());
     }
 
-    private static Test readInput(File file) throws Exception {
+    private static String readFile(File file) throws Exception {
         Scanner scanner = null;
-        Test result = new Test();
-        try {
+        StringBuilder res = new StringBuilder();
+	try {
             scanner = new Scanner(file);
-            result.first = scanner.nextLine();
-	    result.second = scanner.nextLine(); 
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
+            while (scanner.hasNextLine()) {
+		    String line = scanner.nextLine();
+		    if (line.length() > 0) {
+		    	if (res.length() != 0) {
+				res.append(System.lineSeparator());
+			}
 
-        return result;
-    }
+			res.append(line);
+		    }	    
+	    }
 
-    private static String readOutput(File file) throws Exception {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            return scanner.nextLine();
+	    return res.toString();
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -85,10 +87,8 @@ public class TestGenerator {
 
     private static class Test {
         String testId;
-        String first;
-	String second;
-        String expectedResult;
-	
+	String input;
+        String output;
 
         @Override
         public String toString() {
