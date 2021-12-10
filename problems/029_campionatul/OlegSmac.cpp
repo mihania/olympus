@@ -6,29 +6,43 @@
 
 using namespace std;
 
+vector<long long> sumsOfSubsets (vector<long long>& c, long long S, int from, int to) {
+	vector<long long> res; //res - sums of part of matches
+	for (int x = 0; x < pow(2, to - from); x++) {
+		long long sum = 0;
+		int k = x;
+		int i = 0;
+		while (k > 0) {
+			if (k % 2 == 1) {
+				sum += c[from + i];
+			}
+			k /= 2;
+			i++;
+		}
+		if (sum <= S && sum != 0) {
+			res.push_back(sum);
+		}
+	}
+	return res;
+}
+
 int solution(vector<long long>& c, int n, long long S) {
-	vector<long long> variants(n, 0); //variants[i] - num of all variants
-	vector<vector<long long>> sums; //sums[i] - sum every variant in which is match i
-	sort(c.begin(), c.end());
+	int mid = c.size() / 2 + 1;
+	vector<long long> sum1 = sumsOfSubsets(c, S, 0, mid); //sum1 - sums of first part of matches
+	vector<long long> sum2 = sumsOfSubsets(c, S, mid, c.size()); //sum2 - sums of second part of matches
+	
 	long long res = 1;
-	for (int i = 0; i < n; i++) {
-		vector<long long> sum;
-		if (c[i] <= S) {
-			variants[i] = 1;
-			sum.push_back(c[i]);
-			for (int j = i - 1; j >= 0; j--) {
-				for (int k = 0; k < sums[j].size(); k++) {
-					long long num = c[i] + sums[j][k];
-					if (num <= S) {
-						sum.push_back(num);
-						variants[i]++;
-					}
-				}
+	res += sum1.size() + sum2.size();
+	
+	for (int i = 0; i < sum1.size(); i++) {
+		for (int j = 0; j < sum2.size(); j++) {
+			if (sum1[i] + sum2[j] <= S) {
+				res++;
 			}
 		}
-		sums.push_back(sum);
-		res += variants[i];
 	}
+	
+	cout << "res = " << res << endl;
 	
 	return res;
 }
@@ -41,7 +55,7 @@ int main() {
 	in >> T;
 	for (int i = 0; i < T; i++) {
 		in >> n >> S;
-		cout << "S = " << S << endl;
+		cout << "S = " << S << " ";
 		vector<long long> c;
 		for (int j = 0; j < n; j++) {
 			long long num;
