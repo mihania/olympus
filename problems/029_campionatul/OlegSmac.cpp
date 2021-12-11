@@ -26,23 +26,30 @@ vector<long long> sumsOfSubsets (vector<long long>& c, long long S, int from, in
 	return res;
 }
 
-int solution(vector<long long>& c, int n, long long S) {
-	int mid = c.size() / 2 + 1;
+long long solution(vector<long long>& c, int n, long long S) {
+	int mid = c.size() / 2;
 	vector<long long> sum1 = sumsOfSubsets(c, S, 0, mid); //sum1 - sums of first part of matches
 	vector<long long> sum2 = sumsOfSubsets(c, S, mid, c.size()); //sum2 - sums of second part of matches
 	
 	long long res = 1;
 	res += sum1.size() + sum2.size();
+	sort(sum2.begin(), sum2.end());
 	
 	for (int i = 0; i < sum1.size(); i++) {
-		for (int j = 0; j < sum2.size(); j++) {
-			if (sum1[i] + sum2[j] <= S) {
-				res++;
+		long long num = S - sum1[i];
+		int low = 0;
+		int high = sum2.size() - 1; 
+		while (low <= high) {
+			int middle = low + (high - low) / 2;
+			if (num < sum2[middle]) {
+				high = middle - 1;
+			}
+			else {
+				low = middle + 1;
 			}
 		}
+		res += low;
 	}
-	
-	cout << "res = " << res << endl;
 	
 	return res;
 }
@@ -55,7 +62,6 @@ int main() {
 	in >> T;
 	for (int i = 0; i < T; i++) {
 		in >> n >> S;
-		cout << "S = " << S << " ";
 		vector<long long> c;
 		for (int j = 0; j < n; j++) {
 			long long num;
