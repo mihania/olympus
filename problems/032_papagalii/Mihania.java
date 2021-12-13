@@ -5,26 +5,20 @@ import java.util.stream.*;
 
 public class Mihania {
     public static void main(String[] args) throws Exception {
-        List<Test> tests = loadTests();
-        boolean success = true;
-        for (Test test : tests) {
-            BigInteger realResult = solve(test.S, test.N);
-            if (!realResult.equals(test.expectedResult)) {
-                System.out.printf(
-                        "Test %s failed. Expected %d, but real was %d\n",
-                        test,
-                        test.expectedResult,
-                        realResult);
-                success = false;
-                break;
-            } else {
-                System.out.printf("Test %s passed.\n", test);
-            }
-        }
-
-        if (success) {
-            System.out.println("Success");
-        }
+        List<Test> tests = readInput();
+	BufferedWriter out = null;
+        try {
+		out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tests.out"), "utf-8"));
+		for (Test test : tests) {
+            		BigInteger result = solve(test.S, test.N);
+			out.append(result.toString());
+			out.newLine();
+        	}
+	} finally {
+		if (out != null) {
+			out.close();
+		}
+	}
     }
 
     private static BigInteger solve(int S, int N) {
@@ -52,52 +46,31 @@ public class Mihania {
         return res;
     }
 
-    private static List<Test> loadTests() throws Exception {
-        final String testCasesFolderName = "testcases";
-        final File testcasesFolder = new File(testCasesFolderName);
-        final List<Test> result = new ArrayList<>();
-        for (final File file : testcasesFolder.listFiles()) {
-            final String fileName = file.getName();
-            if (fileName.startsWith("input")) {
-                String testId = fileName.substring(fileName.indexOf('.') + 1);
-                Test test = readInput(file);
-                test.expectedResult = readOutput(new File(testCasesFolderName, "output." + testId));
-                test.testId = testId;
-                result.add(test);
-            }
-        }
-
-        // sort by testId in ascending order.
-        return result.stream().sorted((a, b) -> a.testId.compareTo(b.testId)).collect(Collectors.toList());
-    }
-
-    private static Test readInput(File file) throws Exception {
-        Scanner scanner = null;
-        Test result = new Test();
-        try {
+    private static List<Test> readInput() throws Exception {
+        File file = new File("tests.in");
+	Scanner scanner = null;
+	List<Test> res = new ArrayList<>();
+        try {	
             scanner = new Scanner(file);
-            result.S = scanner.nextInt();
-            scanner.skip(" ");
-            result.N = scanner.nextInt();
+	    int T = scanner.nextInt();
+	    for (int i = 0; i < T; i++) {
+	    	Test test = new Test();
+            	test.S = scanner.nextInt();
+            	scanner.skip(" ");
+            	test.N = scanner.nextInt();
+		if (scanner.hasNextLine()) {
+			scanner.nextLine();
+		}
+		
+		res.add(test);
+	    }
         } finally {
             if (scanner != null) {
                 scanner.close();
             }
         }
 
-        return result;
-    }
-
-    private static BigInteger readOutput(File file) throws Exception {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            return scanner.nextBigInteger();
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
+        return res;
     }
 
     private static class Test {
