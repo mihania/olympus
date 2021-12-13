@@ -71,5 +71,8 @@ int main() {
 	}
 
 	return 0;
+	
+	in.close();
+	out.close();
 }
 
