@@ -70,9 +70,8 @@ int main() {
 		out << solve(test) << endl;
 	}
 
-	return 0;
-	
 	in.close();
 	out.close();
+	return 0;
 }
 
