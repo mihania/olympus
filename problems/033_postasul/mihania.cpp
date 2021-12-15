@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int dpp[8][8] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; 
+int dppp[8][8] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; 
 
 class Test {
 public:
@@ -33,61 +33,56 @@ void printf(vector<vector<T>>& m) {
 
 long solve(Test& t) {
 	
-	// maxMin[i][j] - max minimal height to reach point (i, j) from postal office.
-	vector<vector<long>> maxMin(t.N, vector<long>(t.N, -1));
-
-	// minMax[i][j] - min maximal height to reach point (i, j) from postal office. 
-	vector<vector<long>> minMax(t.N, vector<long>(t.N, -1));
+	// dp[i][j] - min cost to reach point (i, j) from postal office.
+	vector<vector<vector<long>>> dp(t.N, vector<vector<long>>(t.N, vector<long>(3, LONG_MAX)));
 
 	queue<tuple<int, int, long, long>> q;
 	q.push({t.P.first, t.P.second, t.h[t.P.first][t.P.second], t.h[t.P.first][t.P.second]});
+	dp[t.P.first][t.P.second][0] = 0;
+	dp[t.P.first][t.P.second][1] = dp[t.P.first][t.P.second][2] = t.h[t.P.first][t.P.second];
 	while (!q.empty()) {
 		int i = get<0>(q.front());
 		int j = get<1>(q.front());
-		long prevMaxMin = get<2>(q.front());
-		long prevMinMax = get<3>(q.front());
+		long curMin = get<2>(q.front());
+		long curMax = get<3>(q.front());
 		q.pop();
-		for (auto& dp : dpp) {
-			int ni = i + dp[0];
-			int nj = j + dp[1];
+		for (auto& dpp : dppp) {
+			int ni = i + dpp[0];
+			int nj = j + dpp[1];
 			if (ni >= 0 && ni < t.N && nj >= 0 && nj < t.N) {
 			
 				bool updated = false;	
-				if (maxMin[ni][nj] == -1 || maxMin[ni][nj] < min(t.h[ni][nj], prevMaxMin)) {
-					maxMin[ni][nj] = min(t.h[ni][nj], prevMaxMin);
-					updated = true;
-				}
-
-				if (minMax[ni][nj] == -1 || minMax[ni][nj] > max(t.h[ni][nj], prevMinMax)) {
-					minMax[ni][nj] = max(t.h[ni][nj], prevMinMax);
-					updated = true; 
-				}
-
-				if (updated) {
-					q.push({ni, nj, maxMin[ni][nj], minMax[ni][nj]});
+			 	long newMin = min(curMin, t.h[ni][nj]);
+				long newMax = max(curMax, t.h[ni][nj]);
+				long newCost = newMax - newMin;
+				
+				if (newCost < dp[ni][nj][0]) {
+					dp[ni][nj][0] = newCost;
+					dp[ni][nj][1] = newMin;
+					dp[ni][nj][2] = newMax;
+					q.push({ni, nj, newMin, newMax});
 				}
 			}
 		}
 	}
 
-	long globalMin = LONG_MAX;
-	long globalMax = -1;
-	long res = 0;
+	long gMin = LONG_MAX;
+	long gMax = LONG_MIN;
 	for (int i = 0; i < t.N; i++) {
 		for (int j = 0; j < t.N; j++) {
 			if (t.z[i][j] == 'K' || t.z[i][j] == 'P') {
-				globalMin = min(globalMin, maxMin[i][j]);
-				globalMax = max(globalMax, minMax[i][j]);
+				gMin = min(gMin, dp[i][j][1]);
+				gMax = max(gMax, dp[i][j][2]);
 			}
 		}
 	}
 
+	/*
 	printf(t.z);
 	printf(t.h);
-	printf(maxMin);
-	printf(minMax);
-	return globalMax - globalMin;
-
+	printf(dp);
+	*/
+	return gMax - gMin;
 }
 
 int main() {
@@ -123,7 +118,7 @@ int main() {
 			test.h.push_back(hCur);
 		}
 
-		if (t == 6) 
+//		if (t == 1) 
 		{
 			out << solve(test) << endl;
 		}
