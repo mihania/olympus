@@ -38,7 +38,6 @@ int solution(int m, int x, int y, vector<vector<int>>& ways) {
 		}
 		
 		if (timeForStations[y] != -1) {
-			cout << timeForStations[y] << endl;
 			return timeForStations[y];
 		}
 		
