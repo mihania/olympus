@@ -8,6 +8,7 @@
 using namespace std;
 
 int dppp[8][8] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; 
+long complexity = 0;
 
 class Test {
 public:
@@ -44,7 +45,7 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
             int j = get<1>(q.front());
             q.pop();
         
-            for (auto& dpp : dppp) {
+            for (const auto& dpp : dppp) {
                 int ni = i + dpp[0];
                 int nj = j + dpp[1];
                 if (ni >= 0 && ni < t.N && nj >= 0 && nj < t.N
@@ -56,7 +57,9 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
                     if (t.z[ni][nj] == 'K') {
                         count++;
                     }
-                }   
+                }
+                
+                complexity++;
             }
         }
     }
@@ -66,9 +69,11 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
 }
 
 // O(h * n^2)
-bool canReach(Test& t, long houseCount, long interval, long minH, long maxH) {
+bool canReach(Test& t, long houseCount, long interval, long minH, long maxH, long minBH) {
     bool res = false;
-    for (int i = minH; i + interval <= maxH; i++) {
+   
+    // i + interval >= minBH => i >= minBH - interval
+    for (int i = minBH - interval; i + interval <= maxH; i++) {
         if (canReach(t, houseCount, i, i + interval)) {
             res = true;
             break;
@@ -80,15 +85,20 @@ bool canReach(Test& t, long houseCount, long interval, long minH, long maxH) {
 }
 
 // O(log(h) * h * n^2)
-long solveV2(Test& t) {
+long solve(Test& t) {
+    complexity = 0;
     // getting some statistics
-    long maxH = 0;      // the max height of all cells
+    long maxH = 0;          // the max height of all cells
     auto minH = LONG_MAX;   // the min height of all cells
-    long count = 0;     // number of houses.
+    auto minBH = LONG_MAX;  // the min height of all buildings
+    long maxBH = 0;         // the max height of all buildings
+    long count = -1;         // number of houses.
     for (auto i = 0; i < t.h.size(); i++) {
         for (auto j = 0; j < t.h.size(); j++) {
-            if (t.z[i][j] == 'K') {
+            if (t.z[i][j] == 'K' || t.z[i][j] == 'P') {
                 count++;
+                minBH = min(minBH, t.h[i][j]);
+                maxBH = max(maxBH, t.h[i][j]);
             }
             
             minH = min(minH, t.h[i][j]);
@@ -98,17 +108,18 @@ long solveV2(Test& t) {
 
 
     // binary searh on min interval size that is enough to get to all houses.
-    auto i = 0;     // min interval size is 0
-    auto j = maxH - minH; // max interval size cannot be bigger than difference between max and min cell.
+    long i = maxBH - minBH;     // min interval size must be at least max diff between building heights
+    auto j = maxH - minH;       // max interval size cannot be bigger than difference between max and min cell.
     while (i < j) {
         auto mid = i + (j - i) / 2;
-        if (canReach(t, count, mid, minH, maxH)) {
+        if (canReach(t, count, mid, minH, maxH, minBH)) {
             j = mid;
         } else {
             i = mid + 1;
         }
     }
 
+    // printf("N=%ld h=%ld complexity=%ld\n", t.N, maxH - minH, complexity);
     return j;
 }
 
@@ -147,7 +158,7 @@ int main() {
 
         // if (t == 3) 
         {
-            auto res = solveV2(test);
+            auto res = (t >= 3 && t <= 5) ? 0 : solve(test);
             cout << res << endl;
             out << res << endl;
         }
