@@ -68,8 +68,8 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
 // O(h * n^2)
 bool canReach(Test& t, long houseCount, long interval, long minH, long maxH) {
     bool res = false;
-    for (int i = maxH; i - interval >= 0; i--) {
-        if (canReach(t, houseCount, i - interval, i)) {
+    for (int i = minH; i + interval <= maxH; i++) {
+        if (canReach(t, houseCount, i, i + interval)) {
             res = true;
             break;
         }
@@ -98,8 +98,8 @@ long solveV2(Test& t) {
 
 
     // binary searh on min interval size that is enough to get to all houses.
-    auto i = 0;
-    auto j = maxH;
+    auto i = 0;     // min interval size is 0
+    auto j = maxH - minH; // max interval size cannot be bigger than difference between max and min cell.
     while (i < j) {
         auto mid = i + (j - i) / 2;
         if (canReach(t, count, mid, minH, maxH)) {
@@ -145,7 +145,7 @@ int main() {
             test.h.push_back(hCur);
         }
 
-//      if (t == 3) 
+        // if (t == 3) 
         {
             auto res = solveV2(test);
             cout << res << endl;
