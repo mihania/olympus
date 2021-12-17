@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 int main (){
-    int n, s, gos, sum, sum1;
+    int n, s, gos, sum, sum1, anssum;
     bool answer;
     cin >> n >> s;
     vector<int> a;
@@ -23,6 +23,7 @@ int main (){
         }
     }
     sum = 0;
+    anssum = 0;
     for(int i = 1; i < ans.size();i++){
         for(int j = 0; j<ans[i].size();j++){
             sum += ans[i][j];
@@ -38,8 +39,10 @@ int main (){
             }
             if (answer){
                 for(int j = 0; j <ans[i -1].size();j++){
-                    cout<<ans[i-1][j];
+                    cout<<ans[i-1][j]<<endl;
+                    anssum += ans[i-1][j];
                 }
+                cout << ans[i - 1].size()<< " "<< s - anssum;
                 break;
             }
         }
