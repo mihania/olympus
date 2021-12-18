@@ -31,6 +31,52 @@ void printf(vector<vector<T>>& m) {
     printf("\n");
 }
 
+/*
+vector<long> merge(long a1, long a2, long b1, long b2, long h) {
+	if (a1 > h) {
+		// extending a1.
+		a1 = h;
+	} else if (b2 > h) {
+		b2 = h;
+	}
+
+	return {a1, a2, b1, b2};
+}
+
+
+vector<vector<vector<long>>> getMap(Test& t) {
+	// dp[i][j] = {a1, a2, b1, b2}; (a1, a2) - best interval below h[i][j], (b1, b2) - best interval above h[i][j] 
+	vector<vector<vector<long>>> m(t.N, vector<vector<long>>(t.N, vector<long>()));
+	
+	// vector<int> in queue: i, j, a1, a2, b1, b2.
+	queue<vector<long>> q;
+	long pH = t.h[t.P.first][t.P.second];
+	q.push({t.P.first, t.P.second, pH, pH, pH, pH});
+	m[t.P.first][t.P.second] = {{t.h[t.P.first][t.P.second], t.h[t.P.first][t.P.second]}};
+	while (!q.empty()) {	
+            long i = q.front()[0];
+            long j = q.front()[1];
+	    long a1 = q.front()[2];
+            long a2 = q.front()[3];
+	    long b1 = q.front().size() < 5 ? 0 : q.front()[4];
+	    long b2 = q.front().size() < 5 ? 0 : q.front()[5];
+	    q.pop();	
+	
+            for (const auto& dpp : dppp) {
+                int ni = i + dpp[0];
+                int nj = j + dpp[1];
+                if (ni >= 0 && ni < t.N && nj >= 0 && nj < t.N) {
+               		if (m[ni][nj].empty()) {
+				m[ni][nj] = merge(a1, a2, b1, b2, t.h[ni][nj]);		
+			}	
+                }
+	    }	
+	}
+	
+	return m;
+}
+*/
+
 // O(n^2)
 bool canReach(Test& t, long houseCount, long minH, long maxH) {
     vector<vector<bool>> visited(t.N, vector<bool>(t.N, false));
@@ -84,7 +130,7 @@ bool canReach(Test& t, long houseCount, long interval, long minH, long maxH, lon
     return res;
 }
 
-// O(log(h) * h * n^2)
+// O(log(h) * h * n^2), slow but works.
 long solve(Test& t) {
     complexity = 0;
     // getting some statistics
@@ -156,12 +202,10 @@ int main() {
             test.h.push_back(hCur);
         }
 
-        // if (t == 3) 
-        {
-            auto res = (t >= 3 && t <= 5) ? 0 : solve(test);
-            cout << res << endl;
-            out << res << endl;
-        }
+	// tets 3,4,5 don't run fast enough :(
+        auto res = (t >= 3 && t <= 5) ? 0 : solve(test);
+        cout << res << endl;
+        out << res << endl;
     }
 
     in.close();
