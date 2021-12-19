@@ -43,7 +43,7 @@ void printf(vector<T>& m) {
     printf("\n");
 }
 
-// O(n^2)
+// O(8 * n^2)
 bool canReach(Test& t, long houseCount, long minH, long maxH) {
     vector<vector<bool>> visited(t.N, vector<bool>(t.N, false));
 
@@ -76,14 +76,11 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
         }
     }
 
-    // printf("\tcanReach(houseCount=%ld interval=%ld minH=%ld maxH=%ld) count=%ld\n", houseCount, maxH - minH, minH, maxH, count);
     return count == houseCount;
 }
 
-// O(log(h) * n^3), slow but works.
+// O(8 * log(h) * n^4), slow but works.
 long solve(Test& t) {
-    complexity = 0;
-
     vector<long> heights; // unique heights of all cells sorted in ascending order.
     long houseCount = 0;
     for (auto i = 0; i < t.h.size(); i++) {
@@ -98,29 +95,28 @@ long solve(Test& t) {
 
     // sorting heights and removing duplicates
     sort(heights.begin(), heights.end());
+    
+    // removing duplicates
     auto ip = unique(heights.begin(), heights.end());
+    
+    // resizing heights after duplicates removal
     heights.resize(distance(heights.begin(), ip));
-    // printf(heights);
-    long res = heights[heights.size() - 1] - heights[0];;
+    
+    long res = heights[heights.size() - 1] - heights[0];
     for (int i = 0; i < heights.size(); i++) {
     	int start = i;
-	// int end = distance(heights.begin(), lower_bound(heights.begin(), heights.end(), heights[i] + res)) - 1;	    
-	int end = heights.size() - 1;
+	int end = heights.size();
 	while (start < end) {
-		// printf("\ti=%d start=%d end=%d heights[start]=%ld heights[end]=%ld\n", i, start, end, heights[start], heights[end]);
 		int mid = start + (end - start) / 2;
 		if (canReach(t, houseCount, heights[i], heights[mid])) {
-			end = mid;
 			res = min(res, heights[mid] - heights[i]);
+			end = mid;
 		} else {
 			start = mid + 1;
 		}
-	
 	}
-	
-	// printf("i=%d start=%d end=%d res=%ld\n", i, start, end, res);
     }
-
+    
     return res;
 }
 
@@ -156,10 +152,6 @@ int main() {
 
             test.h.push_back(hCur);
         }
-
-	if (t != 1) {
-	// 	continue;
-	}
 
         auto res = solve(test);
         cout << res << endl;
