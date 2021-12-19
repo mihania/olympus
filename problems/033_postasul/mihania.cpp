@@ -4,7 +4,6 @@
 #include<cmath>
 #include<queue>
 #include<iostream>
-#include<unordered_set>
 
 using namespace std;
 
@@ -19,31 +18,8 @@ public:
 };
 
 
-template <typename T>
-void printf(vector<vector<T>>& m) {
-    for (auto& v : m) {
-        for (auto k : v) {
-            cout << k << " ";
-        }
-        
-        printf("\n");
-    }
-
-    printf("\n");
-}
-
-
-template <typename T>
-void printf(vector<T>& m) {
-    for (auto& v : m) {
-        cout << v << " ";
-    }
-
-    printf("\n");
-}
-
 // O(8 * n^2)
-bool canReach(Test& t, long houseCount, long minH, long maxH) {
+bool canReachAllHouses(Test& t, long houseCount, long minH, long maxH) {
     vector<vector<bool>> visited(t.N, vector<bool>(t.N, false));
 
     long count = 0;    
@@ -99,20 +75,26 @@ long solve(Test& t) {
     // resizing heights after duplicates removal
     heights.resize(distance(heights.begin(), ip));
     
+    // best window cannot be bigger than maximum distance between all cells.
     long res = heights[heights.size() - 1] - heights[0];
-    for (int i = 0; i < heights.size(); i++) {
-    	int start = i;
-	int end = heights.size();
+    for (auto i = 0; i < heights.size(); i++) {
+
+	// binary searching minimum end for the given heights[i]
+    	auto start = i;
+	
+	// we don't need to consider end greater than min occurence of heights[i] + res, as it will be worse than the previous res.
+	auto end = distance(heights.begin(), lower_bound(heights.begin(), heights.end(), heights[i] + res));
+	auto maxEnd = end;
 	while (start < end) {
 		int mid = start + (end - start) / 2;
-		if (canReach(t, houseCount, heights[i], heights[mid])) {
+		if (canReachAllHouses(t, houseCount, heights[i], heights[mid])) {
 			end = mid;
 		} else {
 			start = mid + 1;
 		}
 	}
 
-	if (end != heights.size()) {
+	if (end != maxEnd) {
 		res = min(res, heights[end] - heights[i]);
 	}
     }
