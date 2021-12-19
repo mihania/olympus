@@ -9,7 +9,6 @@
 using namespace std;
 
 int dppp[8][8] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; 
-long complexity = 0;
 
 class Test {
 public:
@@ -70,8 +69,6 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
                         count++;
                     }
                 }
-                
-                complexity++;
             }
         }
     }
@@ -109,11 +106,14 @@ long solve(Test& t) {
 	while (start < end) {
 		int mid = start + (end - start) / 2;
 		if (canReach(t, houseCount, heights[i], heights[mid])) {
-			res = min(res, heights[mid] - heights[i]);
 			end = mid;
 		} else {
 			start = mid + 1;
 		}
+	}
+
+	if (end != heights.size()) {
+		res = min(res, heights[end] - heights[i]);
 	}
     }
     
