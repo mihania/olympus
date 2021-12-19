@@ -4,6 +4,7 @@
 #include<cmath>
 #include<queue>
 #include<iostream>
+#include<unordered_set>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ public:
     long N;
 };
 
+
 template <typename T>
 void printf(vector<vector<T>>& m) {
     for (auto& v : m) {
@@ -31,51 +33,15 @@ void printf(vector<vector<T>>& m) {
     printf("\n");
 }
 
-/*
-vector<long> merge(long a1, long a2, long b1, long b2, long h) {
-	if (a1 > h) {
-		// extending a1.
-		a1 = h;
-	} else if (b2 > h) {
-		b2 = h;
-	}
 
-	return {a1, a2, b1, b2};
+template <typename T>
+void printf(vector<T>& m) {
+    for (auto& v : m) {
+        cout << v << " ";
+    }
+
+    printf("\n");
 }
-
-
-vector<vector<vector<long>>> getMap(Test& t) {
-	// dp[i][j] = {a1, a2, b1, b2}; (a1, a2) - best interval below h[i][j], (b1, b2) - best interval above h[i][j] 
-	vector<vector<vector<long>>> m(t.N, vector<vector<long>>(t.N, vector<long>()));
-	
-	// vector<int> in queue: i, j, a1, a2, b1, b2.
-	queue<vector<long>> q;
-	long pH = t.h[t.P.first][t.P.second];
-	q.push({t.P.first, t.P.second, pH, pH, pH, pH});
-	m[t.P.first][t.P.second] = {{t.h[t.P.first][t.P.second], t.h[t.P.first][t.P.second]}};
-	while (!q.empty()) {	
-            long i = q.front()[0];
-            long j = q.front()[1];
-	    long a1 = q.front()[2];
-            long a2 = q.front()[3];
-	    long b1 = q.front().size() < 5 ? 0 : q.front()[4];
-	    long b2 = q.front().size() < 5 ? 0 : q.front()[5];
-	    q.pop();	
-	
-            for (const auto& dpp : dppp) {
-                int ni = i + dpp[0];
-                int nj = j + dpp[1];
-                if (ni >= 0 && ni < t.N && nj >= 0 && nj < t.N) {
-               		if (m[ni][nj].empty()) {
-				m[ni][nj] = merge(a1, a2, b1, b2, t.h[ni][nj]);		
-			}	
-                }
-	    }	
-	}
-	
-	return m;
-}
-*/
 
 // O(n^2)
 bool canReach(Test& t, long houseCount, long minH, long maxH) {
@@ -114,59 +80,48 @@ bool canReach(Test& t, long houseCount, long minH, long maxH) {
     return count == houseCount;
 }
 
-// O(h * n^2)
-bool canReach(Test& t, long houseCount, long interval, long minH, long maxH, long minBH) {
-    bool res = false;
-   
-    // i + interval >= minBH => i >= minBH - interval
-    for (int i = minBH - interval; i + interval <= maxH; i++) {
-        if (canReach(t, houseCount, i, i + interval)) {
-            res = true;
-            break;
-        }
-    }
-
-    // printf("canReach houseCount=%ld interval=%ld minH=%ld maxH=%ld res=%d\n", houseCount, interval, minH, maxH, res);
-    return res;
-}
-
-// O(log(h) * h * n^2), slow but works.
+// O(log(h) * n^3), slow but works.
 long solve(Test& t) {
     complexity = 0;
-    // getting some statistics
-    long maxH = 0;          // the max height of all cells
-    auto minH = LONG_MAX;   // the min height of all cells
-    auto minBH = LONG_MAX;  // the min height of all buildings
-    long maxBH = 0;         // the max height of all buildings
-    long count = -1;         // number of houses.
+
+    vector<long> heights; // unique heights of all cells sorted in ascending order.
+    long houseCount = 0;
     for (auto i = 0; i < t.h.size(); i++) {
         for (auto j = 0; j < t.h.size(); j++) {
-            if (t.z[i][j] == 'K' || t.z[i][j] == 'P') {
-                count++;
-                minBH = min(minBH, t.h[i][j]);
-                maxBH = max(maxBH, t.h[i][j]);
+            if (t.z[i][j] == 'K') {
+                houseCount++;
             }
             
-            minH = min(minH, t.h[i][j]);
-            maxH = max(maxH, t.h[i][j]);
+	    heights.push_back(t.h[i][j]);
         }
     }
 
-
-    // binary searh on min interval size that is enough to get to all houses.
-    long i = maxBH - minBH;     // min interval size must be at least max diff between building heights
-    auto j = maxH - minH;       // max interval size cannot be bigger than difference between max and min cell.
-    while (i < j) {
-        auto mid = i + (j - i) / 2;
-        if (canReach(t, count, mid, minH, maxH, minBH)) {
-            j = mid;
-        } else {
-            i = mid + 1;
-        }
+    // sorting heights and removing duplicates
+    sort(heights.begin(), heights.end());
+    auto ip = unique(heights.begin(), heights.end());
+    heights.resize(distance(heights.begin(), ip));
+    // printf(heights);
+    long res = heights[heights.size() - 1] - heights[0];;
+    for (int i = 0; i < heights.size(); i++) {
+    	int start = i;
+	// int end = distance(heights.begin(), lower_bound(heights.begin(), heights.end(), heights[i] + res)) - 1;	    
+	int end = heights.size() - 1;
+	while (start < end) {
+		// printf("\ti=%d start=%d end=%d heights[start]=%ld heights[end]=%ld\n", i, start, end, heights[start], heights[end]);
+		int mid = start + (end - start) / 2;
+		if (canReach(t, houseCount, heights[i], heights[mid])) {
+			end = mid;
+			res = min(res, heights[mid] - heights[i]);
+		} else {
+			start = mid + 1;
+		}
+	
+	}
+	
+	// printf("i=%d start=%d end=%d res=%ld\n", i, start, end, res);
     }
 
-    // printf("N=%ld h=%ld complexity=%ld\n", t.N, maxH - minH, complexity);
-    return j;
+    return res;
 }
 
 int main() {
@@ -202,8 +157,11 @@ int main() {
             test.h.push_back(hCur);
         }
 
-	// tets 3,4,5 don't run fast enough :(
-        auto res = (t >= 3 && t <= 5) ? 0 : solve(test);
+	if (t != 1) {
+	// 	continue;
+	}
+
+        auto res = solve(test);
         cout << res << endl;
         out << res << endl;
     }
