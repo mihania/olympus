@@ -4,6 +4,7 @@
 #include<cmath>
 #include<queue>
 #include<iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -94,8 +95,27 @@ long solve(Test& t) {
 		}
 	}
 
-	if (end != maxEnd) {
+	if (end == maxEnd) {
+		if (maxEnd == heights.size()) {
+			// not possible to find with heights[i], we can stop here as not possile to find further
+			break;
+		}
+	} else {
 		res = min(res, heights[end] - heights[i]);
+		
+		// binary searching right most start
+		auto iStart = i + 1;
+		auto iEnd = end;
+		while (iStart < iEnd) {
+			int mid = iStart + (iEnd - iStart + 1) / 2;
+			if (canReachAllHouses(t, houseCount, heights[mid], heights[end])) {
+				iStart = mid;
+				i = iStart;
+				res = min(res, heights[end] - heights[iStart]);
+			} else {
+				iEnd = mid - 1;
+			}
+		}
 	}
     }
     
@@ -135,8 +155,10 @@ int main() {
             test.h.push_back(hCur);
         }
 
+	clock_t begin = clock();
         auto res = solve(test);
-        cout << res << endl;
+	clock_t end = clock();
+        cout << res << " : " << double(end - begin) / CLOCKS_PER_SEC << " sec" << endl;
         out << res << endl;
     }
 
