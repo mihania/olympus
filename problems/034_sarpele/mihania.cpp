@@ -4,29 +4,29 @@
 #include<map>
 using namespace std;
 
-long distLeft(long p, long pL, long pR) {
-	if (p < pL) {
-		// p pL pR
-		return pR - p + pR - pL;
-	} else if (p < pR) {
-		// pL p pR
-		return pR - pL + pR - p;
+long distLeft(long p, long L, long R) {
+	if (p < L) {
+		// p L R
+		return R - p + R - L;
+	} else if (p < R) {
+		// L p R
+		return R - L + R - p;
 	} else {
-		// pL pR p
-		return p - pL;
+		// L R p
+		return p - L;
 	}
 }
 
-long distRight(long p, long pL, long pR) {
-	if (p < pL) {
-		// p pL pR
-		return pR - p;
-	} else if (p < pR) {
-		// pL p pR
-		return pR - pL + p - pL;
+long distRight(long p, long L, long R) {
+	if (p < L) {
+		// p L R
+		return R - p;
+	} else if (p < R) {
+		// L p R
+		return R - L + p - L;
 	} else {
-		// pL pR p
-		return p - pL + pR - pL;
+		// L R p
+		return p - L + R - L;
 	}
 }
 
@@ -36,7 +36,7 @@ long solve(vector<vector<long>> v) {
 	map<long, pair<long, long>> m;
 	m[1] = {1, 1};
 	for (const auto& c : v) {
-		// printf("%ld %ld\n", c[0], c[1]);
+		printf("%ld %ld\n", c[0], c[1]);
 		if (m.find(c[1]) == m.end()) {
 			m[c[1]] = {c[0], c[0]};
 		} else {
@@ -44,12 +44,12 @@ long solve(vector<vector<long>> v) {
 			m[c[1]].second = max(m[c[1]].second, c[0]);
 		}
 	}
-/*
+
 	for (auto kv : m) {
 		printf("%ld [%ld %ld]\n", kv.first, kv.second.first, kv.second.second);
 	}
-*/
-	// dp[y] = {x1, minSteps to get to (x1, y), x2, minSteps to get to (x2, y)}
+
+	// dp[y] = {x1, minSteps if snake eats on row y last  (x1, y), x2, minSteps if snakes east last on row y  (x2, y)}
 	map<long, vector<long>> dp;
 	dp[1] = {1, 2 * (m[1].second - m[1].first), 1, m[1].second - m[1].first};
 	long prevRow = -1;
@@ -72,8 +72,8 @@ long solve(vector<vector<long>> v) {
 			};
 		}
 
-		// printf("row=%ld {%ld %ld %ld %ld}\n", row, dp[row][0], dp[row][1], dp[row][2], dp[row][3]);
-		prevRow = kv.first;
+		printf("row=%ld {%ld %ld %ld %ld}\n", row, dp[row][0], dp[row][1], dp[row][2], dp[row][3]);
+		prevRow = row;
 	}
 	
 	return min(dp[prevRow][1], dp[prevRow][3]);
@@ -96,7 +96,7 @@ int main() {
 		v.push_back({x, y});
 	}
 
-	// if (t == 4) 
+	if (t == 9) 
 	{
 		out << solve(v) << endl;
 	}
