@@ -22,7 +22,8 @@ public class Mihania {
     }
 
     private static BigInteger solve(int S, int N) {
-        BigInteger[][] dp = new BigInteger[N + 1][N * S + 1];
+        // dp[i][j] = number of combinations if starting to buy at day i from j parrot.
+	BigInteger[][] dp = new BigInteger[N + 1][N * S + 1];
         return solve(0, 0, N, S, dp);
     }
 
