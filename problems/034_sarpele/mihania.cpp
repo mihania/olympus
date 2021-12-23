@@ -4,79 +4,92 @@
 #include<map>
 using namespace std;
 
-long distLeft(long p, long L, long R) {
-	if (p < L) {
-		// p L R
-		return R - p + R - L;
-	} else if (p < R) {
-		// L p R
-		return R - L + R - p;
+long distLeft(long p, long x1, long x2) {
+	long res;
+	if (p < x1) {
+		// p x1 x2
+		res = x2 - p + x2 - x1;
+	} else if (p < x2) {
+		// x1 p x2
+		res = x2 - x1 + x2 - p;
 	} else {
-		// L R p
-		return p - L;
+		// x1 x2 p
+		res = p - x1;
 	}
+
+	if (res < 0) {
+		printf("alarm!");
+	}
+	
+	return res;
 }
 
-long distRight(long p, long L, long R) {
-	if (p < L) {
-		// p L R
-		return R - p;
-	} else if (p < R) {
-		// L p R
-		return R - L + p - L;
+long distRight(long p, long x1, long x2) {
+	long res;
+	if (p < x1) {
+		// p x1 x2
+		res = x2 - p;
+	} else if (p < x2) {
+		// x1 p x2
+		res = x2 - x1 + p - x1;
 	} else {
-		// L R p
-		return p - L + R - L;
+		// x1 x2 p
+		res = p - x1 + x2 - x1;
 	}
+
+	if (res < 0) {
+		printf("alarm!");
+	}
+
+	
+	return res;
 }
 
 long solve(vector<vector<long>> v) {
-
+	
 	// m[y] = {x1, x2}, x1 - left most x in row y, x2 - right most x in row y. 
 	map<long, pair<long, long>> m;
 	m[1] = {1, 1};
 	for (const auto& c : v) {
-		printf("%ld %ld\n", c[0], c[1]);
-		if (m.find(c[1]) == m.end()) {
-			m[c[1]] = {c[0], c[0]};
+		auto x = c[0];
+		auto y = c[1];
+		
+		// printf("%ld %ld\n", x, y);
+		if (m.find(y) == m.end()) {
+			m[y] = {c[0], c[0]};
 		} else {
-			m[c[1]].first = min(m[c[1]].first, c[0]);
-			m[c[1]].second = max(m[c[1]].second, c[0]);
+			m[y].first = min(m[y].first, x);
+			m[y].second = max(m[y].second, x);
 		}
 	}
-
-	for (auto kv : m) {
-		printf("%ld [%ld %ld]\n", kv.first, kv.second.first, kv.second.second);
-	}
-
+	
 	// dp[y] = {x1, minSteps if snake eats on row y last  (x1, y), x2, minSteps if snakes east last on row y  (x2, y)}
 	map<long, vector<long>> dp;
-	dp[1] = {1, 2 * (m[1].second - m[1].first), 1, m[1].second - m[1].first};
-	long prevRow = -1;
+	dp[1] = {1, 2 * (m[1].second - m[1].first), m[1].second, m[1].second - m[1].first};
+	long prevY = -1;
 	for (auto kv : m) {
-		long row = kv.first;
-		long left = kv.second.first;
-		long right = kv.second.second;
-		if (row != 1) {
+		long y = kv.first;
+		long x1 = kv.second.first;
+		long x2 = kv.second.second;
+		if (y != 1) {
 			// vertical distance between cur row and prev row.
-			auto h = row - prevRow;
-			dp[row] = {
-				left, 
+			auto h = y - prevY;
+			dp[y] = {
+				x1, 
 				h + min(
-						distLeft(dp[prevRow][0], left, right) + dp[prevRow][1], 
-						distLeft(dp[prevRow][2], left, right) + dp[prevRow][3]), 
-				right,
+						distLeft(dp[prevY][0], x1, x2) + dp[prevY][1], 
+						distLeft(dp[prevY][2], x1, x2) + dp[prevY][3]), 
+				x2,
 				h + min(
-						distRight(dp[prevRow][0], left, right) + dp[prevRow][1],
-						distRight(dp[prevRow][2], left, right) + dp[prevRow][3])	
+						distRight(dp[prevY][0], x1, x2) + dp[prevY][1],
+						distRight(dp[prevY][2], x1, x2) + dp[prevY][3])	
 			};
 		}
 
-		printf("row=%ld {%ld %ld %ld %ld}\n", row, dp[row][0], dp[row][1], dp[row][2], dp[row][3]);
-		prevRow = row;
+		prevY = y;
 	}
 	
-	return min(dp[prevRow][1], dp[prevRow][3]);
+	return min(dp[prevY][1], dp[prevY][3]);
 }
 
 
@@ -96,12 +109,8 @@ int main() {
 		v.push_back({x, y});
 	}
 
-	if (t == 9) 
-	{
-		out << solve(v) << endl;
-	}
+	out << solve(v) << endl;
     }
-
 
     in.close();
     out.close();
