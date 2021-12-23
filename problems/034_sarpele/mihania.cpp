@@ -16,10 +16,6 @@ long distLeft(long p, long x1, long x2) {
 		// x1 x2 p
 		res = p - x1;
 	}
-
-	if (res < 0) {
-		printf("alarm!");
-	}
 	
 	return res;
 }
@@ -36,11 +32,6 @@ long distRight(long p, long x1, long x2) {
 		// x1 x2 p
 		res = p - x1 + x2 - x1;
 	}
-
-	if (res < 0) {
-		printf("alarm!");
-	}
-
 	
 	return res;
 }
@@ -53,8 +44,6 @@ long solve(vector<vector<long>> v) {
 	for (const auto& c : v) {
 		auto x = c[0];
 		auto y = c[1];
-		
-		// printf("%ld %ld\n", x, y);
 		if (m.find(y) == m.end()) {
 			m[y] = {c[0], c[0]};
 		} else {
