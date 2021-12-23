@@ -16,32 +16,15 @@ public:
 
 void solve(Test& test) {
 	sort(test.c.begin(), test.c.end());
+	test.S = 0;
+	for (int i = test.c.size() - 1; i >= 0; i--) {
+		test.S += test.c[i];
+		if (test.S >= test.L) {
+			test.M = test.c.size() - i;
+			break;
+		}
+	}
 	
-	// m[i] = j : for sum i, j is the number of elements in the subset of min size.
-	map<long long, long long> m;
-    	m[0] = 0;
-    	for (auto v : test.c) {
-		vector<long long> values;
-	       	for (auto it = m.begin(); it != m.end(); it++) {
-			values.push_back(it->first);
-		}
-
-		for (auto i : values) {
-			if (m.find(i + v) == m.end()) {
-				m[i + v] = m[i] + 1;
-			} else {
-				m[i + v] = min(m[i + v], m[i] + 1);
-			}
-			
-			if (i + v >= test.L) {
-				test.M = m[i + v];
-				test.S = i + v;
-				return;
-			}
-			
-		}
-    	}
-
 	return;
 }
 
