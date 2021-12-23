@@ -4,7 +4,7 @@
 #include<map>
 using namespace std;
 
-long distLeft(long p, long x1, long x2) {
+long getDistToX1(long p, long x1, long x2) {
 	long res;
 	if (p < x1) {
 		// p x1 x2
@@ -20,7 +20,7 @@ long distLeft(long p, long x1, long x2) {
 	return res;
 }
 
-long distRight(long p, long x1, long x2) {
+long getDistToX2(long p, long x1, long x2) {
 	long res;
 	if (p < x1) {
 		// p x1 x2
@@ -66,12 +66,12 @@ long solve(vector<vector<long>> v) {
 			dp[y] = {
 				x1, 
 				h + min(
-						distLeft(dp[prevY][0], x1, x2) + dp[prevY][1], 
-						distLeft(dp[prevY][2], x1, x2) + dp[prevY][3]), 
+						getDistToX1(dp[prevY][0], x1, x2) + dp[prevY][1], 
+						getDistToX1(dp[prevY][2], x1, x2) + dp[prevY][3]), 
 				x2,
 				h + min(
-						distRight(dp[prevY][0], x1, x2) + dp[prevY][1],
-						distRight(dp[prevY][2], x1, x2) + dp[prevY][3])	
+						getDistToX2(dp[prevY][0], x1, x2) + dp[prevY][1],
+						getDistToX2(dp[prevY][2], x1, x2) + dp[prevY][3])	
 			};
 		}
 
