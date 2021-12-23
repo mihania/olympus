@@ -24,8 +24,6 @@ void solve(Test& test) {
 			break;
 		}
 	}
-	
-	return;
 }
 
 int main() {
