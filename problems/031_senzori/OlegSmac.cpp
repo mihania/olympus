@@ -5,15 +5,6 @@
 
 using namespace std;
 
-bool isNotABadPoint(int j, vector<int>& badPoints) {
-	for (int i = 0; i < badPoints.size(); i++) {
-		if (badPoints[i] == j) {
-			return false;
-		}
-	}
-	return true;
-}
-
 bool sensorIsInRadius(int xi, int yi, int xj, int yj, int radius) {
 	double d = sqrt((xi - xj) * (xi - xj) + (yi - yj) * (yi - yj));
 	if (d <= radius) {
@@ -27,7 +18,7 @@ int solution(int K, int N, int M, vector<pair<int, int>>& sensors, vector<vector
 	for (int i = 0; i < sensors.size(); i++) {
 		vector<int> senIPoints; //points of sensor i
 		for (int j = 0; j < points.size(); j++) {
-			if (isNotABadPoint(j, badPoints)) {
+			if (points[j].size() != 0) {
 				if (sensorIsInRadius(sensors[i].first, sensors[i].second, points[j][0], points[j][1], points[j][2])) {
 					senIPoints.push_back(j);
 				}
@@ -80,6 +71,8 @@ int main() {
 		for (int j = 0; j < M; j++) {
 			int num;
 			in >> num;
+			vector<int> empty;
+			points[num - 1] = empty;
 			badPoints.push_back(num - 1);
 		}
 		
