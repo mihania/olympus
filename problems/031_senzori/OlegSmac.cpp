@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include<cmath>
+#include<unordered_set>
 
 using namespace std;
 
@@ -13,23 +14,19 @@ bool sensorIsInRadius(int xi, int yi, int xj, int yj, int radius) {
 	return false;
 }
 
-int solution(int K, int N, int M, vector<pair<int, int>>& sensors, vector<vector<int>>& points, vector<int>& badPoints) {
-	vector<vector<int>> senPoints; //all points of this sensor
+int solution(int K, int N, int M, vector<pair<int, int>>& sensors, vector<vector<int>>& points, unordered_set<int>& badPoints) {
+	int res = 0;
 	for (int i = 0; i < sensors.size(); i++) {
 		vector<int> senIPoints; //points of sensor i
 		for (int j = 0; j < points.size(); j++) {
 			if (points[j].size() != 0) {
-				if (sensorIsInRadius(sensors[i].first, sensors[i].second, points[j][0], points[j][1], points[j][2])) {
-					senIPoints.push_back(j);
+				if (sensorIsInRadius(sensors[i].first, sensors[i].second, points[j][0], points[j][1], points[j][2]) &&
+					badPoints.find(j) == badPoints.end()) {
+						senIPoints.push_back(j);
 				}
 			}
 		}
-		senPoints.push_back(senIPoints);
-	}
-	
-	int res = 0;
-	for (int i = 0; i < senPoints.size(); i++) {
-		if (senPoints[i].size() == 0) {
+		if (senIPoints.size() == 0) { //this sensor should be replaced
 			res++;
 		}
 	}
@@ -67,13 +64,11 @@ int main() {
 			points.push_back(point);
 		}
 		in >> M;
-		vector<int> badPoints;
+		unordered_set<int> badPoints;
 		for (int j = 0; j < M; j++) {
 			int num;
 			in >> num;
-			vector<int> empty;
-			points[num - 1] = empty;
-			badPoints.push_back(num - 1);
+			badPoints.insert(num - 1);
 		}
 		
 		out << solution(K, N, M, sensors, points, badPoints) << endl;
