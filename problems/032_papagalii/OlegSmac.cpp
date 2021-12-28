@@ -21,7 +21,7 @@ vector<int> add(vector<int> v, vector<int> num) { //v.size >= num.size
 }
 
 vector<int> solution(int S, int N) {
-	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S, vector<int>(56, 0)));
+	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S, vector<int>(100, 0)));
 	vector<int> one;
 	one.push_back(1);
 	for (int j = 0; j < S; j++) {
@@ -32,7 +32,7 @@ vector<int> solution(int S, int N) {
 			dp[i][j] = add(dp[i - 1][j - 1], dp[i][j - 1]);
 		}
 	}
-	vector<int> res (56, 0);
+	vector<int> res (100, 0);
 	for (int j = 0; j < N * S; j++) {
 		res = add(res, dp[N - 1][j]);
 	}
