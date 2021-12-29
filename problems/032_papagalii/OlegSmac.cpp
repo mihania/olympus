@@ -4,24 +4,27 @@
 
 using namespace std;
 
-vector<int> add(vector<int> v, vector<int> num) { //v.size >= num.size
-	for (int i = v.size() - 1, j = num.size() - 1; i > 0 && j >= 0; i--) {
-		int s = v[i] + num[j];
-		if (s > 9) {
-			v[i] = s % 10;
-			v[i - 1] += 1;
+vector<int> add(vector<int> v, vector<int> num) {
+	int i = 0;
+	int sum = 0;
+	vector<int> res;
+	while (i < v.size() || i < num.size() || sum > 0) {
+		if (i < v.size()) {
+			sum += v[i];
 		}
-		else {
-			v[i] = s;
+		if (i < num.size()) {
+			sum += num[i];
 		}
-		j--;
+		res.push_back(sum % 10);
+		sum = sum / 10;
+		i++;
 	}
 	
-	return v;
+	return res;
 }
 
 vector<int> solution(int S, int N) {
-	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S, vector<int>(100, 0)));
+	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S));
 	vector<int> one;
 	one.push_back(1);
 	for (int j = 0; j < S; j++) {
@@ -32,7 +35,7 @@ vector<int> solution(int S, int N) {
 			dp[i][j] = add(dp[i - 1][j - 1], dp[i][j - 1]);
 		}
 	}
-	vector<int> res (100, 0);
+	vector<int> res;
 	for (int j = 0; j < N * S; j++) {
 		res = add(res, dp[N - 1][j]);
 	}
@@ -51,7 +54,7 @@ int main() {
 		vector<int> v = solution(S, N);
 		
 		bool isNum = false;
-		for (int j = 0; j < v.size(); j++) {
+		for (int j = v.size() - 1; j >= 0; j--) {
 			if (v[j] != 0) {
 				isNum = true;
 			}
