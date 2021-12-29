@@ -17,16 +17,15 @@ bool sensorIsInRadius(int xi, int yi, int xj, int yj, int radius) {
 int solution(int K, int N, int M, vector<pair<int, int>>& sensors, vector<vector<int>>& points, unordered_set<int>& badPoints) {
 	int res = 0;
 	for (int i = 0; i < sensors.size(); i++) {
-		vector<int> senIPoints; //points of sensor i
+		bool senIPoints = false; //points of sensor i (true - are points, false - no points)
 		for (int j = 0; j < points.size(); j++) {
-			if (points[j].size() != 0) {
-				if (sensorIsInRadius(sensors[i].first, sensors[i].second, points[j][0], points[j][1], points[j][2]) &&
-					badPoints.find(j) == badPoints.end()) {
-						senIPoints.push_back(j);
-				}
+			if (sensorIsInRadius(sensors[i].first, sensors[i].second, points[j][0], points[j][1], points[j][2]) &&
+				badPoints.find(j) == badPoints.end()) {
+					senIPoints = true;
+					break;
 			}
 		}
-		if (senIPoints.size() == 0) { //this sensor should be replaced
+		if (!senIPoints) { //this sensor should be replaced
 			res++;
 		}
 	}
