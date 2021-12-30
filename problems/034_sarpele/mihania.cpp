@@ -52,7 +52,7 @@ long solve(vector<vector<long>> v) {
 		}
 	}
 	
-	// dp[y] = {x1, minSteps if snake eats on row y last  (x1, y), x2, minSteps if snakes east last on row y  (x2, y)}
+	// dp[y] = {x1, minSteps if snake eats on row y last in cell (x1, y); x2, minSteps if snakes eats last on row y in cell (x2, y)}
 	map<long, vector<long>> dp;
 	dp[1] = {1, 2 * (m[1].second - m[1].first), m[1].second, m[1].second - m[1].first};
 	long prevY = -1;
