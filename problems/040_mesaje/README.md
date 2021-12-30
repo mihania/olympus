@@ -63,3 +63,6 @@ afostodatcanpovestiopreafrumoasafata
 Ограничения на время выполнения программы и на объем используемой памяти приведены в общем описании 
 предложенных для решения задач.
 Исходный файл должен иметь имя `mesaje.pas`, `mesaje.c` или `mesaje.cpp`.
+
+# Похожие задачи 
+1. [Rotate Image](https://leetcode.com/problems/rotate-image/)
