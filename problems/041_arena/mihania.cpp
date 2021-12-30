@@ -4,12 +4,18 @@
 #include<math.h>
 
 using namespace std;
+const double EPS = 0.000001;
 
-
-bool eq(double a, double b) {
-    return abs(a - b) < 0.00001;
+bool lessThan(double a, double b) {
+    return b - a > EPS;
 }
 
+// true if a equals to b, otherwise false.
+bool eq(double a, double b) {
+    return abs(a - b) < EPS;
+}
+
+// return v^2
 double sqr(double v) {
     return pow(v, 2);
 }
@@ -35,7 +41,7 @@ int solve(vector<pair<double, double>>& m) {
     double alpha = acos(cosAlpha) * 180.0 / M_PI;
     
     // based on https://mathvox.ru/geometria/mnogougolniki/glava-1-mnogougolniki-i-ih-svoistva/svoistva-uglov-pravilnogo-mnogougolnika/
-    return eq(alpha, 180) ? 8 : (int)ceil(360 / (180 - alpha));  
+    return eq(alpha, 180) || lessThan(alpha,  90.0) ? 0 : (int)ceil(360 / (180 - alpha));  
 }
 
 int main() {
