@@ -40,4 +40,4 @@
 Список правильных палиндромов в полученном списке
 
 # Похожая задача
-1. (564. Find the Closest Palindrome)[https://leetcode.com/problems/find-the-closest-palindrome/]
+1. [564. Find the Closest Palindrome](https://leetcode.com/problems/find-the-closest-palindrome/)
