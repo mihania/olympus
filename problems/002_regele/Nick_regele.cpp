@@ -28,8 +28,12 @@ int main(){
         }
         sum = 0;
         for(int i = 0; i < subset.size(); i++){
-            if((subset[i] != 0) && (subset[i] > sum)){
+            if(subset[i] > sum){
                 sum += subset[i];
+            }
+            else {
+                sum = 0;
+                break;
             }
         }
         if((sum <= s) && (s-sum < dif)){
