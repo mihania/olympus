@@ -14,7 +14,7 @@ int main(){
     for(int i = 0; i < n; i++){
         string str = to_string(test[i]);
         int k = str.size() - 1;
-        for(int j = 0; j < n / 2; j++){
+        for(int j = 0; j < str.size() / 2; j++){
             while(str[j] != str[k]){
                 test[i] += pow(10, j);
                 str = to_string(test[i]);
