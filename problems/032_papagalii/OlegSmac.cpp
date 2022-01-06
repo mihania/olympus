@@ -24,7 +24,7 @@ vector<int> add(vector<int> v, vector<int> num) {
 }
 
 vector<int> solution(int S, int N) {
-	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S));
+	vector<vector<vector<int>>> dp (N, vector<vector<int>> (N * S)); //dp[i][j] - num of combinations if starting to buy at day i from j parrot
 	vector<int> one;
 	one.push_back(1);
 	for (int j = 0; j < S; j++) {
