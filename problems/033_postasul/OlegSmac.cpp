@@ -2,6 +2,8 @@
 #include<iostream>
 #include<fstream>
 #include<queue>
+#include<cmath>
+#include<algorithm>
 
 using namespace std;
 
@@ -21,7 +23,7 @@ bool canIGetFromPToAllK(vector<vector<char>>& z, vector<vector<int>>& h, pair<in
 		int row = cell.first;
 		int col = cell.second;
 		q.pop();
-		for (vector<int> v : bound) {
+		for (vector<int>& v : bound) {
 			if (row + v[0] >= 0 &&
 				row + v[0] < z.size() &&
 				col + v[1] >= 0 &&
@@ -37,52 +39,50 @@ bool canIGetFromPToAllK(vector<vector<char>>& z, vector<vector<int>>& h, pair<in
 				}
 		}
 	}
-	//cout << "visK = " << visitKCell << " k = " << k << endl; 
 	return visitKCell == k;
 }
 
-int solution(vector<vector<char>>& z, vector<vector<int>>& h, pair<int, int>& p, vector<pair<int, int>>& k) {
-	//finding heights between P and all K cells
-	int max = h[p.first][p.second];
-	int high = 1000000;
-	int low = 0;
-	while (low <= high) {
-		int mid = low + (high - low) / 2;
-		if (canIGetFromPToAllK(z, h, p, k.size(), 0, mid)) {
-			high = mid - 1;
-			max = mid;
+long solution(vector<vector<char>>& z, vector<vector<int>>& h, pair<int, int>& p, vector<pair<int, int>>& k) {
+	vector<long> heights; //all heights in the grid
+    for (int i = 0; i < h.size(); i++) {
+        for (int j = 0; j < h[i].size(); j++) {       
+			heights.push_back(h[i][j]);
+        }
+    }
+    sort(heights.begin(), heights.end());
+	auto last = unique(heights.begin(), heights.end()); //removing dublicates (unique)
+	heights.erase(last, heights.end());
+    long res = heights[heights.size() - 1] - heights[0];
+    for (int i = 0; i < heights.size(); i++) {
+		int low = i;
+		int high = heights.size();
+		for (int j = 0; j < heights.size(); j++) { //(heights[i] + res) is the highest required element. Finding his position
+			if (heights[j] >= heights[i] + res) {
+				high = j;
+				break;
+			}
+		}
+		while (low < high) {
+			int mid = low + (high - low) / 2;
+			if (canIGetFromPToAllK(z, h, p, k.size(), heights[i], heights[mid])) {
+				high = mid;
+			} else {
+				low = mid + 1;
+			}
+		}
+		if (high >= heights.size()) {
+			break;
 		}
 		else {
-			low = mid + 1;
+			res = min(res, heights[high] - heights[i]);
 		}
-	}
-	cout << "maxH = " << max;
+    }
 	
-	int min = h[p.first][p.second];
-	high = h[p.first][p.second];
-	low = 0;
-	while (low <= high) {
-		int mid = low + (high - low) / 2;
-		if (canIGetFromPToAllK(z, h, p, k.size(), mid, 1000000)) {
-			low = mid + 1;
-			min = mid;
-		}
-		else {
-			high = mid - 1;
-		}
-	}
-	cout << " minH = " << min << endl;
-	
-	//finding heights between k cells
-	
-	
-	cout << "res = " << max - min << endl;
-	cout << "my test = " << canIGetFromPToAllK(z, h, p, k.size(), 1, 1000000) << endl;
-	return max - min;
+    return res;
 }
 
 int main() {
-	ifstream in("in5.txt");
+	ifstream in("tests.in");
 	ofstream out("res.txt");
 	int T;
 	in >> T;
