@@ -50,3 +50,6 @@ SORTARE.OUT
 ```
 1
 ```
+
+# Похожие задачи
+1. [Count Inversions](https://practice.geeksforgeeks.org/problems/inversion-of-array-1587115620/1/)
