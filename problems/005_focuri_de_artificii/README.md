@@ -52,3 +52,6 @@ FOCURI.OUT
 ```
 4
 ```
+
+# Похожие задачи
+1. [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
