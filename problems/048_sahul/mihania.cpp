@@ -49,8 +49,6 @@ int solve(string& p1, string& p2) {
 }
 
 int main() {
-   
-   // reading the input file
    ifstream in("tests.in");
    ofstream out("tests.out");
    int T;
@@ -58,7 +56,6 @@ int main() {
    for (int i = 0; i < T; i++) {
       string p1, p2;
       in >> p1 >> p2;
-      // if (i == 0)
       out << solve(p1, p2) << endl;
    } 
    
