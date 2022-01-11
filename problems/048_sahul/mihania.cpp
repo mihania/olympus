@@ -17,7 +17,6 @@ int solve(string& p1, string& p2) {
 	q.push({p1X, p1Y});
 	q.push({});
 	int steps = 1;
-	// printf("p2x=%d p2y=%d\n", p2X, p2Y);
 	while (!q.empty()) {
 		vector<int> cur = q.front();
 		q.pop();
@@ -27,11 +26,9 @@ int solve(string& p1, string& p2) {
 				q.push({});
 			}	
 		} else {
-			// printf("x=%d y=%d steps=%d\n", cur[0], cur[1], steps);
 			for (auto& dp : dpp) {
 				int nx = cur[0] + dp[0];
 				int ny = cur[1] + dp[1];
-				// printf("\tnx=%d ny=%d\n", nx, ny);
 				if (nx >= 0 && nx < visited.size() && ny >= 0 && ny < visited.size()
 					&& !visited[nx][ny]
 					) {
