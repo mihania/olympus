@@ -1,23 +1,24 @@
 import java.io.*;   // Import the FileWriter class
 import java.util.*;
+import java.util.concurrent.*;
 
 public class TestGenerator {
     private static Random random = new Random();
-
+    
     private static int solve(String A, String B) {
-        int a = Integer.parseInt(A);
-        int b = Integer.parseInt(B);
+        long a = Long.parseLong(A);
+        long b = Long.parseLong(B);
         int res = 0;
-        for (int k = a; k <= b; k++) {
+        for (long k = a; k <= b; k++) {
             if (isNonDecreasing(k)) {
-                res++;
+                res = (res + 1) % 1_000_000_007;
             }
         }
 
         return res;
     }
 
-    private static boolean isNonDecreasing(int k) {
+    private static boolean isNonDecreasing(long k) {
         String s = String.valueOf(k);
         int i = 1;
         for (; i < s.length() && s.charAt(i - 1) <= s.charAt(i); i++);
@@ -31,11 +32,11 @@ public class TestGenerator {
         try {
             testIn = new BufferedWriter(
                     new OutputStreamWriter(
-                            new FileOutputStream("TESTS.IN"), "utf-8"));
+                            new FileOutputStream("tests.in"), "utf-8"));
 
             testOut = new BufferedWriter(
                     new OutputStreamWriter(
-                            new FileOutputStream("TESTS.OUT"), "utf-8"));
+                            new FileOutputStream("tests.expected.out"), "utf-8"));
             testIn.append(String.valueOf(tests.size()));
             testIn.newLine();
             for (int i = 0; i < tests.size(); i++) {
@@ -64,11 +65,12 @@ public class TestGenerator {
 
     private static List<Test> generateTests() {
         List<Test> result = new ArrayList<>();
-        int N = 10000;
+        int N = 2000;
         for (int i = 0; i < N; i++) {
             Test test = new Test();
-            int A = random.nextInt(i + 1) + 1;
-            int B = A + random.nextInt(i + 1) + 1;
+            long max = i < N - 50 ? i + 1 : 5_000_000_000L;
+	    long A = ThreadLocalRandom.current().nextLong(0, max) + 1;
+            long B = A + ThreadLocalRandom.current().nextLong(0, max) + 1;
             test.A = String.valueOf(A);
             test.B = String.valueOf(B);
             result.add(test);
