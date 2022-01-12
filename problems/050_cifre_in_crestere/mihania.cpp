@@ -38,7 +38,7 @@ int count(string& s, vector<vector<int>>& dp) {
 
 		if (i != 0 && s[i] < s[i - 1]) {
 
-			// breaking here as no rule has been violated.
+			// breaking here as rule has been violated and we can't have more numbers.
 			break;
 		}
 	}
