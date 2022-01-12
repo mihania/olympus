@@ -7,38 +7,7 @@ using namespace std;
 
 const int MOD = 1000000007;
 
-void print(vector<vector<int>>& v) {
-	for (int i = 0; i < v.size(); i++) {
-		for (int j = 0; j < v[0].size(); j++) {
-			printf("%d ", v[i][j]);
-		}
-
-		printf("\n");
-	}
-}
-
-int count(string& s) {
-	int e = stoi(s);
-	int res = 0;
-	for (int i = 0; i <= e; i++) {
-		bool valid = true;
-		string v = to_string(i);
-		for (int j = 1; j < v.size(); j++) {
-			if (v[j] < v[j - 1]) {
-				valid = false;
-				break;
-			}
-		}
-
-		if (valid) {
-			// printf("valid e=%d: %d\n", e, i);
-			res++;
-		}
-	}
-
-	return res;
-}
-
+// true if s is increasing number, otherwise false.
 bool isValid(string& s) {
 	for (int i = 1; i < s.size(); i++) {
 		if (s[i] < s[i - 1]) {
@@ -53,32 +22,27 @@ bool isValid(string& s) {
 int count(string& s, vector<vector<int>>& dp) {
 	const int N = s.size();
 	int res = 0;
+	
+	// getting total number of increasing numbers of length N
 	for (int i = 0; i <= 9; i++) {
 		res = (res + dp[dp.size() - N][i]) % MOD;
 	}
 
-
-	string expected = "";
-	for (int i = 0; i < N; i++) {
-		expected += "9";
-	}
-	
-	// printf("s=%s res=%d expected=%d\n", s.c_str(), res, count(expected));
-
+	// subtracting increasing numbers of length N that are bigger than s.
 	for (int i = 0; i < N; i++) {
 		int start = i == 0 ? s[i] - '0' + 1 : max(s[i - 1] - '0', s[i] - '0' + 1);
 		for (int j = start; j <= 9; j++) {
 			int diff = dp[dp.size() - N + i][j]; 
-			// printf("i=%d j=%d diff=%d\n", i, j, diff);
 			res -= diff;
 		}
 
 		if (i != 0 && s[i] < s[i - 1]) {
+
+			// breaking here as no rule has been violated.
 			break;
 		}
 	}
 
-	// printf("s=%s res=%d expected=%d\n", s.c_str(), res, count(s));
 	return res;
 }
 
@@ -98,7 +62,7 @@ int solve(string& a, string& b) {
 		}
 	}
 
-	// print(dp);
+	// check whether a is valid to not double exclude it.
 	return (count(b, dp) + (isValid(a) ? 1 : 0)) % MOD - count(a, dp);
 }
 
@@ -110,8 +74,7 @@ int main() {
    for (int i = 0; i < T; i++) {
       string a, b;
       in >> a >> b; 
-      // if (i == 20)
-      	out << solve(a, b) << endl;
+      out << solve(a, b) << endl;
    } 
    
    in.close();
