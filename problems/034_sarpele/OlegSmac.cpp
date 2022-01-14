@@ -6,8 +6,6 @@
 
 using namespace std;
 
-vector<vector<int>> bound = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
 void nearestApple(vector<vector<int>>& grid, int y, int *xLow, int *xHigh) {
 	if (y < grid[0].size()) {
 		for (int i = 0; i < grid.size(); i++) {
