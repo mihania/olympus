@@ -7,10 +7,10 @@ public class Mihania {
 
         // dp[i] - maximum length of block with i rocket in the begining.
         int[] dp = new int[h.length];
-        int res = 0;
+        int res = h.length == 0 ? 0 : 1;
         for (int i = 0; i < dp.length; i++) {
             dp[i] = 1;
-        }
+	}
 
         for (int i = 0; i < dp.length; i++) {
             for (int j = 0; j < i; j++) {
