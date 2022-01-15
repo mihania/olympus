@@ -16,18 +16,17 @@ int main(){
         cin >> in_b;
         b.push_back(in_b);
     }
-    int x, max_x;
-    max_x = 0;
-    for(int i = 0; i < n; i++){
-        x = 0;
-        for(int j = 0; j < n; j++){
-            if((h[i] >= a[j]) && (h[i] <= b[j]) && (j != i)){
+    int x = 1;
+    int max_x = 0;
+    for(int i = 1; i < n; i++){
+        if((h[i] >= a[i  - 1]) && (h[i] <= b[i - 1])){
                 x++;
-            }
         }
-        cout << x << " " << i << endl;
-        if(max_x <= x){
-            max_x = x;
+        else {
+            if(max_x <= x){
+                max_x = x;
+            }
+            x = 0;
         }
     }
     cout << max_x;
