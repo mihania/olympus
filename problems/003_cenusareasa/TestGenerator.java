@@ -20,8 +20,8 @@ public class TestGenerator {
         BufferedWriter testIn = null;
         BufferedWriter testOut = null;
         try {
-            testIn = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.IN"), "utf-8"));
-            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TESTS.OUT"), "utf-8"));
+            testIn = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tests.in"), "utf-8"));
+            testOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tests.expected.out"), "utf-8"));
             testIn.append(String.valueOf(tests.size()));
             testIn.newLine();
             for (int i = 0; i < tests.size(); i++) {
