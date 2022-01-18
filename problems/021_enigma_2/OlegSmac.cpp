@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-	ifstream in("in2.txt");
+	ifstream in("in3.txt");
 	ofstream out("res.txt");
 	vector<int> letters;
 	int G = 0;
@@ -28,6 +28,7 @@ int main() {
 		if (i >= len2 - len1) {
 			letters[s1[len1 - len2 + i] - 'a']--;
 		}
+		cout << i << " " << letters[0] << " " << letters[1] << " " << G << endl;
 	}
 	
 	cout << "G = " << G << endl;
