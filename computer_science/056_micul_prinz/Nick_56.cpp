@@ -10,10 +10,10 @@ int main(){
     in >> T;
     for(int i = 0; i < T; i++){
         int n, number;
-        cin >> n;
+        in >> n;
         vector<int> test;
         for(int i = 0; i < n; i++){
-            cin >> number;
+            in >> number;
             test.push_back(number);
         }
         for(int i = 0; i < n; i++){
@@ -28,7 +28,7 @@ int main(){
             }
         }
         for(int i = 0; i < n; i++){
-            cout << test[i] << " ";
+            out << test[i] << " ";
         }
         in.close();
         out.close();
