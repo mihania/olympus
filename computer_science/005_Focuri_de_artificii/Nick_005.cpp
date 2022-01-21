@@ -7,7 +7,6 @@ int main(){
     ofstream out("res.txt");
     int T;
     in >> T;
-    cout << T;
     for(int i = 0; i < T; i++){
         int n, in_n;
         in >> n;
