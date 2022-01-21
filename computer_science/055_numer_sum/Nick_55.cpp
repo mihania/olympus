@@ -5,8 +5,8 @@
 #include <fstream>
 using namespace std;
 int main(){
-    ifstream("test.txt");
-    ofstream("res.txt");
+    ifstream in("test_55.txt");
+    ofstream out("res_55.txt");
     int T;
     in >> T;
     for(int i = 0; i < T; i++){
@@ -37,9 +37,9 @@ int main(){
         }
         sort(answer.begin(), answer.end());
         for(int i = answer.size() - 1; i >= 0; i--){
-            out << answer[i] << " ";
+            out << answer[i] << " " << endl;
         }
     }
     in.close();
-    of.close();
+    out.close();
 }
