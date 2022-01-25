@@ -5,42 +5,47 @@
 using namespace std;
 
 int solution(vector<vector<int>>& points) {
-	int xMax = 0;
-	int yMax = 0;
-	for (int i = 0; i < points.size(); i++) {
-		if (points[i][0] > xMax) {
-			xMax = points[i][0];
-		}
-		if (points[i][1] > yMax) {
-			yMax = points[i][1];
+	//sorting points by x
+	for (int i = 0; i < points.size(); i++) { 
+		for (int j = i + 1; j < points.size(); j++) {
+			if (points[i][0] > points[j][0]) {
+				vector<int> tmp = points[i];
+				points[i] = points[j];
+				points[j] = tmp;
+			}
 		}
 	}
-	vector<vector<int>> grid (xMax + 1, vector<int>(yMax + 1, -1));
-	for (int i = 0; i < points.size(); i++) {
-		grid[points[i][0]][points[i][1]] = points[i][2];
-	}
+	
+	//by this moment there are 4 points in test
 	int res = 0;
-	for (int i = 0; i < grid.size(); i++) {
-		for (int j = 0; j < grid[i].size(); j++) {
-			if (grid[i][j] != -1) {
-				for (int k = 1; k < min(xMax - i + 1, yMax - j + 1); k++) {
-					if (grid[i][j] == grid[i][j + k] && grid[i][j] == grid[i + k][j] && grid[i][j] == grid[i + k][j + k]) {
+	for (int i = 0; i < points.size(); i++) { 
+		for (int j = i + 1; j < points.size(); j++) {
+			for (int p = j + 1; p < points.size(); p++) {
+				for (int q = p + 1; q < points.size(); q++) {
+					if (points[i][2] == points[j][2] && points[j][2] == points[p][2] && points[p][2] == points[q][2] && 
+						abs(points[i][1] - points[j][1]) + abs(points[i][0] - points[j][0]) == abs(points[i][1] - points[p][1]) + abs(points[i][0] - points[p][0]) && 
+						abs(points[j][0] - points[p][0]) + abs(points[j][1] - points[p][1]) == abs(points[i][0] - points[q][0]) + abs(points[i][1] - points[q][1]) &&
+						abs(points[i][1] - points[j][1]) + abs(points[i][0] - points[j][0]) == abs(points[j][0] - points[q][0]) + abs(points[j][1] - points[q][1]) &&
+						abs(points[i][0] - points[p][0]) + abs(points[i][1] - points[p][1]) == abs(points[p][1] - points[q][1]) + abs(points[p][0] - points[q][0])) {
 						res++;
-					}
-					if (j != 0 && i + 2 * k < grid.size() && j - k >= 0 && j + k < grid[i].size()
-						&& grid[i][j] == grid[i + 2*k][j] && grid[i][j] == grid[i + k][j - k] && grid[i][j] == grid[i + k][j + k]) {
-						res++;
-					}
+						//cout << points[i][2] << " " << points[j][2] << " " << points[p][2] << " " << points[q][2] << endl;
+						cout << points[i][0] << " " << points[i][1] << endl;
+						cout << points[j][0] << " " << points[j][1] << endl;
+						cout << points[p][0] << " " << points[p][1] << endl;
+						cout << points[q][0] << " " << points[q][1] << endl;
+						cout << endl;
+					}	
 				}
 			}
 		}
 	}
 	
+	cout << "res = " << res << endl;
 	return res;
 }
 
 int main() {
-	ifstream in("TESTS.in");
+	ifstream in("in2.txt");
 	ofstream out("res.txt");
 	int T;
 	in >> T;
@@ -53,7 +58,7 @@ int main() {
 			int num;
 			for (int p = 0; p < 3; p++) {
 				in >> num;
-				v.push_back(num - 1);
+				v.push_back(num);
 			}
 			points.push_back(v);
 		}
