@@ -1,14 +1,29 @@
 #include<vector>
 #include<iostream>
 #include<fstream>
+#include<math.h>
 
 using namespace std;
+
+double dist(int ix, int iy, int jx, int jy) {
+	return sqrt(pow(ix - jx, 2) + pow(iy - jy, 2));
+}
 
 int solution(vector<vector<int>>& points) {
 	//sorting points by x
 	for (int i = 0; i < points.size(); i++) { 
 		for (int j = i + 1; j < points.size(); j++) {
 			if (points[i][0] > points[j][0]) {
+				vector<int> tmp = points[i];
+				points[i] = points[j];
+				points[j] = tmp;
+			}
+		}
+	}
+	//sorting by y
+	for (int i = 0; i < points.size(); i++) { 
+		for (int j = i + 1; j < points.size(); j++) {
+			if (points[i][0] == points[j][0] && points[i][1] > points[j][1]) {
 				vector<int> tmp = points[i];
 				points[i] = points[j];
 				points[j] = tmp;
@@ -23,17 +38,11 @@ int solution(vector<vector<int>>& points) {
 			for (int p = j + 1; p < points.size(); p++) {
 				for (int q = p + 1; q < points.size(); q++) {
 					if (points[i][2] == points[j][2] && points[j][2] == points[p][2] && points[p][2] == points[q][2] && 
-						abs(points[i][1] - points[j][1]) + abs(points[i][0] - points[j][0]) == abs(points[i][1] - points[p][1]) + abs(points[i][0] - points[p][0]) && 
-						abs(points[j][0] - points[p][0]) + abs(points[j][1] - points[p][1]) == abs(points[i][0] - points[q][0]) + abs(points[i][1] - points[q][1]) &&
-						abs(points[i][1] - points[j][1]) + abs(points[i][0] - points[j][0]) == abs(points[j][0] - points[q][0]) + abs(points[j][1] - points[q][1]) &&
-						abs(points[i][0] - points[p][0]) + abs(points[i][1] - points[p][1]) == abs(points[p][1] - points[q][1]) + abs(points[p][0] - points[q][0])) {
+					dist(points[i][0], points[i][1], points[j][0], points[j][1]) == dist(points[p][0], points[p][1], points[q][0], points[q][1]) &&
+					dist(points[i][0], points[i][1], points[p][0], points[p][1]) == dist(points[j][0], points[j][1], points[q][0], points[q][1]) &&
+					dist(points[i][0], points[i][1], points[q][0], points[q][1]) == dist(points[j][0], points[j][1], points[p][0], points[p][1]) &&
+					dist(points[i][0], points[i][1], points[j][0], points[j][1]) == dist(points[j][0], points[j][1], points[q][0], points[q][1])) {
 						res++;
-						//cout << points[i][2] << " " << points[j][2] << " " << points[p][2] << " " << points[q][2] << endl;
-						cout << points[i][0] << " " << points[i][1] << endl;
-						cout << points[j][0] << " " << points[j][1] << endl;
-						cout << points[p][0] << " " << points[p][1] << endl;
-						cout << points[q][0] << " " << points[q][1] << endl;
-						cout << endl;
 					}	
 				}
 			}
@@ -45,7 +54,7 @@ int solution(vector<vector<int>>& points) {
 }
 
 int main() {
-	ifstream in("in2.txt");
+	ifstream in("TESTS.in");
 	ofstream out("res.txt");
 	int T;
 	in >> T;
