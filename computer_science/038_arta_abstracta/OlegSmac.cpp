@@ -31,7 +31,6 @@ int solution(vector<vector<int>>& points) {
 		}
 	}
 	
-	//by this moment there are 4 points in test
 	int res = 0;
 	for (int i = 0; i < points.size(); i++) { 
 		for (int j = i + 1; j < points.size(); j++) {
