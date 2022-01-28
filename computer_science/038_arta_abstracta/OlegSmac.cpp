@@ -30,11 +30,7 @@ int solution(vector<vector<int>>& points) {
 			}
 		}
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> ec2b8a6a4bfb9595eccb27d8d955ca9ad1835a63
 	int res = 0;
 	for (int i = 0; i < points.size(); i++) {
 		for (int j = i + 1; j < points.size(); j++) {
