@@ -5,13 +5,13 @@
 
 using namespace std;
 
-double dist(int ix, int iy, int jx, int jy) {
-	return sqrt(pow(ix - jx, 2) + pow(iy - jy, 2));
+long dist(int ix, int iy, int jx, int jy) {
+	return (ix - jx) * (ix - jx) + (iy - jy) * (iy - jy);
 }
 
 int solution(vector<vector<int>>& points) {
 	//sorting points by x
-	for (int i = 0; i < points.size(); i++) { 
+	for (int i = 0; i < points.size(); i++) {
 		for (int j = i + 1; j < points.size(); j++) {
 			if (points[i][0] > points[j][0]) {
 				vector<int> tmp = points[i];
@@ -21,7 +21,7 @@ int solution(vector<vector<int>>& points) {
 		}
 	}
 	//sorting by y
-	for (int i = 0; i < points.size(); i++) { 
+	for (int i = 0; i < points.size(); i++) {
 		for (int j = i + 1; j < points.size(); j++) {
 			if (points[i][0] == points[j][0] && points[i][1] > points[j][1]) {
 				vector<int> tmp = points[i];
@@ -30,25 +30,25 @@ int solution(vector<vector<int>>& points) {
 			}
 		}
 	}
-	
-	//by this moment there are 4 points in test
+
 	int res = 0;
-	for (int i = 0; i < points.size(); i++) { 
+	for (int i = 0; i < points.size(); i++) {
 		for (int j = i + 1; j < points.size(); j++) {
 			for (int p = j + 1; p < points.size(); p++) {
 				for (int q = p + 1; q < points.size(); q++) {
-					if (points[i][2] == points[j][2] && points[j][2] == points[p][2] && points[p][2] == points[q][2] && 
+					if (points[i][2] == points[j][2] && points[j][2] == points[p][2] && points[p][2] == points[q][2] &&
 					dist(points[i][0], points[i][1], points[j][0], points[j][1]) == dist(points[p][0], points[p][1], points[q][0], points[q][1]) &&
 					dist(points[i][0], points[i][1], points[p][0], points[p][1]) == dist(points[j][0], points[j][1], points[q][0], points[q][1]) &&
 					dist(points[i][0], points[i][1], points[q][0], points[q][1]) == dist(points[j][0], points[j][1], points[p][0], points[p][1]) &&
 					dist(points[i][0], points[i][1], points[j][0], points[j][1]) == dist(points[j][0], points[j][1], points[q][0], points[q][1])) {
 						res++;
-					}	
+
+					}
 				}
 			}
 		}
 	}
-	
+
 	cout << "res = " << res << endl;
 	return res;
 }
@@ -73,7 +73,7 @@ int main() {
 		}
 		out << solution(points) << endl;
 	}
-	
+
 	in.close();
 	out.close();
 }
