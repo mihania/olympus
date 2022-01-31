@@ -32,7 +32,7 @@
 pentru ca nu are
 
 timp ion spune ca nu urmareste nici 
-emisiunu interesante si evident nici altfel
+emisiuni interesante si evident nici altfel
 de
 
 emisiuni
