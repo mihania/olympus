@@ -30,13 +30,11 @@ Test 1 :
 In : 
      
      6
-
      c 2 5 5 b 2
      
 Out :
 
       CB
-
       25
       
 Test 2 : 
@@ -44,12 +42,10 @@ Test 2 :
 In :
      
      8
-
      c a 5 0 b 2 5 d
      
 Out : 
 
      CABD
-
-      205
+     205
          
