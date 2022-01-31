@@ -47,3 +47,8 @@
 
      Тест 1 : 3
      Тест 2 : 4
+
+# Похожие задачи
+1. [56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
+2. [435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+3. [452. Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
