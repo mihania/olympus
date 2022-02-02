@@ -23,6 +23,7 @@ int main() {
 	for (int i = 0; i < resWords.size(); i++) {
         resWords[i][0] = i;
 	}
+	//solution
 	int res = 0;
 	for (int i = 0; i < words.size(); i++) {
         for (int j = 0; j < i; j++) {
@@ -36,6 +37,7 @@ int main() {
             }
         }
 	}
+	//output
 	int max = 0;
 	for (int i = 0; i < numWords.size(); i++) {
         if (numWords[i] > numWords[max]) {
