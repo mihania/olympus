@@ -3,46 +3,49 @@
 #include<fstream>
 #include<math.h>
 #include<string>
-#include<unordered_set>
+#include<algorithm>
 
 using namespace std;
 
-string numsOutput(unordered_set<int>& nums) {
-    string res;
-    for (int i = 1; i <= 9; i++) {
-        if (nums.count(i) == 1) {
-            res += i + '0';
-        }
-        if (i == 2 && nums.count(0) == 1) {
-            res += '0';
-        }
-    }
-    return res;
-}
-
 int main() {
-	ifstream in("magic.in");
+	ifstream in("text.in");
 	ofstream out("res.txt");
-	int T;
-	in >> T;
-	for (int i = 0; i < T; i++) {
-		int n;
-		in >> n;
-        string letters;
-        unordered_set<int> nums;
-        for (int j = 0; j < n; j++) {
-            char c;
-            in >> c;
-            if (c >= '0' && c <= '9' && nums.count(c - '0') == 0) {
-                nums.insert(c - '0');
-            }
-            else if (c >= 'a' && c <= 'z') {
-                c = c - 'a' + 'A';
-                letters += c;
+	vector<string> words;
+	while (!in.eof()) {
+        string str;
+        in >> str;
+        if (str.size() != 0) {
+            words.push_back(str);
+        }
+	}
+	vector<int> numWords (words.size(), 1);
+	vector<vector<int>> resWords (words.size(), vector<int>{-1});
+	for (int i = 0; i < resWords.size(); i++) {
+        resWords[i][0] = i;
+	}
+	int res = 0;
+	for (int i = 0; i < words.size(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (words[j][words[j].size() - 1] == words[i][0]) {
+                if (numWords[j] + 1 > numWords[i]) {
+                    resWords[i].swap(resWords[j]);
+                    resWords[i].push_back(i);
+
+                }
+                numWords[i] = max(numWords[i], numWords[j] + 1);
             }
         }
-        out << letters << endl;
-        out << numsOutput(nums) << endl;
+	}
+	int max = 0;
+	for (int i = 0; i < numWords.size(); i++) {
+        if (numWords[i] > numWords[max]) {
+            max = i;
+        }
+	}
+	out << words.size() << endl;
+	out << words.size() - numWords[max] << endl;
+	for (int i = 0; i < resWords[max].size(); i++) {
+        out << words[resWords[max][i]] << endl;
 	}
 
 	in.close();
