@@ -13,7 +13,7 @@ string numsOutput(unordered_set<int>& nums) {
         if (nums.count(i) == 1) {
             res += i + '0';
         }
-        if (i == 2 && nums.count(0) == 1) {
+        if (res.size() == 1 && nums.count(0) == 1) {
             res += '0';
         }
     }
@@ -21,7 +21,7 @@ string numsOutput(unordered_set<int>& nums) {
 }
 
 int main() {
-	ifstream in("magic.in");
+	ifstream in("tests.in");
 	ofstream out("res.txt");
 	int T;
 	in >> T;
@@ -38,6 +38,9 @@ int main() {
             }
             else if (c >= 'a' && c <= 'z') {
                 c = c - 'a' + 'A';
+                letters += c;
+            }
+            else if (c >= 'A' && c <= 'Z') {
                 letters += c;
             }
         }
