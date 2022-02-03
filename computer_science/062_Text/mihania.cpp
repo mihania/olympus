@@ -59,11 +59,9 @@ int main() {
 	}
 
 	out << m.size() - dp[maxI] << endl;
-	int i = maxI;
-	do {
+	for (int i = maxI; i != -1; i = next[i]) {
 		out << m[i] << endl;
-		i = next[i];
-	} while (i != -1);
+	}
 
 	out.close();
 	return 0;
