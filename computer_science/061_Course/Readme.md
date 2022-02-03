@@ -61,6 +61,6 @@
 ```
 
 # Похожие задачи
-1. [56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
-2. [435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+1. [435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+2. [56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
 3. [452. Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
