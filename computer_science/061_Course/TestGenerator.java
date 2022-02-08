@@ -41,18 +41,17 @@ public class TestGenerator {
 	int i = 0;
 	int j = max;
 	while (i < j) {
-		int mid = i + (j - i) / 2;
-		boolean val = hasMoreThanKIntersections(m, mid, k);
+		int mid = i + (j - i + 1) / 2;
+		boolean val = canServeWithKRooms(m, mid, k);
 	        if (val) {
-			j = mid - 1;
-		} else {
 			i = mid;
+		} else {
+			j = mid - 1;
 		}
 
-		System.out.printf("i=%d j=%d mid=%d val=%b\n", i, j, mid, val);
+		// System.out.printf("i=%d j=%d mid=%d val=%b\n", i, j, mid, val);
 	}
 	
-	// ToDo: polish binary search
     	return i;
     }
 
@@ -61,25 +60,26 @@ public class TestGenerator {
     }
 
     // returns false if m k more than k intersected intervals with  duration.
-    private static boolean hasMoreThanKIntersections(List<int[]> m, int duration, int k) {
+    private static boolean canServeWithKRooms(List<int[]> m, int duration, int k) {
+	// System.out.printf("can duration=%d k=%d\n", duration, k);
 	for (int i = 0; i < m.size(); ) {
-		int max = m.get(i)[1];
+		int max = getEnd(m.get(i), duration);
 		int j = i;
-		for (; j < m.size() && m.get(j)[0] <= max; j++) {
+		for (; j < m.size() && m.get(j)[0] < max; j++) {
 			max = Math.max(max, getEnd(m.get(j), duration));
 		}
 
-		System.out.printf("\t duration=%d i=%d j=%d max=%d\n", duration, i, j, max);
+		// System.out.printf("\t duration=%d i=%d j=%d max=%d\n", duration, i, j, max);
 		
-		if (j - i + 1 > k) {
-			return true;
+		if (j - i > k) {
+			return false;
 		}
 
 
 		i = j == i ? i + 1 : j;
 	}
 
-	return false;
+	return true;
     }
     
     private static void solve(Test t) {
@@ -91,7 +91,7 @@ public class TestGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        List<Test> tests = generateTests(100);
+        List<Test> tests = generateTests(1000);
         BufferedWriter testIn = null;
         BufferedWriter testOut = null;
         try {
@@ -135,7 +135,7 @@ public class TestGenerator {
 	}
 	t1.k = 2;
 	t1.c = 1;
-	// result.add(t1);
+	result.add(t1);
 	int[][] t2m = {{5, 12}, {9, 18}, {1, 3}, {1, 7}};
 	
 	Test t2 = new Test();
@@ -147,7 +147,7 @@ public class TestGenerator {
 
 	result.add(t2);
 	
-	for (int i = 0; i < T && false; i++) {
+	for (int i = 0; i < T; i++) {
             
 	    Test test = new Test();
 	    int N = random.nextInt(i + 1) + 1;
