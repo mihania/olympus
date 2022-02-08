@@ -37,7 +37,7 @@ public class TestGenerator {
 		max = Math.max(max, p[1] - p[0]); 
 	}
 
-	// binary searching the left most invalid duration that will have not more than k interected intervals
+	// binary searching the right most duration that will be able to serve with k rooms
 	int i = 0;
 	int j = max;
 	while (i < j) {
