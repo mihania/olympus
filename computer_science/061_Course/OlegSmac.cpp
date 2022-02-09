@@ -9,42 +9,75 @@
 
 using namespace std;
 
-int solution(vector<vector<int>>& intervals, int n, int k) {
+int solution1(vector<vector<int>>& intervals, int n, int K) {
+    sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b) {
+        return a[0] == b[0] ? a[1] < b[1] : a[0] < b[0];
+    });
+    for (int p = 0; p < intervals.size(); p++) {
+        cout << intervals[p][0] << " " << intervals[p][1] << endl;
+    }
+
+    if (intervals.size() <= K) {
+        return intervals.size();
+    }
+
+    int maxLen = 0;
+    for (vector<int>& v : intervals) {
+        maxLen = max(maxLen, v[1]);
+    }
+
+    //dp[i][j] - длина максимальной подпоследовательности на интервале [0, i],
+    //если i-я подпоследовательность входит в j пересечений
+
+
+	return -1;
+}
+
+bool check_intersections(vector<vector<int>>& intervals, int mid, int k) {
+    bool can = true;
+    int intersections = 0;
+    for (int i = 0; i < intervals.size(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (intervals[j][0] + mid > intervals[i][0]) {
+                //cout << "j = " << intervals[j][0] << " mid = " << mid << " i = " << intervals[i][0];
+                intersections++;
+                //cout << " inter = " << intersections << endl;
+            }
+        }
+
+        if (intersections >= k) {
+            can = false;
+            break;
+        }
+    }
+    return can;
+}
+
+int solution2(vector<vector<int>>& intervals, int n, int k) {
     sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b) {
         return a[0] == b[0] ? a[1] < b[1] : a[0] < b[0];
     });
 
-    int maxLen = 0;
+    int maxCurs = 0;
     for (int i = 0; i < intervals.size(); i++) {
-        maxLen = max(maxLen, intervals[i][1]);
+        maxCurs = max(maxCurs, intervals[i][1] - intervals[i][0]);
     }
 
     int res = 0;
     int low = 0;
-    int high = maxLen;
+    int high = maxCurs;
     while (low <= high) {
         int mid = low + (high - low) / 2;
 
-        bool can = true;
-        for (int i = 0; i <= maxLen; i++) {
-            int num = 0;
-            for (int j = 0; j < intervals.size(); j++) {
-                if (intervals[j][0] < i && intervals[j][0] + mid >= i) {
-                    num++;
-                }
-            }
-            if (num > k) {
-                can = false;
-                break;
-            }
-        }
+        //если меньше k пересечений (начало интервала + mid)
+        bool can = check_intersections(intervals, mid, k);
 
-        if (!can) {
-            high = mid - 1;
-        }
-        else if (can && mid > res) {
-            low = mid + 1;
+        if (can) {
             res = mid;
+            low = mid + 1;
+        }
+        else {
+            high = mid - 1;
         }
     }
     return res;
@@ -55,8 +88,8 @@ int main() {
 	ofstream out("res.txt");
 	int T;
 	in >> T;
-	vector<vector<int>> intervals;
 	for (int i = 0; i < T; i++) {
+        vector<vector<int>> intervals;
         int C;
         int n;
         int k;
@@ -70,8 +103,12 @@ int main() {
             v.push_back(num);
             intervals.push_back(v);
         }
-        if (C == 2) {
-            cout << solution(intervals, n, k);
+        if (C == 1) {
+            cout << solution1(intervals, n, k) << endl;
+            cout << endl;
+        }
+        else if (C == 2) {
+            cout << solution2(intervals, n, k) << endl;
         }
 	}
 
