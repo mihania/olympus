@@ -20,15 +20,14 @@ int main(){
     vector<vector<string>> res_words(all_words.size(), vector<string>(0, ""));
     int ans_ind = 0;
     int ans = 0;
-    for(int i = 0; i < all_words.size(); i++) {
-        for(int j = i; j >= 0; j--){
+    for(int i = 1; i < all_words.size(); i++) {
+        for(int j = i - 1; j >= 0; j--){
             int s = all_words[j].size();
             if (dp[i] < dp[j] + 1 && all_words[j][s-1] == all_words[i][0]){
                 dp[i] = dp[j] + 1;
                 for(int k = 0; k < res_words[j].size(); k++){
                     res_words[i].push_back(res_words[j][k]);
                 }
-                break;
             }
         }
         res_words[i].push_back(all_words[i]);
