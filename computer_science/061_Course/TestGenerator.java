@@ -11,6 +11,7 @@ public class TestGenerator {
 	int res = 0;
 	for (int i = 0; i < dp.length; i++) {
 		dp[i][1] = 1;
+		res = Math.max(res, dp[i][1]);
 		for (int j = 0; j < i; j++) {
 			int d = m.get(j)[1] <= m.get(i)[0] ? 0 : 1;
 			for (int k = 1; k <= K; k++) {
