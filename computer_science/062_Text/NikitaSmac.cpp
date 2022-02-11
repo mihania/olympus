@@ -17,9 +17,9 @@ int main(){
         }
     }
     vector<int> dp(all_words.size(), 1);
-    vector<vector<string>> res_words;
+    vector<vector<string>> res_words(all_words.size(), vector<string>(0, ""));
     int ans_ind = 0;
-    int max_s = 0;
+    int ans = 0;
     for(int i = 1; i < all_words.size(); i++) {
         for(int j = 0; j < i; j++){
             int s = all_words[j].size();
@@ -28,11 +28,8 @@ int main(){
                 res_words[i].push_back(all_words[j]);
             }
         }
-        ans = max(ans, dp[i]);
-    }
-
-    for(int i = 0; i < dp.size(); i++){
-        if(ans = dp.size()){
+        if(ans < dp[i]){
+            ans = dp[i];
             ans_ind = i;
         }
     }
@@ -46,3 +43,4 @@ int main(){
     in.close();
     out.close();
 }
+
