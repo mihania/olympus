@@ -50,6 +50,7 @@ ________________________________________________________________________________
   
   energie.in
   
+      3
       Munteanu Ion 25
       Priscaru Vio 59
       Postasul Valentina 38
