@@ -14,7 +14,6 @@ using namespace std;
 int solve(vector<vector<int>>& v) {
 	int res = 0;
 	for (long i = 0; i < pow(2, v.size()); i++) {
-		auto k = i;
 		vector<int> hist(7, 0);
 		int count = 0;
 		int pos = 0;
