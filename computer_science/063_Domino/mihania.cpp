@@ -1,71 +1,46 @@
 #include<vector>
 #include<iostream>
 #include<fstream>
-#include<unordered_map>
+#include<math.h>
 
 using namespace std;
 
-// string representation of prev and mask.
-string getKey(int* prev, int mask) {
-	return (prev == nullptr ? "" : to_string(*prev)) + "|" + to_string(mask);
-}
+/**
+ * O(2^N)
+ * 1. Find all possible subsets
+ * 2. For each subset count values histogram
+ * 3. If no more than  two elements in histogram have odd count - the chain can be formed, otherwise no.
+ */
+int solve(vector<vector<int>>& v) {
+	int res = 0;
+	for (long i = 0; i < pow(2, v.size()); i++) {
+		auto k = i;
+		vector<int> hist(7, 0);
+		int count = 0;
+		int pos = 0;
+		for (auto k = i; k > 0; k /= 2) {
+			if (k % 2 == 1) {
+				hist[v[pos][0]]++;
+				hist[v[pos][1]]++;
+				count++;
+			}
 
-// true if index i is used in mask, otherwise false.
-bool isUsed(int i, int mask) {
-	return ((1 << i) & mask) != 0;
-}
+			pos++;
+		}
 
-// returns the new mask after setting i-th bit in mask to 1.
-int setUsed(int i, int mask) {
-	return mask | (1 << i);
-}
-
-// returns a new mask after unsetting i-th bit in mask.
-int setUnUsed(int i, int mask) {
-	return mask & ~(1 << i);
-}
-
-
-// prev - the value of previous domino in chain or nullptr if chain is empty
-// mask - identifies used and unused dominos in the chain. mask is 32-bit integer, 
-//        where each bit set to 1 identifies that domino v[i] is used).
-//        instead of bitwise operations unordered_set<int> can be used.
-// dp[key] - shows the longest path of dominos that can be formed for the key. key is a a tuple of prev and mask.
-int dfs(vector<vector<int>>& v, int* prev, int mask, unordered_map<string, int> dp) {
-	string key = getKey(prev, mask);
-	if (dp.find(key) == dp.end()) {
-		int maxRes = 0;
-		for (int i = 0; i < v.size(); i++) {
-			if (!isUsed(i, mask) 
-					&& (prev == nullptr || *prev == v[i][0] || *prev == v[i][1])) {
-				mask = setUsed(i, mask);
-				int res = 1;
-				if (prev == nullptr) {
-					res += max(dfs(v, &v[i][0], mask, dp), dfs(v, &v[i][1], mask, dp));
-				} else {
-					res += dfs(v, *prev == v[i][0] ? &v[i][1] : &v[i][0], mask, dp);
-				}
-
-				mask = setUnUsed(i, mask);
-				maxRes = max(maxRes, res);
+		int odd = 0;
+		for (int c : hist) {
+			if (c % 2 == 1) {
+				odd++;
 			}
 		}
 
-		dp[key] = maxRes;
+		if (odd <= 2) {
+			res = max(res, count);
+		}
 	}
 
-	return dp[key];
-}
-
-
-/** 
- * this problem is NP-hard (finding the longest path in the graph https://en.wikipedia.org/wiki/Longest_path_problem)
- * which means it cannot be solved in polynomial time.
- * The current approach is brute force on trying all possible permutations with mask memoization 	
- */
-int solve(vector<vector<int>>& v) {
-	unordered_map<string, int> dp;
-	return dfs(v, nullptr, 0, dp); 
+	return res;
 }
 
 int main() {
