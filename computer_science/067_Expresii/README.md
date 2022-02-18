@@ -51,4 +51,4 @@ XIV*MMCIX-MMXXII+V*XL
 
 # Похожие задачи
 1. [227. Basic Calculator II](https://leetcode.com/problems/basic-calculator-ii/)
-2. [13. Roman to Integer]([https://leetcode.com/problems/roman-to-integer/)
+2. [13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/)
