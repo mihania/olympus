@@ -31,9 +31,9 @@ int solution(vector<vector<int>>& people) {
     vector<vector<int>> res;
     for (auto it = m.begin(); it != m.end(); it++) {
         auto num = it -> first;
-        auto x = it -> second;
-        if (!contains(res, x)) {
-            res.push_back(x);
+        auto v = it -> second;
+        if (!contains(res, v)) {
+            res.push_back(v);
         }
     }
     return res.size();
