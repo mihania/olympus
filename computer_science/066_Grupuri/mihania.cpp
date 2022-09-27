@@ -32,6 +32,7 @@ int solve(vector<vector<string>> catalogs) {
 	unordered_set<string> sets;
 	for (auto& kv : m) {
 		sets.insert(toString(kv.second));
+		printf("%s -> %s\n", kv.first.c_str(), toString(kv.second).c_str());
 	}
 
 	return sets.size();
