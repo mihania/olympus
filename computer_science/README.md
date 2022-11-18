@@ -45,7 +45,7 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 
 
  Number | Название | Год | Класс | Уровень | Тесты | Олег | Никита  
---- | --- | --- | --- |--- |
+--- | --- | --- | --- |--- | --- | --- |--- |
 001 | [Numere de Inmatriculare](001_numere_de_inmatriculare) | 2014 | 7-9 | Республиканская олимпиада Молдовы |  ✓ |  ✓ |  ✓ |
 002 | [Regele](002_regele) | 2014 | 7-9 | Республиканская олимпиада Молдовы |  ✓ |  ✓ |  ✓ |
 003 | [Cenusareasa](003_cenusareasa) | 2014 | 7-9 | Республиканская олимпиада Молдовы |  ✓ |  ✓ |  ✓ | 
@@ -54,8 +54,7 @@ La dorinţă, competitorii pot lucra în Turbo PASCAL sau Turbo C,
 006 | [Bacterii](006_bacterii) | 2014 | 7-9 | Республиканская олимпиада Молдовы |  ✓ |  ✓ | |
 008 | [Next Number](008_next_number) |  |  |  |   |  ✓ | ✓ |
 009 | [Regele2](009_regele_2) | 2014 | 10-12 | Республиканская олимпиада Молдовы | |  ✓ | |
-
-055 | [Numer Sum](055_numer_sum) | 2019 | 10-12 | Районная олимпиада Кишинева |
-056 | [Micul Prinz](056_micul_prinz) | 2019 | 10-12 | Районная олимпиада Кишинева |
-057 | [Casa Moderna](057_casa_moderna) | 2019 | 10-12 | Районная олимпиада Кишинева |
+055 | [Numer Sum](055_numer_sum) | 2019 | 10-12 | Районная олимпиада Кишинева | | | |
+056 | [Micul Prinz](056_micul_prinz) | 2019 | 10-12 | Районная олимпиада Кишинева | | | |
+057 | [Casa Moderna](057_casa_moderna) | 2019 | 10-12 | Районная олимпиада Кишинева | | | |
 
