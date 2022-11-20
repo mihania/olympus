@@ -4,29 +4,36 @@
 * Класс: 5-9
 * Задача: 3
 
-Într-o livadă sînt M rînduri de meri, iar pe fi ecare
-rînd – N pomi. Primarul satului are dreptul să culeagă
-roada de pe 4 pomi cu o condiţie: aceştia să formeze,
-după amplasare, vîrfurile unui pătrat şi numărul merelor
-culese să fi e maxim. Scrieţi un program care determină
-coordonatele (numărul rîndului şi al coloanei) celor 4
-pomi ce formează vîrfurile pătratului, astfel ca numărul
-merelor culese să fi e maxim.
-Input: Fişierul de intrare livada.in va conţine pe
-prima linie numerele M şi N≤20 (separate prin spaţiu),
-iar pe următoarele M linii – cîte N numere întregi, care
-reprezintă numărul de mere de pe pomul dat.
-Output: La ecran se vor afişa pe 4 linii coordonatele
-a 4 pomi (numărul rîndului şi numărul pomului din rînd),
-separate prin ; şi incluse între paranteze.
+В саду M рядов яблонь, и каждый ряд состоит из N деревьев. 
+Глава села имеет право собирать урожай с 4 деревьев с одним условием: они формируются, по расположению, вершинам квадрата и количеству яблок
+собрано по максимуму. Напишите программу, определяющую координаты (номер строки и столбца) 4 деревья, образующие вершины квадрата, такие, что число
+собранных яблок максимально.
+
+# Ввод 
+Входной файл `livada.in` будет содержать
+номера первой строки M и N≤20 (разделенные пробелом),
+а в следующих M строках – сколько N целых чисел, которые
+представляет количество яблок на данном дереве.
+
+# Вывод
+Координаты будут отображаться в 4 строки на экране.
+из 4-х деревьев (номер ряда и номер дерева в ряду),
+разделены по ; и заключены в скобки.
 
 
-Exemplu: Input: 4 6
- 12 32 38 14 61 28
- 51 43 84 66 25 34
- 56 99 13 85 65 25
- 78 41 98 56 61 72
- Output: (2 ; 3)
- (3; 4)
- (4; 3)
- (3; 2)
+Exemplu: Input: 
+```
+4 6
+12 32 38 14 61 28
+51 43 84 66 25 34
+56 99 13 85 65 25
+78 41 98 56 61 72
+```
+
+Output: 
+```
+(2;3)
+(3;4)
+(4;3)
+(3;2)
+```
