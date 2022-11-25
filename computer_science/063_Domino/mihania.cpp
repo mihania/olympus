@@ -19,8 +19,17 @@ int solve(vector<vector<int>>& v) {
 		int pos = 0;
 		for (auto k = i; k > 0; k /= 2) {
 			if (k % 2 == 1) {
-				hist[v[pos][0]]++;
-				hist[v[pos][1]]++;
+                auto left = v[pos][0];
+                auto right = v[pos][1];
+                if (left == right) {
+
+                    // if it is a double domino, it is not changing the parity
+                    hist[left]++;
+                } else {
+				    hist[left]++;
+				    hist[right]++;
+                }
+
 				count++;
 			}
 
