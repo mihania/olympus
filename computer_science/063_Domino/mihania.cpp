@@ -42,7 +42,7 @@ int solve(vector<vector<int>>& v) {
         }
 
         // odd == 2 needed for 2 doubles case (3,3), (4,4)
-        if (odd < 2 || (odd == 2 && count > 2)) {
+        if (odd < 2 || (odd == 2 && count != 2)) {
             res = max(res, count);
         }
     }
