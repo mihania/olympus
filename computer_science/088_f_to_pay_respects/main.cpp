@@ -8,30 +8,7 @@ int64_t N, X, R, P, K, r, p;
 vector<bool> regenerationSequence;
 
 
-int64_t getTotalDamage(int64_t reservedUses) {
-	bool poisonUse[N] = {0};
-	int64_t poisonUseAmount = 0;
-
-	int64_t i = 0;
-	while (reservedUses > 0 && i < N) {
-		if (regenerationSequence[i]) {
-			poisonUse[i] = true;
-			reservedUses--;
-			poisonUseAmount++;
-		}
-		i++;
-	}
-
-	i = 0;
-	int64_t usesLeft = K - poisonUseAmount;
-	while (usesLeft > 0 && i < N) {
-		if (!poisonUse[i]) {
-			poisonUse[i] = true;
-			usesLeft--;
-		}
-		i++;
-	}
-	
+int64_t getTotalDamage(bool poisonUse[]) {
 	int64_t p = 0, r = 0, totalDamage = 0;
 	// Calculate actual damage
 	for (int i = 0; i < N; i++){
@@ -47,7 +24,7 @@ int64_t getTotalDamage(int64_t reservedUses) {
 		}
 
 		totalDamage += X + P * p - R * r;
-		// cout << "round " << i << "; totalDamage = " << totalDamage << endl;
+		//cout << "round " << i << "; totalDamage = " << totalDamage << endl;
 	}
 
 	return totalDamage;
@@ -75,21 +52,38 @@ int main() {
 	}
 
 
-	int64_t maxDamage = -9223372036854775000;
-	for (int64_t i = 0; i <= K ; i++) {
-		if (i > regenerationAmount) {
-			break;
-		}
+	bool poisonUse[N] = {0};
+	int64_t startingPoisonLastIdx = K - 1;
 
-		int64_t totalDamage = getTotalDamage(i);
-		// cout << "i = " << i << "; damage = " << totalDamage << endl;
-
-		if (totalDamage > maxDamage) {
-			maxDamage = totalDamage;
-		} else {
-			break;
-		}
+	for (int64_t i = 0; i < K; i++) {
+        poisonUse[i] = true;
 	}
+
+	int64_t maxDamage = getTotalDamage(poisonUse);
+
+	for (int64_t i = K; i < N; i++) {
+        if (regenerationSequence[i]) {
+
+            while (startingPoisonLastIdx >= 0 && regenerationSequence[startingPoisonLastIdx]) {
+                startingPoisonLastIdx--;
+            }
+
+            if (startingPoisonLastIdx < 0) {
+                 break;
+            }
+
+            poisonUse[startingPoisonLastIdx--] = false;
+            poisonUse[i] = true;
+            int64_t damage = getTotalDamage(poisonUse);
+            if (damage > maxDamage) {
+                maxDamage = damage;
+            }
+        }
+	}
+
+	// 1) place last of starting poison use to first unoccupied regeneration use
+	// 2) calculate damage for this setup
+	// 3) compare result damage with maxDamage
 
 	cout << maxDamage << endl;
 
