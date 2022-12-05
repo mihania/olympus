@@ -56,29 +56,29 @@ int main() {
 	int64_t startingPoisonLastIdx = K - 1;
 
 	for (int64_t i = 0; i < K; i++) {
-        poisonUse[i] = true;
+        	poisonUse[i] = true;
 	}
 
 	int64_t maxDamage = getTotalDamage(poisonUse);
 
 	for (int64_t i = K; i < N; i++) {
-        if (regenerationSequence[i]) {
+		if (regenerationSequence[i]) {
 
-            while (startingPoisonLastIdx >= 0 && regenerationSequence[startingPoisonLastIdx]) {
-                startingPoisonLastIdx--;
-            }
+		    while (startingPoisonLastIdx >= 0 && regenerationSequence[startingPoisonLastIdx]) {
+			startingPoisonLastIdx--;
+		    }
 
-            if (startingPoisonLastIdx < 0) {
-                 break;
-            }
+		    if (startingPoisonLastIdx < 0) {
+			 break;
+		    }
 
-            poisonUse[startingPoisonLastIdx--] = false;
-            poisonUse[i] = true;
-            int64_t damage = getTotalDamage(poisonUse);
-            if (damage > maxDamage) {
-                maxDamage = damage;
-            }
-        }
+		    poisonUse[startingPoisonLastIdx--] = false;
+		    poisonUse[i] = true;
+		    int64_t damage = getTotalDamage(poisonUse);
+		    if (damage > maxDamage) {
+			maxDamage = damage;
+		    }
+		}
 	}
 
 	// 1) place last of starting poison use to first unoccupied regeneration use
