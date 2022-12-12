@@ -30,15 +30,3 @@ int main() {
 
     cout << res << endl;
 }
-
-/*
-for (int j = i - 1; j >= 0; j--) {
-    if (s[j] == t[j]) {
-        cout << "yes" << endl;
-        res += n - j;
-    }
-    else {
-        break;
-    }
-}
-*/
