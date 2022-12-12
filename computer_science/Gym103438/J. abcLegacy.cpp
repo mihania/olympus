@@ -12,7 +12,6 @@ int main() {
     cin >> N >> s;
     long long len = 2 * N;
 
-    //vector<bool> visited (len, false);
     int cntA = 0, cntB = 0, cntC = 0;
     set<long long> a, b, c;
 
@@ -40,11 +39,6 @@ int main() {
         cout << "NO" << endl;
         return 0;
     }
-    /*
-    x /= 2;
-    y /= 2;
-    z /= 2;
-    */
 
     for (int i = 0; i < Z; i++) {
         auto idxB = b.begin();
@@ -54,9 +48,7 @@ int main() {
             cout << "NO" << endl;
             return 0;
         }
-
-        //cout << "idxB = " << *idxB << " idxC = " << *idxC << endl;
-
+        
         res.push_back({*idxB + 1, *idxC + 1});
 
         b.erase(*idxB);
@@ -74,7 +66,6 @@ int main() {
             return 0;
         }
 
-        //cout << "idxA = " << *idxA << " idxB = " << *idxB << endl;
         res.push_back({*idxA + 1, *idxB + 1});
         a.erase(*idxA);
         b.erase(*idxB);
@@ -89,7 +80,6 @@ int main() {
             return 0;
         }
 
-        //cout << "idxA = " << *idxA << " idxC = " << *idxC << endl;
         res.push_back({*idxA + 1, *idxC + 1});
         a.erase(*idxA);
         c.erase(*idxC);
