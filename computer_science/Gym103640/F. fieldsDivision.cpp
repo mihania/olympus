@@ -37,8 +37,8 @@ int main() {
 	id.resize(N);
 	sz.resize(N);
 	for (int i = 0; i < N; i++) {
-        id[i] = i;
-        sz[i] = 1;
+		id[i] = i;
+		sz[i] = 1;
 	}
 
 	for (int i = 0; i < M; i++) {
@@ -47,21 +47,21 @@ int main() {
 		field1--;
 		field2--;
 
-        if (field1 != N - 1 && field2 != N - 1) {
-            unionTwoFields(field1, field2);
-        }
+		if (field1 != N - 1 && field2 != N - 1) {
+		    unionTwoFields(field1, field2);
+		}
 	}
 
-    int lastIndex = N - 1;
-    vector<char> fieldsOwnership(N, 'A');
+	int lastIndex = N - 1;
+	vector<char> fieldsOwnership(N, 'A');
 
-    int rootOfPrev = root(lastIndex - 1);
-    for (int i = 0; i < N; i++) {
-        if (i != N - 1 && root(i) == rootOfPrev) {
-            fieldsOwnership[i] = 'B';
-        }
-        cout << fieldsOwnership[i];
-    }
+	int rootOfPrev = root(lastIndex - 1);
+	for (int i = 0; i < N; i++) {
+		if (i != N - 1 && root(i) == rootOfPrev) {
+		    fieldsOwnership[i] = 'B';
+		}
+		cout << fieldsOwnership[i];
+	}
 
 	return 0;
 }
