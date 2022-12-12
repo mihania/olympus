@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 int64_t N, X, R, P, K, r, p;
 vector<bool> regenerationSequence;
 
@@ -23,7 +22,6 @@ int64_t getTotalDamage(bool poisonUse[]) {
 		}
 
 		totalDamage += X + P * p - R * r;
-		//cout << "round " << i << "; totalDamage = " << totalDamage << endl;
 	}
 
 	return totalDamage;
@@ -48,36 +46,36 @@ int main() {
 	int64_t startingPoisonLastIdx = K - 1;
 
 	for (int64_t i = 0; i < K; i++) {
-        poisonUse[i] = true;
+        	poisonUse[i] = true;
 	}
 
 	int64_t maxDamage = getTotalDamage(poisonUse);
 
 	for (int64_t i = K; i < N; i++) {
-        if (regenerationSequence[i]) {
+		if (regenerationSequence[i]) {
 
-            while (startingPoisonLastIdx >= 0 && regenerationSequence[startingPoisonLastIdx]) {
-                startingPoisonLastIdx--;
-            }
+		    while (startingPoisonLastIdx >= 0 && regenerationSequence[startingPoisonLastIdx]) {
+			startingPoisonLastIdx--;
+		    }
 
-            if (startingPoisonLastIdx < 0) {
-                 break;
-            }
+		    if (startingPoisonLastIdx < 0) {
+			 break;
+		    }
 
-            poisonUse[startingPoisonLastIdx] = false;
-            poisonUse[i] = true;
+		    poisonUse[startingPoisonLastIdx] = false;
+		    poisonUse[i] = true;
 
-            int64_t damage = maxDamage;
-            damage -= P * (N - startingPoisonLastIdx);
-            damage += P * (N - i) + R * (N - i);
+		    int64_t damage = maxDamage;
+		    damage -= P * (N - startingPoisonLastIdx);
+		    damage += P * (N - i) + R * (N - i);
 
-            if (damage > maxDamage) {
-                maxDamage = damage;
-            } else if (damage < maxDamage) {
-                break;
-            }
-            startingPoisonLastIdx--;
-        }
+		    if (damage > maxDamage) {
+			maxDamage = damage;
+		    } else if (damage < maxDamage) {
+			break;
+		    }
+		    startingPoisonLastIdx--;
+		}
 	}
 
 	cout << maxDamage << endl;
